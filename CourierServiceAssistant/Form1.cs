@@ -95,55 +95,26 @@ namespace CourierServiceAssistant
         private void SevenDays()
         {
             UKD[] aDay = new UKD[8];
-            var rcDict = Ukd.GetCourierRouteDictionary();
-            DateTime date = new DateTime();
-            date = DateTime.Parse("30.05.2020");
+            DateTime dateOf = DateTime.Parse("30.05.2020");
 
             for (int i = 0; i < aDay.Length; i++)
             {
+                aDay[i] = GetUKD(dateOf);
+                dateOf = dateOf.AddDays(1);
+            }
 
-                aDay[i] = new UKD() { Date = date };
-
+            UKD GetUKD(DateTime date)
+            {
+                UKD _ukd = new UKD();
+                _ukd.Date = date;
                 Dictionary<string, string> NameRoutePairs = DB.GetNameRoutePairs();
                 foreach (string key in NameRoutePairs.Keys)
                 {
-                    aDay[i].AddCourier(key, NameRoutePairs[key]);
+                    _ukd.AddCourier(key, NameRoutePairs[key]);
                 }
-                //aDay[i].RackErase();
-
-                var tt = DB.GetRacksByDate(date);
-                aDay[i].AddRacks(tt);
-
-                //foreach (var route in Ukd.GetAllRoutes) //Выгрузка уникальных задействованых в выбраный день маршрутов
-                //{
-                //    using (var reader = Manager.ExecuteReader($"SELECT courier_id, track FROM Rack WHERE route_id='{route}' AND date='{date.ToShortDateString()}'"))//Выгрузка из БД записей о курьере и списке треков на основании условий.
-                //    {
-                //        Rack tempRack = null;
-                //        while (reader.Read())//Сбор данных о треках пикнутых курьером в текущий день на определнной полке.
-                //        {
-                //            if (tempRack is null)
-                //            {
-                //                tempRack = aDay[i].GetRackByCourier(reader.GetString(0));
-                //            }
-                //            tempRack.TrackList.Add(reader.GetString(1));
-                //        }
-                //    }
-                //}
-
-                aDay[i].Runs = DB.GetRunsByDate(date);
-
-                //using (var reader = Manager.ExecuteReader($"SELECT Track, Courier FROM Runs WHERE Date = ('{date.ToShortDateString()}')"))
-                //{
-                //    if (reader.HasRows)
-                //    {
-                //        while (reader.Read())
-                //        {
-                //            var run = aDay[i].Runs.Find((x) => x.Name == reader.GetString(1));
-                //            run.TracksInRun.Add(reader.GetString(0));
-                //        }
-                //    }
-                //}
-                date = date.AddDays(1);
+                _ukd.AddRacks(DB.GetRacksByDate(date));
+                _ukd.Runs = DB.GetRunsByDate(date);
+                return _ukd;
             }
         }
 
