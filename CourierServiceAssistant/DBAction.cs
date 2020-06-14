@@ -9,15 +9,12 @@ namespace CourierServiceAssistant
     class DBAction
     {
         private readonly string GetAllParcelsCommand = $"SELECT TrackNumber,RegistrationTime,PlannedDate,[Index],UnsuccessfulDeliveryCount,DestinationIndex,LastOperation,Address,Category,Name,IsPayNeed,Telephone,Type,Zone FROM Parcels";
-
-
-        DBManager Manager;
+        private readonly DBManager Manager;
 
         public DBAction(DBManager manager)
         {
             Manager = manager;
         }
-
 
         public List<Parcel> GetAllParcelFromDataBase()
         {
@@ -40,7 +37,6 @@ namespace CourierServiceAssistant
             }//Заполнение экземпляра класса UKD списком курьеров и районов, полок.
             return pairs;
         }
-
 
 
         public List<Rack> GetRacksByDate(DateTime date)
@@ -99,13 +95,11 @@ namespace CourierServiceAssistant
             return list;
         }
 
-
-
-        public bool AddRoute(string routeName, DBManager manager)
+        public bool AddRoute(string routeName)
         {
             if (routeName.Length > 0)
             {
-                using (SQLiteDataReader reader = manager.ExecuteReader($"SELECT route_name FROM Route WHERE route_name='{routeName}'"))
+                using (SQLiteDataReader reader = Manager.ExecuteReader($"SELECT route_name FROM Route WHERE route_name='{routeName}'"))
                 {
                     if (reader.HasRows)
                     {
@@ -114,7 +108,7 @@ namespace CourierServiceAssistant
                     }
 
                 }
-                _ = manager.ExecuteNonQuery($"INSERT INTO Route (route_name) VALUES ('{routeName}')");
+                _ = Manager.ExecuteNonQuery($"INSERT INTO Route (route_name) VALUES ('{routeName}')");
                 return true;
             }
             return false;

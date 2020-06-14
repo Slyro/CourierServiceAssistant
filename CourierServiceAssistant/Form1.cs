@@ -105,8 +105,7 @@ namespace CourierServiceAssistant
 
             UKD GetUKD(DateTime date)
             {
-                UKD _ukd = new UKD();
-                _ukd.Date = date;
+                UKD _ukd = new UKD{Date = date};
                 Dictionary<string, string> NameRoutePairs = DB.GetNameRoutePairs();
                 foreach (string key in NameRoutePairs.Keys)
                 {
