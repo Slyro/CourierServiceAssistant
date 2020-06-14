@@ -90,6 +90,7 @@
             this.label11 = new System.Windows.Forms.Label();
             this.label12 = new System.Windows.Forms.Label();
             this.label13 = new System.Windows.Forms.Label();
+            this.deleteRunButton = new System.Windows.Forms.Button();
             this.tabControl1.SuspendLayout();
             this.tabPage4.SuspendLayout();
             this.tabPage3.SuspendLayout();
@@ -250,6 +251,7 @@
             // 
             // routeGroupBox
             // 
+            this.routeGroupBox.Controls.Add(this.deleteRunButton);
             this.routeGroupBox.Controls.Add(this.label1);
             this.routeGroupBox.Controls.Add(this.routeTextBox);
             this.routeGroupBox.Controls.Add(this.label5);
@@ -808,6 +810,16 @@
             this.label13.TabIndex = 20;
             this.label13.Text = "Рейсы";
             // 
+            // deleteRunButton
+            // 
+            this.deleteRunButton.Location = new System.Drawing.Point(177, 449);
+            this.deleteRunButton.Name = "deleteRunButton";
+            this.deleteRunButton.Size = new System.Drawing.Size(99, 43);
+            this.deleteRunButton.TabIndex = 13;
+            this.deleteRunButton.Text = "Удалить";
+            this.deleteRunButton.UseVisualStyleBackColor = true;
+            this.deleteRunButton.Click += new System.EventHandler(this.deleteRunButton_Click);
+            // 
             // Form1
             // 
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
@@ -909,6 +921,7 @@
         private System.Windows.Forms.Label label11;
         private System.Windows.Forms.Label label13;
         private System.Windows.Forms.Label label12;
+        private System.Windows.Forms.Button deleteRunButton;
     }
 }
 

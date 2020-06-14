@@ -497,6 +497,7 @@ namespace CourierServiceAssistant
 
         private void importTextBox_KeyDown(object sender, KeyEventArgs e) //Форма внесения информации об РПО на полках курьеров.
         {
+            //TODO: Необходим полный реворк
             var track = importTextBox.Text.ToUpper();
             if (e.KeyCode == Keys.Enter)
             {
@@ -524,8 +525,7 @@ namespace CourierServiceAssistant
 
         private void routeTextBox_KeyDown(object sender, KeyEventArgs e)
         {
-
-            //TODO: Доделать создание рейсов. Так победим
+            //TODO: Необходим полный реворк
             if (e.KeyCode == Keys.Enter)
             {
                 var track = routeTextBox.Text.ToUpper();
@@ -534,7 +534,7 @@ namespace CourierServiceAssistant
                     if (match.IsMatch(track) || match2.IsMatch(track))
                     {
                         label7.ResetText();
-                        if (CurrentRun.TracksInRun.Contains(track))
+                        if (CurrentRun.TracksInRun.Contains(track) || Ukd.GetAllTracksInRuns.Contains(track))
                         {
                             label7.Text = "Повторный ШПИ";
                             routeTextBox.ResetText();
@@ -574,6 +574,7 @@ namespace CourierServiceAssistant
 
         private void AddParcelInRack(string track)
         {
+            //TODO: Необходим полный реворк
             var courier = importComboBox.SelectedItem.ToString();
             var date = rackDateTimePicker.Value.ToShortDateString();
 
@@ -626,6 +627,7 @@ namespace CourierServiceAssistant
       
         private void routeDatePicker_ValueChanged(object sender, EventArgs e)
         {
+            //TODO: Необходим полный реворк
             rackDateTimePicker.Value = routeDatePicker.Value;
             countInRunLabel.ResetText();
             if (routeDatePicker.Value.Date != DateTime.Now.Date || RouteComboBox.SelectedIndex == -1)
@@ -658,11 +660,12 @@ namespace CourierServiceAssistant
                 });
             }
             countInRunLabel.Text = $"{routeDataGrid.Rows.Count - 1}";
-            UpdateStatistic();
+            UpdateStatistic();   
         }
 
         private void RouteComboBox_SelectedIndexChanged(object sender, EventArgs e)
         {
+            //TODO: Необходим полный реворк?
             if (Ukd.Runs.Find((x)=> x.Name == RouteComboBox.Text) is null)
                 Ukd.Runs.Add(new Run() { Name = RouteComboBox.Text, TracksInRun = new List<string>() });
 
@@ -680,7 +683,7 @@ namespace CourierServiceAssistant
             {
                 routeDataGrid.Rows.Remove(routeDataGrid.Rows[0]);
             }
-            CurrentRun = Ukd.Runs.Find((x) => x.Name == RouteComboBox.SelectedItem.ToString());
+            CurrentRun = Ukd.Runs.Find((x) => x.Name == RouteComboBox.SelectedItem?.ToString());
             CurrentRun?.TracksInRun.ForEach((x) =>
             {
                 routeDataGrid.Rows.Add(x);
@@ -725,11 +728,15 @@ namespace CourierServiceAssistant
             routeGroupBox.Visible = true;
             rackGroupBox.Visible = false;
         }
-
-        private void importComboBox_SelectedIndexChanged(object sender, EventArgs e)
+        private void importComboBox_SelectedIndexChanged(object sender, EventArgs e)//Предварительное создание пустой полки для выбранного курьера, если полка для него отсутствует.
         {
             if (Ukd.GetRackByCourier(importComboBox.Text) is null)
                 Ukd.AddRack(importComboBox.Text, Ukd.GetRoute(importComboBox.Text), new List<string>(), rackDateTimePicker.Value);
+        }
+        private void deleteRunButton_Click(object sender, EventArgs e)
+        {
+            Manager.ExecuteNonQuery($"DELETE FROM Runs WHERE Courier=('{RouteComboBox.Text}') AND Date=('{routeDatePicker.Value.ToShortDateString()}')");
+            RouteComboBox.SelectedIndex = -1;
         }
     }
 }

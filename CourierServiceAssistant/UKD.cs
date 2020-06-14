@@ -35,6 +35,19 @@ namespace CourierServiceAssistant
             } 
         }
 
+        public List<string> GetAllTracksInRuns
+        {
+            get
+            {
+                List<string> temp = new List<string>();
+                foreach (var item in Runs)
+                {
+                    temp.AddRange(item.TracksInRun);
+                }
+                return temp;
+            }
+        }
+
         public Dictionary<string, string> GetCourierRouteDictionary() => CourierRouteDictionary;
         public List<string> TrackList { get; }
         public void AddCourier(string courier, string route)
