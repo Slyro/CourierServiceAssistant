@@ -8,7 +8,6 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{C9F28C45-79E6-4428-9F6B-734439432F3E}"
 	ProjectSection(SolutionItems) = preProject
 		.editorconfig = .editorconfig
-		CourierServiceAssistant\Mail.db = CourierServiceAssistant\Mail.db
 	EndProjectSection
 EndProject
 Global
