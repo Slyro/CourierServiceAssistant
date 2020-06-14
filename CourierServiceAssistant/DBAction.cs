@@ -89,9 +89,6 @@ namespace CourierServiceAssistant
                     }
                 }
             }
-
-
-
             return list;
         }
 

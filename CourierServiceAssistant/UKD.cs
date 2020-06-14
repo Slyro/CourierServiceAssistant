@@ -22,6 +22,19 @@ namespace CourierServiceAssistant
         public List<Rack> GetAllRacks => Rack.FindAll((x) => x.TrackList.Count != 0);
         public string[] GetAllRoutes => CourierRouteDictionary.Values.Distinct().ToArray();
 
+        public int GetCountTracksInRuns
+        {
+            get
+            {
+                int i = 0;
+                foreach (var item in Runs)
+                {
+                    i += item.TracksInRun.Count;
+                }
+                return i;
+            } 
+        }
+
         public Dictionary<string, string> GetCourierRouteDictionary() => CourierRouteDictionary;
         public List<string> TrackList { get; }
         public void AddCourier(string courier, string route)
@@ -63,7 +76,7 @@ namespace CourierServiceAssistant
             AddTrackFromRackToTrackList();
         }
 
-        public void AddTrackToRack(string track, Rack rack)
+        public void AddTrackToRack(string track, Rack rack) //Добавление трек-номера к полке.
         {
             var _rack = Rack.Find((x) => x.Couerier == rack.Couerier);
             if (_rack is null)

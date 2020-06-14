@@ -73,7 +73,7 @@ namespace CourierServiceAssistant
 
             #endregion Двойная буферизация для DataGridView Инвентаризации.
 
-            GetStorageReportByDay(dateTimePicker1.Value.Date);//Выгрузка информации о пикнут отправлениях на складе на основе даты.
+            GetStorageReportByDay(rackDateTimePicker.Value.Date);//Выгрузка информации о пикнут отправлениях на складе на основе даты.
 
             RefreshRouteBox();
             RefreshReportsDate();
@@ -105,7 +105,7 @@ namespace CourierServiceAssistant
 
             UKD GetUKD(DateTime date)
             {
-                UKD _ukd = new UKD{Date = date};
+                UKD _ukd = new UKD { Date = date };
                 Dictionary<string, string> NameRoutePairs = DB.GetNameRoutePairs();
                 foreach (string key in NameRoutePairs.Keys)
                 {
@@ -120,7 +120,8 @@ namespace CourierServiceAssistant
         private void UpdateStatistic()
         {
             //TODO: Выводить больше информации о складе, включая статистические данные об изменении кол-ва посылок на полках.
-            flowLayoutPanel1.Controls.Clear();
+            statisticPanel1.Controls.Clear();
+            statisticPanel2.Controls.Clear();
             foreach (var rack in Ukd.GetAllRacks)
             {
                 Label label = new Label
@@ -128,25 +129,22 @@ namespace CourierServiceAssistant
                     Text = $"{rack.Route}: {rack.TrackList.Count}",
                     Size = new Size(200, 20)
                 };
-                flowLayoutPanel1.Controls.Add(label);
+                statisticPanel1.Controls.Add(label);
             }
-            label3.Text = "РПО на складе: " + Ukd.TrackList.Count; //почты инвентаризированно.
-        }//Заполнение области "Статистика" информацией о колличестве посылок на "районах" в т.ч. окно, сортировчный цех.
 
-        //private void Inventarisation()
-        //{
-        //    //TODO: Что-то делать с потенциальной возможностью того, что в УКД больше посылок чем в отчете об остатках.
-        //    //TODO: Вывод краткой справочной информации об остатках.
-        //    AllMailList.ForEach((x) =>
-        //    {
-        //        if (!Ukd.TrackList.Contains(x.TrackID))
-        //        {
-        //            Exodus.Add(x);
-        //        }
-        //    });
-        //    label4.Text = "Расхождение: " + Exodus.Count;
-        //    dataGridView1.DataSource = Exodus;
-        //}//Сверка расхождения фактического наличия РПО на полках с файлом "остатки".
+            foreach (var run in Ukd.Runs)
+            {
+                Label label = new Label
+                {
+                    Text = $"{run.Name}: {run.TracksInRun.Count}",
+                    Size = new Size(200, 20)
+                };
+                statisticPanel2.Controls.Add(label);
+            }
+
+            label3.Text = "РПО на складе: " + Ukd.TrackList.Count; //почты инвентаризированно.
+            label11.Text = "Всего: " + Ukd.GetCountTracksInRuns;
+        }//Заполнение области "Статистика" информацией о колличестве посылок на "районах" в т.ч. окно, сортировчный цех.
 
         private void Summ_Click(object sender, EventArgs e)
         {
@@ -195,14 +193,15 @@ namespace CourierServiceAssistant
         private void button1_Click(object sender, EventArgs e)
         {
             /*
-       * Загрузка данных из файла остатков.
-       * Составление запроса для иморта данных с помощью StrinBuilder sb
-       * Запись истории выполнения в historyLabel
-       *
-       */
+            * Загрузка данных из файла остатков.
+            * Составление запроса для иморта данных с помощью StrinBuilder sb
+            * Запись истории выполнения в historyLabel
+            */
+
             sb.Clear();
             GoneList.Clear();
             NewList.Clear();
+
             historyLabel.ResetText();
             using (OpenFileDialog ofd = new OpenFileDialog())
             {
@@ -483,7 +482,7 @@ namespace CourierServiceAssistant
                         return false;
                     }
                 }
-                _ = Manager.ExecuteNonQuery($"INSERT INTO Route (route_name) VALUES ('{routeName}')");
+                Manager.ExecuteNonQuery($"INSERT INTO Route (route_name) VALUES ('{routeName}')");
                 return true;
             }
             return false;
@@ -522,56 +521,6 @@ namespace CourierServiceAssistant
                 importTextBox.Clear();
             }
         }
-
-        private void AddParcelInRack(string track)
-        {
-            var courier = importComboBox.SelectedItem.ToString();
-            var date = dateTimePicker1.Value.ToShortDateString();
-
-            if (track.Length > 0)
-            {
-                if (!Ukd.TrackList.Contains(track))
-                {
-                    ListOfImportedTracks.Add(importTextBox.Text); //Временное хранение списка входящих РПО
-                    importVisorTextBox.Text += importTextBox.Text.ToUpper() + "\r\n"; //Отображение входящих РПО
-                    importLabel.Text = ListOfImportedTracks.Count.ToString(); //Счёт РПО
-                    Manager.ExecuteNonQuery($"INSERT INTO [Rack] ([courier_id], [route_id], [track], [date]) VALUES ('{courier}', '{Ukd.GetRoute(courier)}', '{importTextBox.Text}', '{date}');"); //Запись в БД информации о сканировании РПО.
-                    Ukd.AddTrackToRack(importTextBox.Text, Ukd.GetRackByCourier(courier));
-                }
-                else
-                {
-                    label2.Text = "Такой номер уже был внесен";
-                }
-            }
-        } //Добавить посылку на полку
-
-        private List<object> GetCourierListFromDataBase()
-        {
-            List<object> list = new List<object>();
-            using (var reader = Manager.ExecuteReader($"SELECT fullName, route FROM Courier"))
-            {
-                while (reader.Read())
-                {
-                    list.Add(reader.GetString(0));
-                }
-            }
-            return list;
-        } //Достать список курьеров из БД
-
-        private void dateTimePicker1_ValueChanged(object sender, EventArgs e)
-        {
-            GetStorageReportByDay(dateTimePicker1.Value.Date);
-        } //Выбора даты на вкладке "Учет склада". Перезаполняет экземпляр Ukd данными за выбранную дату.
-
-        private void button4_Click(object sender, EventArgs e)
-        {
-            //Inventarisation();
-        } //Клик по кнопке "ИНВЕНТАРИЗАЦИЯ"
-
-        private void button5_Click(object sender, EventArgs e)
-        {
-
-        }// Скрыть/Показать поле "Инвентаризация"
 
         private void routeTextBox_KeyDown(object sender, KeyEventArgs e)
         {
@@ -623,8 +572,61 @@ namespace CourierServiceAssistant
             }
         }
 
+        private void AddParcelInRack(string track)
+        {
+            var courier = importComboBox.SelectedItem.ToString();
+            var date = rackDateTimePicker.Value.ToShortDateString();
+
+            if (track.Length > 0)
+            {
+                if (!Ukd.TrackList.Contains(track))
+                {
+                    ListOfImportedTracks.Add(importTextBox.Text); //Временное хранение списка входящих РПО
+                    importVisorTextBox.Text += importTextBox.Text.ToUpper() + "\r\n"; //Отображение входящих РПО
+                    importLabel.Text = ListOfImportedTracks.Count.ToString(); //Счёт РПО
+                    Manager.ExecuteNonQuery($"INSERT INTO [Rack] ([courier_id], [route_id], [track], [date]) VALUES ('{courier}', '{Ukd.GetRoute(courier)}', '{importTextBox.Text}', '{date}');"); //Запись в БД информации о сканировании РПО.
+                    Ukd.AddTrackToRack(importTextBox.Text, Ukd.GetRackByCourier(courier));
+                }
+                else
+                {
+                    label2.Text = "Такой номер уже был внесен";
+                }
+            }
+        } //Добавить посылку на полку
+
+        private List<object> GetCourierListFromDataBase()
+        {
+            List<object> list = new List<object>();
+            using (var reader = Manager.ExecuteReader($"SELECT fullName, route FROM Courier"))
+            {
+                while (reader.Read())
+                {
+                    list.Add(reader.GetString(0));
+                }
+            }
+            return list;
+        } //Достать список курьеров из БД
+
+        private void rackTimePicker_ValueChanged(object sender, EventArgs e)
+        {
+            routeDatePicker.Value = rackDateTimePicker.Value;
+            GetStorageReportByDay(rackDateTimePicker.Value.Date);
+        } //Выбора даты на вкладке "Учет склада". Перезаполняет экземпляр Ukd данными за выбранную дату.
+
+        private void button4_Click(object sender, EventArgs e)
+        {
+            //Inventarisation();
+        } //Клик по кнопке "ИНВЕНТАРИЗАЦИЯ"
+
+        private void button5_Click(object sender, EventArgs e)
+        {
+
+        }// Скрыть/Показать поле "Инвентаризация"
+
+      
         private void routeDatePicker_ValueChanged(object sender, EventArgs e)
         {
+            rackDateTimePicker.Value = routeDatePicker.Value;
             countInRunLabel.ResetText();
             if (routeDatePicker.Value.Date != DateTime.Now.Date || RouteComboBox.SelectedIndex == -1)
             {
@@ -639,17 +641,8 @@ namespace CourierServiceAssistant
 
             Ukd.Runs.ForEach((x) => x.TracksInRun.Clear());
 
-            using (var reader = Manager.ExecuteReader($"SELECT Track, Courier FROM Runs WHERE Date = ('{routeDatePicker.Value.ToShortDateString()}')"))
-            {
-                if (reader.HasRows)
-                {
-                    while (reader.Read())
-                    {
-                        var run = Ukd.Runs.Find((x) => x.Name == reader.GetString(1));
-                        run.TracksInRun.Add(reader.GetString(0));
-                    }
-                }
-            }
+            Ukd.Runs = DB.GetRunsByDate(routeDatePicker.Value);
+
 
             var count = routeDataGrid.Rows.Count - 1;
             if (RouteComboBox.SelectedIndex != -1)
@@ -659,17 +652,20 @@ namespace CourierServiceAssistant
                     routeDataGrid.Rows.Remove(routeDataGrid.Rows[0]);
                 }
                 CurrentRun = Ukd.Runs.Find((x) => x.Name == RouteComboBox.SelectedItem.ToString());
-                CurrentRun.TracksInRun.ForEach((x) =>
+                CurrentRun?.TracksInRun.ForEach((x) =>
                 {
                     routeDataGrid.Rows.Add(x);
-                    countInRunLabel.Text = routeDataGrid.Rows.Count.ToString();
                 });
-
             }
+            countInRunLabel.Text = $"{routeDataGrid.Rows.Count - 1}";
+            UpdateStatistic();
         }
 
         private void RouteComboBox_SelectedIndexChanged(object sender, EventArgs e)
         {
+            if (Ukd.Runs.Find((x)=> x.Name == RouteComboBox.Text) is null)
+                Ukd.Runs.Add(new Run() { Name = RouteComboBox.Text, TracksInRun = new List<string>() });
+
             countInRunLabel.ResetText();
             if (routeDatePicker.Value.Date != DateTime.Now.Date || RouteComboBox.SelectedIndex == -1)
             {
@@ -688,8 +684,9 @@ namespace CourierServiceAssistant
             CurrentRun?.TracksInRun.ForEach((x) =>
             {
                 routeDataGrid.Rows.Add(x);
-                countInRunLabel.Text = routeDataGrid.Rows.Count.ToString();
             });
+            countInRunLabel.Text = $"{routeDataGrid.Rows.Count - 1}";
+            UpdateStatistic();
         }
 
         private void routeDataGrid_RowsAdded(object sender, DataGridViewRowsAddedEventArgs e)
@@ -706,15 +703,33 @@ namespace CourierServiceAssistant
                     break;
 
                 default:
-                    routeDataGrid.Rows[e.RowIndex].Cells[0].Style.BackColor = Color.Crimson;
+                    routeDataGrid.Rows[e.RowIndex].Cells[0].Style.BackColor = Color.OrangeRed;
                     break;
             }
-            countInRunLabel.Text = routeDataGrid.Rows.Count.ToString();
+            countInRunLabel.Text = $"{routeDataGrid.Rows.Count - 1}";
         }
 
         private void button5_Click_1(object sender, EventArgs e)
         {
             SevenDays();
+        }
+
+        private void rackRadioBtn_CheckedChanged(object sender, EventArgs e)
+        {
+            routeGroupBox.Visible = false;
+            rackGroupBox.Visible = true;
+        }
+
+        private void routeRadioBtn_CheckedChanged(object sender, EventArgs e)
+        {
+            routeGroupBox.Visible = true;
+            rackGroupBox.Visible = false;
+        }
+
+        private void importComboBox_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if (Ukd.GetRackByCourier(importComboBox.Text) is null)
+                Ukd.AddRack(importComboBox.Text, Ukd.GetRoute(importComboBox.Text), new List<string>(), rackDateTimePicker.Value);
         }
     }
 }
