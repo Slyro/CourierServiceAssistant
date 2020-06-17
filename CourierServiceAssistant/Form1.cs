@@ -94,8 +94,8 @@ namespace CourierServiceAssistant
 
         private void SevenDays()
         {
-            UKD[] aDay = new UKD[8];
-            DateTime dateOf = DateTime.Parse("30.05.2020");
+            UKD[] aDay = new UKD[2];
+            DateTime dateOf = DateTime.Parse("31.05.2020");
 
             for (int i = 0; i < aDay.Length; i++)
             {
@@ -103,10 +103,11 @@ namespace CourierServiceAssistant
                 dateOf = dateOf.AddDays(1);
             }
 
+
             UKD GetUKD(DateTime date)
             {
                 UKD _ukd = new UKD { Date = date };
-                Dictionary<string, string> NameRoutePairs = DB.GetNameRoutePairs();
+                Dictionary<string, string> NameRoutePairs = Ukd.GetCourierRouteDictionary();
                 foreach (string key in NameRoutePairs.Keys)
                 {
                     _ukd.AddCourier(key, NameRoutePairs[key]);
@@ -114,6 +115,38 @@ namespace CourierServiceAssistant
                 _ukd.AddRacks(DB.GetRacksByDate(date));
                 _ukd.Runs = DB.GetRunsByDate(date);
                 return _ukd;
+            }
+
+            for (int i = 0; i < aDay.Length - 1; i++)
+            {
+                UKD yesterday, today;
+                yesterday = aDay[i];
+                today = aDay[i + 1];
+
+                FlowLayoutPanel panel = new FlowLayoutPanel();
+                flowLayoutPanel2.Controls.Add(panel);
+                flowLayoutPanel2.AutoScroll = true;
+                //panel.Dock = DockStyle.Fill;
+                foreach (var todayRack in today.GetAllRacks)
+                {
+                    var route = todayRack.Route;
+
+                    var yesterdayRack = yesterday.GetAllRacks.Find((x) => x.Route == todayRack.Route);
+                    if (yesterdayRack != null)
+                    {
+                        var lost = yesterdayRack.TrackList.Except(todayRack.TrackList);
+
+                        ListBox listOfGoneMail = new ListBox();
+                        listOfGoneMail.Items.Add(route);
+                        listOfGoneMail.Size = new Size(120,650);
+                        panel.AutoSize = true;
+                        foreach (var item in lost)
+                        {
+                            listOfGoneMail.Items.Add(item);
+                        }
+                        panel.Controls.Add(listOfGoneMail);
+                    }
+                }
             }
         }
 
@@ -226,11 +259,11 @@ namespace CourierServiceAssistant
                         {
                             if (x.PlannedDate != DateTime.MinValue)
                             {
-                                GoneList.Add($"(\"{x.TrackID}\", \"{x.RegistrationTime}\", \"{x.PlannedDate?.ToShortDateString()}\", \"{x.Index}\", \"{x.UnsuccessfulDeliveryCount}\", \"{x.DestinationIndex}\", \"{x.LastOperation}\", \"{x.Address}\", \"{x.Category}\", \"{x.Name.Replace("\"", string.Empty)}\", \"{x.IsPayNeed}\", \"{x.TelephoneNumber}\", \"{x.Type}\", \"{x.LastZone}\", \"{ReportDate}\")");
+                                GoneList.Add($"(\"{x.TrackID}\", \"{x.RegistrationTime}\", \"{x.PlannedDate?.ToShortDateString()}\", \"{x.Index}\", \"{x.UnsuccessfulDeliveryCount}\", \"{x.DestinationIndex}\", \"{x.LastOperation}\", \"{x.Address.Replace('"', ' ')}\", \"{x.Category}\", \"{x.Name.Replace('"', ' ')}\", \"{x.IsPayNeed}\", \"{x.TelephoneNumber}\", \"{x.Type}\", \"{x.LastZone}\", \"{ReportDate}\")");
                             }
                             else
                             {
-                                GoneList.Add($"(\"{x.TrackID}\", \"{x.RegistrationTime}\", \"{null}\", \"{x.Index}\", \"{x.UnsuccessfulDeliveryCount}\", \"{x.DestinationIndex}\", \"{x.LastOperation}\", \"{x.Address}\", \"{x.Category}\", \"{x.Name.Replace("\"", string.Empty)}\", \"{x.IsPayNeed}\", \"{x.TelephoneNumber}\", \"{x.Type}\", \"{x.LastZone}\", \"{ReportDate}\")");
+                                GoneList.Add($"(\"{x.TrackID}\", \"{x.RegistrationTime}\", \"{null}\", \"{x.Index}\", \"{x.UnsuccessfulDeliveryCount}\", \"{x.DestinationIndex}\", \"{x.LastOperation}\", \"{x.Address.Replace('"', ' ')}\", \"{x.Category}\", \"{x.Name.Replace('"', ' ')}\", \"{x.IsPayNeed}\", \"{x.TelephoneNumber}\", \"{x.Type}\", \"{x.LastZone}\", \"{ReportDate}\")");
                             }
                         });
                     }
@@ -240,11 +273,11 @@ namespace CourierServiceAssistant
                         {
                             if (x.PlannedDate != DateTime.MinValue)
                             {
-                                NewList.Add($"(\"{x.TrackID}\", \"{x.RegistrationTime}\", \"{x.PlannedDate?.ToShortDateString()}\", \"{x.Index}\", \"{x.UnsuccessfulDeliveryCount}\", \"{x.DestinationIndex}\", \"{x.LastOperation}\", \"{x.Address}\", \"{x.Category}\", \"{x.Name.Replace("\"", string.Empty)}\", \"{x.IsPayNeed}\", \"{x.TelephoneNumber}\", \"{x.Type}\", \"{x.LastZone}\", \"{ReportDate}\")");
+                                NewList.Add($"(\"{x.TrackID}\", \"{x.RegistrationTime}\", \"{x.PlannedDate?.ToShortDateString()}\", \"{x.Index}\", \"{x.UnsuccessfulDeliveryCount}\", \"{x.DestinationIndex}\", \"{x.LastOperation}\", \"{x.Address.Replace('"', ' ')}\", \"{x.Category}\", \"{x.Name.Replace('"', ' ')}\", \"{x.IsPayNeed}\", \"{x.TelephoneNumber}\", \"{x.Type}\", \"{x.LastZone}\", \"{ReportDate}\")");
                             }
                             else
                             {
-                                NewList.Add($"(\"{x.TrackID}\", \"{x.RegistrationTime}\", \"{null}\", \"{x.Index}\", \"{x.UnsuccessfulDeliveryCount}\", \"{x.DestinationIndex}\", \"{x.LastOperation}\", \"{x.Address}\", \"{x.Category}\", \"{x.Name.Replace("\"", string.Empty)}\", \"{x.IsPayNeed}\", \"{x.TelephoneNumber}\", \"{x.Type}\", \"{x.LastZone}\", \"{ReportDate}\")");
+                                NewList.Add($"(\"{x.TrackID}\", \"{x.RegistrationTime}\", \"{null}\", \"{x.Index}\", \"{x.UnsuccessfulDeliveryCount}\", \"{x.DestinationIndex}\", \"{x.LastOperation}\", \"{x.Address.Replace('"', ' ')}\", \"{x.Category}\", \"{x.Name.Replace('"', ' ')}\", \"{x.IsPayNeed}\", \"{x.TelephoneNumber}\", \"{x.Type}\", \"{x.LastZone}\", \"{ReportDate}\")");
                             }
                         });
                     }
@@ -624,7 +657,7 @@ namespace CourierServiceAssistant
 
         }// Скрыть/Показать поле "Инвентаризация"
 
-      
+
         private void routeDatePicker_ValueChanged(object sender, EventArgs e)
         {
             //TODO: Необходим полный реворк
@@ -660,13 +693,13 @@ namespace CourierServiceAssistant
                 });
             }
             countInRunLabel.Text = $"{routeDataGrid.Rows.Count - 1}";
-            UpdateStatistic();   
+            UpdateStatistic();
         }
 
         private void RouteComboBox_SelectedIndexChanged(object sender, EventArgs e)
         {
             //TODO: Необходим полный реворк?
-            if (Ukd.Runs.Find((x)=> x.Name == RouteComboBox.Text) is null)
+            if (Ukd.Runs.Find((x) => x.Name == RouteComboBox.Text) is null)
                 Ukd.Runs.Add(new Run() { Name = RouteComboBox.Text, TracksInRun = new List<string>() });
 
             countInRunLabel.ResetText();

@@ -42,6 +42,7 @@
             this.tabPage3 = new System.Windows.Forms.TabPage();
             this.routeRadioBtn = new System.Windows.Forms.RadioButton();
             this.routeGroupBox = new System.Windows.Forms.GroupBox();
+            this.deleteRunButton = new System.Windows.Forms.Button();
             this.label1 = new System.Windows.Forms.Label();
             this.routeTextBox = new System.Windows.Forms.TextBox();
             this.label5 = new System.Windows.Forms.Label();
@@ -54,6 +55,9 @@
             this.groupBox4 = new System.Windows.Forms.GroupBox();
             this.statisticPanel2 = new System.Windows.Forms.FlowLayoutPanel();
             this.statisticPanel1 = new System.Windows.Forms.FlowLayoutPanel();
+            this.label13 = new System.Windows.Forms.Label();
+            this.label11 = new System.Windows.Forms.Label();
+            this.label12 = new System.Windows.Forms.Label();
             this.label3 = new System.Windows.Forms.Label();
             this.rackGroupBox = new System.Windows.Forms.GroupBox();
             this.label10 = new System.Windows.Forms.Label();
@@ -87,10 +91,6 @@
             this.label6 = new System.Windows.Forms.Label();
             this.historyLabel = new System.Windows.Forms.Label();
             this.label7 = new System.Windows.Forms.Label();
-            this.label11 = new System.Windows.Forms.Label();
-            this.label12 = new System.Windows.Forms.Label();
-            this.label13 = new System.Windows.Forms.Label();
-            this.deleteRunButton = new System.Windows.Forms.Button();
             this.tabControl1.SuspendLayout();
             this.tabPage4.SuspendLayout();
             this.tabPage3.SuspendLayout();
@@ -149,7 +149,7 @@
             this.tabControl1.Margin = new System.Windows.Forms.Padding(0);
             this.tabControl1.Name = "tabControl1";
             this.tabControl1.SelectedIndex = 0;
-            this.tabControl1.Size = new System.Drawing.Size(1283, 782);
+            this.tabControl1.Size = new System.Drawing.Size(1397, 782);
             this.tabControl1.TabIndex = 6;
             // 
             // tabPage4
@@ -164,23 +164,23 @@
             this.tabPage4.Location = new System.Drawing.Point(4, 24);
             this.tabPage4.Margin = new System.Windows.Forms.Padding(4);
             this.tabPage4.Name = "tabPage4";
-            this.tabPage4.Size = new System.Drawing.Size(1294, 754);
+            this.tabPage4.Size = new System.Drawing.Size(1389, 754);
             this.tabPage4.TabIndex = 3;
             this.tabPage4.Text = "Отчёты";
             this.tabPage4.UseVisualStyleBackColor = true;
             // 
             // flowLayoutPanel2
             // 
-            this.flowLayoutPanel2.Location = new System.Drawing.Point(246, 18);
+            this.flowLayoutPanel2.Location = new System.Drawing.Point(104, 18);
             this.flowLayoutPanel2.Name = "flowLayoutPanel2";
-            this.flowLayoutPanel2.Size = new System.Drawing.Size(671, 267);
+            this.flowLayoutPanel2.Size = new System.Drawing.Size(1277, 728);
             this.flowLayoutPanel2.TabIndex = 1;
             // 
             // button9
             // 
             this.button9.Location = new System.Drawing.Point(8, 236);
             this.button9.Name = "button9";
-            this.button9.Size = new System.Drawing.Size(204, 49);
+            this.button9.Size = new System.Drawing.Size(90, 49);
             this.button9.TabIndex = 0;
             this.button9.Text = "button5";
             this.button9.UseVisualStyleBackColor = true;
@@ -189,7 +189,7 @@
             // 
             this.button8.Location = new System.Drawing.Point(8, 183);
             this.button8.Name = "button8";
-            this.button8.Size = new System.Drawing.Size(204, 49);
+            this.button8.Size = new System.Drawing.Size(90, 49);
             this.button8.TabIndex = 0;
             this.button8.Text = "button5";
             this.button8.UseVisualStyleBackColor = true;
@@ -198,7 +198,7 @@
             // 
             this.button7.Location = new System.Drawing.Point(8, 128);
             this.button7.Name = "button7";
-            this.button7.Size = new System.Drawing.Size(204, 49);
+            this.button7.Size = new System.Drawing.Size(90, 49);
             this.button7.TabIndex = 0;
             this.button7.Text = "button5";
             this.button7.UseVisualStyleBackColor = true;
@@ -207,7 +207,7 @@
             // 
             this.button6.Location = new System.Drawing.Point(8, 73);
             this.button6.Name = "button6";
-            this.button6.Size = new System.Drawing.Size(204, 49);
+            this.button6.Size = new System.Drawing.Size(90, 49);
             this.button6.TabIndex = 0;
             this.button6.Text = "button5";
             this.button6.UseVisualStyleBackColor = true;
@@ -216,7 +216,7 @@
             // 
             this.button5.Location = new System.Drawing.Point(8, 18);
             this.button5.Name = "button5";
-            this.button5.Size = new System.Drawing.Size(204, 49);
+            this.button5.Size = new System.Drawing.Size(90, 49);
             this.button5.TabIndex = 0;
             this.button5.Text = "button5";
             this.button5.UseVisualStyleBackColor = true;
@@ -266,6 +266,16 @@
             this.routeGroupBox.TabStop = false;
             this.routeGroupBox.Text = "Рейс";
             this.routeGroupBox.Visible = false;
+            // 
+            // deleteRunButton
+            // 
+            this.deleteRunButton.Location = new System.Drawing.Point(177, 449);
+            this.deleteRunButton.Name = "deleteRunButton";
+            this.deleteRunButton.Size = new System.Drawing.Size(99, 43);
+            this.deleteRunButton.TabIndex = 13;
+            this.deleteRunButton.Text = "Удалить";
+            this.deleteRunButton.UseVisualStyleBackColor = true;
+            this.deleteRunButton.Click += new System.EventHandler(this.deleteRunButton_Click);
             // 
             // label1
             // 
@@ -398,6 +408,36 @@
             this.statisticPanel1.Name = "statisticPanel1";
             this.statisticPanel1.Size = new System.Drawing.Size(291, 398);
             this.statisticPanel1.TabIndex = 24;
+            // 
+            // label13
+            // 
+            this.label13.AutoSize = true;
+            this.label13.Location = new System.Drawing.Point(429, 24);
+            this.label13.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.label13.Name = "label13";
+            this.label13.Size = new System.Drawing.Size(60, 21);
+            this.label13.TabIndex = 20;
+            this.label13.Text = "Рейсы";
+            // 
+            // label11
+            // 
+            this.label11.AutoSize = true;
+            this.label11.Location = new System.Drawing.Point(303, 449);
+            this.label11.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.label11.Name = "label11";
+            this.label11.Size = new System.Drawing.Size(55, 21);
+            this.label11.TabIndex = 20;
+            this.label11.Text = "Всего";
+            // 
+            // label12
+            // 
+            this.label12.AutoSize = true;
+            this.label12.Location = new System.Drawing.Point(115, 24);
+            this.label12.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.label12.Name = "label12";
+            this.label12.Size = new System.Drawing.Size(58, 21);
+            this.label12.TabIndex = 20;
+            this.label12.Text = "Полки";
             // 
             // label3
             // 
@@ -780,51 +820,11 @@
             this.label7.Size = new System.Drawing.Size(0, 17);
             this.label7.TabIndex = 9;
             // 
-            // label11
-            // 
-            this.label11.AutoSize = true;
-            this.label11.Location = new System.Drawing.Point(303, 449);
-            this.label11.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
-            this.label11.Name = "label11";
-            this.label11.Size = new System.Drawing.Size(55, 21);
-            this.label11.TabIndex = 20;
-            this.label11.Text = "Всего";
-            // 
-            // label12
-            // 
-            this.label12.AutoSize = true;
-            this.label12.Location = new System.Drawing.Point(115, 24);
-            this.label12.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
-            this.label12.Name = "label12";
-            this.label12.Size = new System.Drawing.Size(58, 21);
-            this.label12.TabIndex = 20;
-            this.label12.Text = "Полки";
-            // 
-            // label13
-            // 
-            this.label13.AutoSize = true;
-            this.label13.Location = new System.Drawing.Point(429, 24);
-            this.label13.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
-            this.label13.Name = "label13";
-            this.label13.Size = new System.Drawing.Size(60, 21);
-            this.label13.TabIndex = 20;
-            this.label13.Text = "Рейсы";
-            // 
-            // deleteRunButton
-            // 
-            this.deleteRunButton.Location = new System.Drawing.Point(177, 449);
-            this.deleteRunButton.Name = "deleteRunButton";
-            this.deleteRunButton.Size = new System.Drawing.Size(99, 43);
-            this.deleteRunButton.TabIndex = 13;
-            this.deleteRunButton.Text = "Удалить";
-            this.deleteRunButton.UseVisualStyleBackColor = true;
-            this.deleteRunButton.Click += new System.EventHandler(this.deleteRunButton_Click);
-            // 
             // Form1
             // 
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
             this.BackColor = System.Drawing.Color.White;
-            this.ClientSize = new System.Drawing.Size(1283, 782);
+            this.ClientSize = new System.Drawing.Size(1397, 782);
             this.Controls.Add(this.tabControl1);
             this.Controls.Add(this.label7);
             this.DoubleBuffered = true;
