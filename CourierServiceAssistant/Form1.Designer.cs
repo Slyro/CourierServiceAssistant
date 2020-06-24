@@ -33,11 +33,10 @@
             this.button2 = new System.Windows.Forms.Button();
             this.tabControl1 = new System.Windows.Forms.TabControl();
             this.tabPage4 = new System.Windows.Forms.TabPage();
-            this.flowLayoutPanel2 = new System.Windows.Forms.FlowLayoutPanel();
-            this.button9 = new System.Windows.Forms.Button();
-            this.button8 = new System.Windows.Forms.Button();
-            this.button7 = new System.Windows.Forms.Button();
-            this.button6 = new System.Windows.Forms.Button();
+            this.dayTwoDatePicker = new System.Windows.Forms.DateTimePicker();
+            this.dayOneDatePicker = new System.Windows.Forms.DateTimePicker();
+            this.dayTwoFlowPanel = new System.Windows.Forms.FlowLayoutPanel();
+            this.dayOneFlowPanel = new System.Windows.Forms.FlowLayoutPanel();
             this.button5 = new System.Windows.Forms.Button();
             this.tabPage3 = new System.Windows.Forms.TabPage();
             this.routeRadioBtn = new System.Windows.Forms.RadioButton();
@@ -91,6 +90,15 @@
             this.label6 = new System.Windows.Forms.Label();
             this.historyLabel = new System.Windows.Forms.Label();
             this.label7 = new System.Windows.Forms.Label();
+            this.subDayButton = new System.Windows.Forms.Button();
+            this.addDayButton = new System.Windows.Forms.Button();
+            this.dayOneSubDateButton = new System.Windows.Forms.Button();
+            this.dayOneAddDayButton = new System.Windows.Forms.Button();
+            this.dayTwoSubDayButton = new System.Windows.Forms.Button();
+            this.dayTwoAddDayButton = new System.Windows.Forms.Button();
+            this.totalMailLabel = new System.Windows.Forms.Label();
+            this.reportLabel = new System.Windows.Forms.Label();
+            this.totalFlowPanel = new System.Windows.Forms.FlowLayoutPanel();
             this.tabControl1.SuspendLayout();
             this.tabPage4.SuspendLayout();
             this.tabPage3.SuspendLayout();
@@ -149,72 +157,69 @@
             this.tabControl1.Margin = new System.Windows.Forms.Padding(0);
             this.tabControl1.Name = "tabControl1";
             this.tabControl1.SelectedIndex = 0;
-            this.tabControl1.Size = new System.Drawing.Size(1397, 782);
+            this.tabControl1.Size = new System.Drawing.Size(1279, 782);
             this.tabControl1.TabIndex = 6;
             // 
             // tabPage4
             // 
-            this.tabPage4.Controls.Add(this.flowLayoutPanel2);
-            this.tabPage4.Controls.Add(this.button9);
-            this.tabPage4.Controls.Add(this.button8);
-            this.tabPage4.Controls.Add(this.button7);
-            this.tabPage4.Controls.Add(this.button6);
+            this.tabPage4.Controls.Add(this.reportLabel);
+            this.tabPage4.Controls.Add(this.totalMailLabel);
+            this.tabPage4.Controls.Add(this.dayTwoAddDayButton);
+            this.tabPage4.Controls.Add(this.dayOneAddDayButton);
+            this.tabPage4.Controls.Add(this.addDayButton);
+            this.tabPage4.Controls.Add(this.dayTwoSubDayButton);
+            this.tabPage4.Controls.Add(this.dayOneSubDateButton);
+            this.tabPage4.Controls.Add(this.subDayButton);
+            this.tabPage4.Controls.Add(this.dayTwoDatePicker);
+            this.tabPage4.Controls.Add(this.dayOneDatePicker);
+            this.tabPage4.Controls.Add(this.totalFlowPanel);
+            this.tabPage4.Controls.Add(this.dayTwoFlowPanel);
+            this.tabPage4.Controls.Add(this.dayOneFlowPanel);
             this.tabPage4.Controls.Add(this.button5);
             this.tabPage4.Font = new System.Drawing.Font("Century Gothic", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.tabPage4.Location = new System.Drawing.Point(4, 24);
             this.tabPage4.Margin = new System.Windows.Forms.Padding(4);
             this.tabPage4.Name = "tabPage4";
-            this.tabPage4.Size = new System.Drawing.Size(1389, 754);
+            this.tabPage4.Size = new System.Drawing.Size(1271, 754);
             this.tabPage4.TabIndex = 3;
             this.tabPage4.Text = "Отчёты";
             this.tabPage4.UseVisualStyleBackColor = true;
             // 
-            // flowLayoutPanel2
+            // dayTwoDatePicker
             // 
-            this.flowLayoutPanel2.Location = new System.Drawing.Point(104, 18);
-            this.flowLayoutPanel2.Name = "flowLayoutPanel2";
-            this.flowLayoutPanel2.Size = new System.Drawing.Size(1277, 728);
-            this.flowLayoutPanel2.TabIndex = 1;
+            this.dayTwoDatePicker.Format = System.Windows.Forms.DateTimePickerFormat.Short;
+            this.dayTwoDatePicker.Location = new System.Drawing.Point(8, 50);
+            this.dayTwoDatePicker.Name = "dayTwoDatePicker";
+            this.dayTwoDatePicker.Size = new System.Drawing.Size(134, 27);
+            this.dayTwoDatePicker.TabIndex = 2;
             // 
-            // button9
+            // dayOneDatePicker
             // 
-            this.button9.Location = new System.Drawing.Point(8, 236);
-            this.button9.Name = "button9";
-            this.button9.Size = new System.Drawing.Size(90, 49);
-            this.button9.TabIndex = 0;
-            this.button9.Text = "button5";
-            this.button9.UseVisualStyleBackColor = true;
+            this.dayOneDatePicker.Format = System.Windows.Forms.DateTimePickerFormat.Short;
+            this.dayOneDatePicker.Location = new System.Drawing.Point(8, 17);
+            this.dayOneDatePicker.Name = "dayOneDatePicker";
+            this.dayOneDatePicker.Size = new System.Drawing.Size(134, 27);
+            this.dayOneDatePicker.TabIndex = 2;
             // 
-            // button8
+            // dayTwoFlowPanel
             // 
-            this.button8.Location = new System.Drawing.Point(8, 183);
-            this.button8.Name = "button8";
-            this.button8.Size = new System.Drawing.Size(90, 49);
-            this.button8.TabIndex = 0;
-            this.button8.Text = "button5";
-            this.button8.UseVisualStyleBackColor = true;
+            this.dayTwoFlowPanel.FlowDirection = System.Windows.Forms.FlowDirection.TopDown;
+            this.dayTwoFlowPanel.Location = new System.Drawing.Point(466, 120);
+            this.dayTwoFlowPanel.Name = "dayTwoFlowPanel";
+            this.dayTwoFlowPanel.Size = new System.Drawing.Size(200, 344);
+            this.dayTwoFlowPanel.TabIndex = 1;
             // 
-            // button7
+            // dayOneFlowPanel
             // 
-            this.button7.Location = new System.Drawing.Point(8, 128);
-            this.button7.Name = "button7";
-            this.button7.Size = new System.Drawing.Size(90, 49);
-            this.button7.TabIndex = 0;
-            this.button7.Text = "button5";
-            this.button7.UseVisualStyleBackColor = true;
-            // 
-            // button6
-            // 
-            this.button6.Location = new System.Drawing.Point(8, 73);
-            this.button6.Name = "button6";
-            this.button6.Size = new System.Drawing.Size(90, 49);
-            this.button6.TabIndex = 0;
-            this.button6.Text = "button5";
-            this.button6.UseVisualStyleBackColor = true;
+            this.dayOneFlowPanel.FlowDirection = System.Windows.Forms.FlowDirection.TopDown;
+            this.dayOneFlowPanel.Location = new System.Drawing.Point(260, 120);
+            this.dayOneFlowPanel.Name = "dayOneFlowPanel";
+            this.dayOneFlowPanel.Size = new System.Drawing.Size(200, 344);
+            this.dayOneFlowPanel.TabIndex = 1;
             // 
             // button5
             // 
-            this.button5.Location = new System.Drawing.Point(8, 18);
+            this.button5.Location = new System.Drawing.Point(8, 120);
             this.button5.Name = "button5";
             this.button5.Size = new System.Drawing.Size(90, 49);
             this.button5.TabIndex = 0;
@@ -233,7 +238,7 @@
             this.tabPage3.Location = new System.Drawing.Point(4, 24);
             this.tabPage3.Margin = new System.Windows.Forms.Padding(4);
             this.tabPage3.Name = "tabPage3";
-            this.tabPage3.Size = new System.Drawing.Size(1275, 754);
+            this.tabPage3.Size = new System.Drawing.Size(1271, 754);
             this.tabPage3.TabIndex = 2;
             this.tabPage3.Text = "Учет склада";
             this.tabPage3.UseVisualStyleBackColor = true;
@@ -610,7 +615,7 @@
             this.tabPage2.Margin = new System.Windows.Forms.Padding(4);
             this.tabPage2.Name = "tabPage2";
             this.tabPage2.Padding = new System.Windows.Forms.Padding(4);
-            this.tabPage2.Size = new System.Drawing.Size(1275, 754);
+            this.tabPage2.Size = new System.Drawing.Size(1271, 754);
             this.tabPage2.TabIndex = 1;
             this.tabPage2.Text = "Настройки";
             this.tabPage2.UseVisualStyleBackColor = true;
@@ -762,7 +767,7 @@
             this.tabPage1.Location = new System.Drawing.Point(4, 24);
             this.tabPage1.Margin = new System.Windows.Forms.Padding(0);
             this.tabPage1.Name = "tabPage1";
-            this.tabPage1.Size = new System.Drawing.Size(1275, 754);
+            this.tabPage1.Size = new System.Drawing.Size(1271, 754);
             this.tabPage1.TabIndex = 0;
             this.tabPage1.Text = "Импорт Данных";
             this.tabPage1.UseVisualStyleBackColor = true;
@@ -820,11 +825,104 @@
             this.label7.Size = new System.Drawing.Size(0, 17);
             this.label7.TabIndex = 9;
             // 
+            // subDayButton
+            // 
+            this.subDayButton.Font = new System.Drawing.Font("Century Gothic", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.subDayButton.Location = new System.Drawing.Point(10, 79);
+            this.subDayButton.Name = "subDayButton";
+            this.subDayButton.Size = new System.Drawing.Size(33, 23);
+            this.subDayButton.TabIndex = 3;
+            this.subDayButton.Text = "<<";
+            this.subDayButton.UseVisualStyleBackColor = true;
+            this.subDayButton.Click += new System.EventHandler(this.subDayButton_Click);
+            // 
+            // addDayButton
+            // 
+            this.addDayButton.Font = new System.Drawing.Font("Century Gothic", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.addDayButton.Location = new System.Drawing.Point(49, 79);
+            this.addDayButton.Name = "addDayButton";
+            this.addDayButton.Size = new System.Drawing.Size(33, 23);
+            this.addDayButton.TabIndex = 3;
+            this.addDayButton.Text = ">>";
+            this.addDayButton.UseVisualStyleBackColor = true;
+            this.addDayButton.Click += new System.EventHandler(this.addDayButton_Click);
+            // 
+            // dayOneSubDateButton
+            // 
+            this.dayOneSubDateButton.Font = new System.Drawing.Font("Century Gothic", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.dayOneSubDateButton.Location = new System.Drawing.Point(148, 19);
+            this.dayOneSubDateButton.Name = "dayOneSubDateButton";
+            this.dayOneSubDateButton.Size = new System.Drawing.Size(18, 23);
+            this.dayOneSubDateButton.TabIndex = 3;
+            this.dayOneSubDateButton.Text = "<<";
+            this.dayOneSubDateButton.UseVisualStyleBackColor = true;
+            this.dayOneSubDateButton.Click += new System.EventHandler(this.dayOneSubDateButton_Click);
+            // 
+            // dayOneAddDayButton
+            // 
+            this.dayOneAddDayButton.Font = new System.Drawing.Font("Century Gothic", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.dayOneAddDayButton.Location = new System.Drawing.Point(169, 19);
+            this.dayOneAddDayButton.Name = "dayOneAddDayButton";
+            this.dayOneAddDayButton.Size = new System.Drawing.Size(18, 23);
+            this.dayOneAddDayButton.TabIndex = 3;
+            this.dayOneAddDayButton.Text = ">>";
+            this.dayOneAddDayButton.UseVisualStyleBackColor = true;
+            this.dayOneAddDayButton.Click += new System.EventHandler(this.dayOneAddDayButton_Click);
+            // 
+            // dayTwoSubDayButton
+            // 
+            this.dayTwoSubDayButton.Font = new System.Drawing.Font("Century Gothic", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.dayTwoSubDayButton.Location = new System.Drawing.Point(148, 52);
+            this.dayTwoSubDayButton.Name = "dayTwoSubDayButton";
+            this.dayTwoSubDayButton.Size = new System.Drawing.Size(18, 23);
+            this.dayTwoSubDayButton.TabIndex = 3;
+            this.dayTwoSubDayButton.Text = "<<";
+            this.dayTwoSubDayButton.UseVisualStyleBackColor = true;
+            this.dayTwoSubDayButton.Click += new System.EventHandler(this.dayTwoSubDayButton_Click);
+            // 
+            // dayTwoAddDayButton
+            // 
+            this.dayTwoAddDayButton.Font = new System.Drawing.Font("Century Gothic", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.dayTwoAddDayButton.Location = new System.Drawing.Point(169, 52);
+            this.dayTwoAddDayButton.Name = "dayTwoAddDayButton";
+            this.dayTwoAddDayButton.Size = new System.Drawing.Size(18, 23);
+            this.dayTwoAddDayButton.TabIndex = 3;
+            this.dayTwoAddDayButton.Text = ">>";
+            this.dayTwoAddDayButton.UseVisualStyleBackColor = true;
+            this.dayTwoAddDayButton.Click += new System.EventHandler(this.dayTwoAddDayButton_Click);
+            // 
+            // totalMailLabel
+            // 
+            this.totalMailLabel.AutoSize = true;
+            this.totalMailLabel.Location = new System.Drawing.Point(8, 182);
+            this.totalMailLabel.Name = "totalMailLabel";
+            this.totalMailLabel.Size = new System.Drawing.Size(115, 21);
+            this.totalMailLabel.TabIndex = 4;
+            this.totalMailLabel.Text = "Total Parcels: ";
+            // 
+            // reportLabel
+            // 
+            this.reportLabel.AutoSize = true;
+            this.reportLabel.Location = new System.Drawing.Point(8, 203);
+            this.reportLabel.Name = "reportLabel";
+            this.reportLabel.Size = new System.Drawing.Size(37, 21);
+            this.reportLabel.TabIndex = 4;
+            this.reportLabel.Text = "???";
+            // 
+            // totalFlowPanel
+            // 
+            this.totalFlowPanel.FlowDirection = System.Windows.Forms.FlowDirection.TopDown;
+            this.totalFlowPanel.Font = new System.Drawing.Font("Century Gothic", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.totalFlowPanel.Location = new System.Drawing.Point(672, 120);
+            this.totalFlowPanel.Name = "totalFlowPanel";
+            this.totalFlowPanel.Size = new System.Drawing.Size(309, 344);
+            this.totalFlowPanel.TabIndex = 1;
+            // 
             // Form1
             // 
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
             this.BackColor = System.Drawing.Color.White;
-            this.ClientSize = new System.Drawing.Size(1397, 782);
+            this.ClientSize = new System.Drawing.Size(1279, 782);
             this.Controls.Add(this.tabControl1);
             this.Controls.Add(this.label7);
             this.DoubleBuffered = true;
@@ -836,6 +934,7 @@
             this.Text = "CSA";
             this.tabControl1.ResumeLayout(false);
             this.tabPage4.ResumeLayout(false);
+            this.tabPage4.PerformLayout();
             this.tabPage3.ResumeLayout(false);
             this.tabPage3.PerformLayout();
             this.routeGroupBox.ResumeLayout(false);
@@ -902,11 +1001,7 @@
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Label label7;
         private System.Windows.Forms.DataGridViewTextBoxColumn routeColumn;
-        private System.Windows.Forms.FlowLayoutPanel flowLayoutPanel2;
-        private System.Windows.Forms.Button button9;
-        private System.Windows.Forms.Button button8;
-        private System.Windows.Forms.Button button7;
-        private System.Windows.Forms.Button button6;
+        private System.Windows.Forms.FlowLayoutPanel dayOneFlowPanel;
         private System.Windows.Forms.Button button5;
         private System.Windows.Forms.Label countInRunLabel;
         private System.Windows.Forms.TextBox textBox1;
@@ -922,6 +1017,18 @@
         private System.Windows.Forms.Label label13;
         private System.Windows.Forms.Label label12;
         private System.Windows.Forms.Button deleteRunButton;
+        private System.Windows.Forms.FlowLayoutPanel dayTwoFlowPanel;
+        private System.Windows.Forms.DateTimePicker dayTwoDatePicker;
+        private System.Windows.Forms.DateTimePicker dayOneDatePicker;
+        private System.Windows.Forms.Button addDayButton;
+        private System.Windows.Forms.Button subDayButton;
+        private System.Windows.Forms.Button dayTwoAddDayButton;
+        private System.Windows.Forms.Button dayOneAddDayButton;
+        private System.Windows.Forms.Button dayTwoSubDayButton;
+        private System.Windows.Forms.Button dayOneSubDateButton;
+        private System.Windows.Forms.Label reportLabel;
+        private System.Windows.Forms.Label totalMailLabel;
+        private System.Windows.Forms.FlowLayoutPanel totalFlowPanel;
     }
 }
 

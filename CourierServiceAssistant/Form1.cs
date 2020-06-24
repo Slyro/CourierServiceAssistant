@@ -59,6 +59,10 @@ namespace CourierServiceAssistant
 
             AllMailList = DB.GetAllParcelFromDataBase(); //Получение Базового списка всех РПО
 
+
+            dayOneDatePicker.Value = new DateTime(2020, 6, 3);
+            dayTwoDatePicker.Value = new DateTime(2020, 6, 4);
+
             Dictionary<string, string> NameRoutePairs = DB.GetNameRoutePairs();
             foreach (string key in NameRoutePairs.Keys)
             {
@@ -89,20 +93,19 @@ namespace CourierServiceAssistant
             Ukd.Runs = DB.GetRunsByDate(date); //Выгрузка Рейсов
 
             UpdateStatistic();
-
+            totalMailLabel.Text = "На балансе УКД: " + AllMailList.Count;
         }//Заполнение экземпляра класса UKD информацией об отправлениях лежащих на полках курьеров, операторов, склад самовывоза и взятых в доставку РПО за выбраный день.
 
         private void SevenDays()
         {
+            dayOneFlowPanel.Controls.Clear();
+            dayTwoFlowPanel.Controls.Clear();
+
             UKD[] aDay = new UKD[2];
-            DateTime dateOf = DateTime.Parse("31.05.2020");
-
-            for (int i = 0; i < aDay.Length; i++)
-            {
-                aDay[i] = GetUKD(dateOf);
-                dateOf = dateOf.AddDays(1);
-            }
-
+            aDay[0] = GetUKD(dayOneDatePicker.Value.Date);
+            aDay[1] = GetUKD(dayTwoDatePicker.Value.Date);
+            UKD One = aDay[0];
+            UKD Two = aDay[1];
 
             UKD GetUKD(DateTime date)
             {
@@ -117,37 +120,95 @@ namespace CourierServiceAssistant
                 return _ukd;
             }
 
-            for (int i = 0; i < aDay.Length - 1; i++)
+
+            for (int i = 0; i < One.GetAllRacks.Count; i++)
             {
-                UKD yesterday, today;
-                yesterday = aDay[i];
-                today = aDay[i + 1];
-
-                FlowLayoutPanel panel = new FlowLayoutPanel();
-                flowLayoutPanel2.Controls.Add(panel);
-                flowLayoutPanel2.AutoScroll = true;
-                //panel.Dock = DockStyle.Fill;
-                foreach (var todayRack in today.GetAllRacks)
+                if (i == 0)
                 {
-                    var route = todayRack.Route;
-
-                    var yesterdayRack = yesterday.GetAllRacks.Find((x) => x.Route == todayRack.Route);
-                    if (yesterdayRack != null)
+                    dayOneFlowPanel.Controls.Add(new Label() { Text = dayOneDatePicker.Value.Date.ToShortDateString() });
+                }
+                Rack item = One.GetAllRacks[i];
+                Label label = new Label() {Font = new Font("Century Gothic", 11), Padding = new Padding(-10) };
+                label.Text = item.Route + ": " + item.TrackList.Count;
+                label.AutoSize = true;
+                dayOneFlowPanel.Controls.Add(label);
+            }
+            int? alpha, beta = 0;
+            for (int i = 0; i < Two.GetAllRacks.Count; i++)
+            {
+                bool badLogic = false;
+                if (dayOneDatePicker.Value > dayTwoDatePicker.Value)
+                {
+                    badLogic = true;
+                }
+                if (i == 0)
+                {
+                    dayTwoFlowPanel.Controls.Add(new Label() { Text = dayTwoDatePicker.Value.Date.ToShortDateString() });
+                    if (badLogic)
                     {
-                        var lost = yesterdayRack.TrackList.Except(todayRack.TrackList);
-
-                        ListBox listOfGoneMail = new ListBox();
-                        listOfGoneMail.Items.Add(route);
-                        listOfGoneMail.Size = new Size(120,650);
-                        panel.AutoSize = true;
-                        foreach (var item in lost)
-                        {
-                            listOfGoneMail.Items.Add(item);
-                        }
-                        panel.Controls.Add(listOfGoneMail);
+                        dayTwoFlowPanel.Controls.Add(new Label() { Text = "Нарушена логика расчета.", AutoSize = true });
+                        dayTwoFlowPanel.AutoSize = true;
                     }
                 }
+                Rack item = Two.GetAllRacks[i];
+                Label label = new Label() { Font = new Font("Century Gothic", 11), Padding = new Padding(-10) };
+                label.AutoSize = true;
+                alpha = item.TrackList.Count - One.GetRackByRoute(item.Route)?.TrackList.Count;
+                beta += alpha;
+                if (badLogic)
+                {
+
+                }
+                else
+                {
+                    label.Text = $"{item.Route}: {item.TrackList.Count} ({alpha})";
+                }
+                dayTwoFlowPanel.Controls.Add(label);
             }
+
+            if (beta > 0)
+            {
+                totalFlowPanel.Controls.Add(new Label() { Text = $"Больше на {beta}", AutoSize = true });
+            }
+            else
+            {
+                totalFlowPanel.Controls.Add(new Label() { Text = $"Меньше на {-beta}", AutoSize = true });
+            }
+
+
+
+            //for (int i = 0; i < aDay.Length - 1; i++)
+            //{
+            //    UKD dOne, dTwo;
+
+            //    dOne = aDay[i];
+            //    dTwo = aDay[i + 1];
+
+            //    FlowLayoutPanel panel = new FlowLayoutPanel();
+            //    dayOneFlowPanel.Controls.Add(panel);
+            //    dayOneFlowPanel.AutoScroll = true;
+            //    //panel.Dock = DockStyle.Fill;
+            //    foreach (var todayRack in dTwo.GetAllRacks)
+            //    {
+            //        var route = todayRack.Route;
+
+            //        var yesterdayRack = dOne.GetAllRacks.Find((x) => x.Route == todayRack.Route);
+            //        if (yesterdayRack != null)
+            //        {
+            //            var lost = yesterdayRack.TrackList.Except(todayRack.TrackList);
+
+            //            ListBox listOfGoneMail = new ListBox();
+            //            listOfGoneMail.Items.Add(route);
+            //            listOfGoneMail.Size = new Size(120,650);
+            //            panel.AutoSize = true;
+            //            foreach (var item in lost)
+            //            {
+            //                listOfGoneMail.Items.Add(item);
+            //            }
+            //            panel.Controls.Add(listOfGoneMail);
+            //        }
+            //    }
+            //}
         }
 
         private void UpdateStatistic()
@@ -771,5 +832,39 @@ namespace CourierServiceAssistant
             Manager.ExecuteNonQuery($"DELETE FROM Runs WHERE Courier=('{RouteComboBox.Text}') AND Date=('{routeDatePicker.Value.ToShortDateString()}')");
             RouteComboBox.SelectedIndex = -1;
         }
+
+        #region DaysSelectors      
+        private void subDayButton_Click(object sender, EventArgs e)
+        {
+            dayOneDatePicker.Value = dayOneDatePicker.Value.AddDays(-1);
+            dayTwoDatePicker.Value = dayTwoDatePicker.Value.AddDays(-1);
+        }
+
+        private void addDayButton_Click(object sender, EventArgs e)
+        {
+            dayOneDatePicker.Value = dayOneDatePicker.Value.AddDays(1);
+            dayTwoDatePicker.Value = dayTwoDatePicker.Value.AddDays(1);
+        }
+
+        private void dayOneSubDateButton_Click(object sender, EventArgs e)
+        {
+            dayOneDatePicker.Value = dayOneDatePicker.Value.AddDays(-1);
+        }
+
+        private void dayOneAddDayButton_Click(object sender, EventArgs e)
+        {
+            dayOneDatePicker.Value = dayOneDatePicker.Value.AddDays(1);
+        }
+
+        private void dayTwoSubDayButton_Click(object sender, EventArgs e)
+        {
+            dayTwoDatePicker.Value = dayTwoDatePicker.Value.AddDays(-1);
+        }
+
+        private void dayTwoAddDayButton_Click(object sender, EventArgs e)
+        {
+            dayTwoDatePicker.Value = dayTwoDatePicker.Value.AddDays(1);
+        }
+        #endregion
     }
 }
