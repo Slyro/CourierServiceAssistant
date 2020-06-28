@@ -77,7 +77,9 @@ namespace CourierServiceAssistant
 
             #endregion Двойная буферизация для DataGridView Инвентаризации.
 
-            GetStorageReportByDay(rackDateTimePicker.Value.Date);//Выгрузка информации о пикнут отправлениях на складе на основе даты.
+            //GetStorageReportByDay(rackDateTimePicker.Value.Date);//Выгрузка информации о пикнут отправлениях на складе на основе даты.
+
+            DoReport();
 
             RefreshRouteBox();
             RefreshReportsDate();
@@ -100,35 +102,38 @@ namespace CourierServiceAssistant
         List<Report> reports;
         private void DoReport()
         {
-            var gone = DB.GetGoneParcelFromDataBase().Select((x) => x.TrackID).ToList();
+
             reportLabelBase.Text += AllMailList.Count;
-            reportLabelGone.Text += gone.Count;
+            reportLabelGone.Text += DB.GetGoneParcelFromDataBase().Select(x => x.TrackID).ToList().Count;
 
             reports = new List<Report>();
-            Report.GoneByReport = gone;
+            Report.GoneByReport = DB.GetGoneParcelFromDataBase().Select(x => x.TrackID).ToList();
+            Report.CurrentList = AllMailList.Select(x => x.TrackID).ToList();
 
             foreach (var route in Ukd.GetAllRoutes)
             {
-                reports.Add(new Report(DB.GetRacksPerDayByRoute(route),DB.GetRunsPerDayByRoute(route)));
+                reports.Add(new Report(DB.GetRacksPerDayByRoute(route), DB.GetRunsPerDayByRoute(route)));
             }
 
             reports.RemoveAll((x) => string.IsNullOrEmpty(x.Route));
 
             List<GroupBox> groupBoxes = new List<GroupBox>();
 
+            var clickableLabelFont = new Font("Century Gothic", 11, FontStyle.Underline);
             for (int i = 0; i < reports.Count; i++)
             {
                 Report report = reports[i];
-                groupBoxes.Add(new GroupBox() { Text = report.Route, AutoSize = true }) ;
-                groupBoxes[i].Controls.Add(new FlowLayoutPanel() { FlowDirection = FlowDirection.TopDown, AutoSize = true, Dock = DockStyle.Fill});
-                groupBoxes[i].Controls[0].Controls.Add(new Label() { Text = $"Посылок всего: {report.AllTracksOnRacks.Count} ({report.UniqueTracksRack.Count})", AutoSize = true });
+                groupBoxes.Add(new GroupBox() { Text = report.Route, AutoSize = true });
+                groupBoxes[i].Controls.Add(new FlowLayoutPanel() { FlowDirection = FlowDirection.TopDown, AutoSize = true, Dock = DockStyle.Fill });
+                groupBoxes[i].Controls[0].Controls.Add(new Label() { Cursor = Cursors.Hand, Font = clickableLabelFont, Text = $"Посылок всего: {report.AllTracksOnRacks.Count} ({report.UniqueTracksRack.Count})", AutoSize = true }); //0
                 groupBoxes[i].Controls[0].Controls.Add(new Label() { Text = $"Среднее кол-во: {report.AvarageAllRack} ({report.AvarageUniqueRack})", AutoSize = true });
-                groupBoxes[i].Controls[0].Controls.Add(new Label() { Text = $"Убрано отчётом: {report.DeliveredTracksRack.Count}", AutoSize = true });
-                groupBoxes[i].Controls[0].Controls.Add(new Label() { Text = $"Остаток: {report.MustBeOnRack.Count}", AutoSize = true  });
+                groupBoxes[i].Controls[0].Controls.Add(new Label() { Cursor = Cursors.Hand, Font = clickableLabelFont, Text = $"Убрано отчётом: {report.DeliveredTracksRack.Count}", AutoSize = true });//2
+                groupBoxes[i].Controls[0].Controls.Add(new Label() { Cursor = Cursors.Hand, Font = clickableLabelFont, Text = $"Остаток: {report.MustBeOnRack.Count}", AutoSize = true });//3
                 groupBoxes[i].Controls[0].Controls.Add(new Label() { Text = $"", AutoSize = true });
-                groupBoxes[i].Controls[0].Controls.Add(new Label() { Text = $"На доставку: {report.AllTracksOnRuns.Count}", AutoSize = true });
-                groupBoxes[i].Controls[0].Controls.Add(new Label() { Text = $"Вручено: {report.DeliveredTracksRun.Count}", AutoSize = true });
-                groupBoxes[i].Controls[0].Controls.Add(new Label() { Text = $"Ждут след. отчёта: {report.NotDeliveredTracksRun.Count}", AutoSize = true });
+                groupBoxes[i].Controls[0].Controls.Add(new Label() { Cursor = Cursors.Hand, Font = clickableLabelFont, Text = $"На доставку: {report.AllTracksOnRuns.Count} ({report.UniqueTracksRun.Count})", AutoSize = true });//5
+                groupBoxes[i].Controls[0].Controls.Add(new Label() { Cursor = Cursors.Hand, Font = clickableLabelFont, Text = $"Вручено: {report.DeliveredTracksRun.Count}", AutoSize = true });//6
+                groupBoxes[i].Controls[0].Controls.Add(new Label() { Cursor = Cursors.Hand, Font = clickableLabelFont, Text = $"Разбег: {report.DifferenceTracksRun.Count}", AutoSize = true });//7
+                groupBoxes[i].Controls[0].Controls.Add(new Label() { Cursor = Cursors.Hand, Font = clickableLabelFont, Text = $"На проверку: {report.NotDeliveredTracksRun.Count}", AutoSize = true });//8
                 groupBoxes[i].Controls[0].Controls.Add(new Label() { Text = $"Средн. на доставку: {report.AvarageAllRun}", AutoSize = true });
 
                 for (int j = 0; j < groupBoxes[i].Controls[0].Controls.Count; j++)
@@ -152,36 +157,30 @@ namespace CourierServiceAssistant
                 case 0:
                     dataGridView1.DataSource = reports[reportIndex].UniqueTracksRack.ConvertAll(x => new { Value = x });
                     break;
-                //case 1:
-                //    dataGridView1.DataSource = reports[reportIndex].AvarageUniqueRack;
-                //    break;
                 case 2:
-                    dataGridView1.DataSource = reports[reportIndex].DeliveredTracksRack.ConvertAll(x => new { Value = x }); ;
+                    dataGridView1.DataSource = reports[reportIndex].DeliveredTracksRack.ConvertAll(x => new { Value = x });
                     break;
                 case 3:
-                    dataGridView1.DataSource = reports[reportIndex].MustBeOnRack.ConvertAll(x => new { Value = x }); ;
+                    dataGridView1.DataSource = reports[reportIndex].MustBeOnRack.ConvertAll(x => new { Value = x });
                     break;
                 case 4:
                     dataGridView1.DataSource = null;
                     break;
                 case 5:
-                    dataGridView1.DataSource = reports[reportIndex].AllTracksOnRuns.ConvertAll(x => new { Value = x }); ;
+                    dataGridView1.DataSource = reports[reportIndex].UniqueTracksRun.ConvertAll(x => new { Value = x });
                     break;
                 case 6:
-                    dataGridView1.DataSource = reports[reportIndex].DeliveredTracksRun.ConvertAll(x => new { Value = x }); ;
+                    dataGridView1.DataSource = reports[reportIndex].DeliveredTracksRun.ConvertAll(x => new { Value = x });
                     break;
                 case 7:
-                    dataGridView1.DataSource = reports[reportIndex].NotDeliveredTracksRun.ConvertAll(x => new { Value = x }); ;
+                    dataGridView1.DataSource = reports[reportIndex].DifferenceTracksRun.ConvertAll(x => new { Value = x }); 
                     break;
-                //case 8:
-                //    dataGridView1.DataSource = reports[reportIndex];
-                //    break;
-                //case 9:
-                //    dataGridView1.DataSource = reports[reportIndex];
-                //    break;
+                case 8:
+                    dataGridView1.DataSource = reports[reportIndex].NotDeliveredTracksRun.ConvertAll(x => new { Value = x });
+                    break;
                 default:
                     dataGridView1.DataSource = null;
-                    break;                           
+                    break;
             }
         }
 

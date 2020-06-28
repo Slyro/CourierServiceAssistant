@@ -52,7 +52,7 @@ namespace CourierServiceAssistant
                 while (reader.Read())
                 {
                     racks.Find((x) => x.Date == DateTime.Parse(reader.GetString(1)))
-                        .TrackList.Add(reader.GetString(0));
+                        .TrackList.Add(reader.GetString(0).ToUpperInvariant());
                 }
             }
             return racks;
@@ -77,7 +77,7 @@ namespace CourierServiceAssistant
                 while (reader.Read())
                 {
                     runs.Find((x) => x.Date == DateTime.Parse(reader.GetString(0)))
-                        .TracksInRun.Add(reader.GetString(1));
+                        .TracksInRun.Add(reader.GetString(1).ToUpperInvariant());
                 }
             }
             return runs;
