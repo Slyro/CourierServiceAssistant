@@ -9,6 +9,7 @@ namespace CourierServiceAssistant
     class DBAction
     {
         private readonly string GetAllParcelsCommand = $"SELECT TrackNumber,RegistrationTime,PlannedDate,[Index],UnsuccessfulDeliveryCount,DestinationIndex,LastOperation,Address,Category,Name,IsPayNeed,Telephone,Type,Zone FROM Parcels";
+        private readonly string GetGoneParcelsCommand = $"SELECT TrackNumber,RegistrationTime,PlannedDate,[Index],UnsuccessfulDeliveryCount,DestinationIndex,LastOperation,Address,Category,Name,IsPayNeed,Telephone,Type,Zone FROM GoneByReport";
         private readonly DBManager Manager;
 
         public DBAction(DBManager manager)
@@ -24,6 +25,64 @@ namespace CourierServiceAssistant
                 return list = new List<Parcel>(ExcelReader.GetParcel(reader));
             }//Получение Базового списка всех РПО
         }
+
+        public List<Parcel> GetGoneParcelFromDataBase()
+        {
+            using (var reader = Manager.ExecuteReader(GetGoneParcelsCommand))
+            {
+                List<Parcel> list;
+                return list = new List<Parcel>(ExcelReader.GetParcel(reader));
+            }//Получение Базового списка всех РПО
+        }
+
+        public List<Rack> GetRacksPerDayByRoute(string route)
+        {
+            List<string> dates = new List<string>();
+            List<Rack> racks = new List<Rack>();
+            using (var reader = Manager.ExecuteReader($"SELECT DISTINCT date FROM Rack WHERE route_id='{route}'"))
+            {
+                while (reader.Read())
+                {
+                    racks.Add(new Rack("", route, new List<string>(), DateTime.Parse(reader.GetString(0))));
+                }
+            }
+
+            using (var reader = Manager.ExecuteReader($"SELECT track, date FROM Rack WHERE route_id='{route}'"))
+            {
+                while (reader.Read())
+                {
+                    racks.Find((x) => x.Date == DateTime.Parse(reader.GetString(1)))
+                        .TrackList.Add(reader.GetString(0));
+                }
+            }
+            return racks;
+        }
+
+        public List<Run> GetRunsPerDayByRoute(string route)
+        {
+            //TODO: Подвязать курьера к рейсам
+            List<string> dates = new List<string>();
+            List<Run> runs = new List<Run>();
+
+            using (var reader = Manager.ExecuteReader($"SELECT DISTINCT Runs.Date FROM Runs JOIN Courier ON Runs.Courier == Courier.fullname WHERE Courier.route == '{route}' ORDER By Runs.Date"))
+            {
+                while (reader.Read())
+                {
+                    runs.Add(new Run("", route, new List<string>(), DateTime.Parse(reader.GetString(0))));
+                }
+            }
+
+            using (var reader = Manager.ExecuteReader($"SELECT Runs.Date, Runs.track FROM Runs JOIN Courier ON Runs.Courier == Courier.fullname WHERE Courier.route == '{route}' ORDER BY Runs.Date"))
+            {
+                while (reader.Read())
+                {
+                    runs.Find((x) => x.Date == DateTime.Parse(reader.GetString(0)))
+                        .TracksInRun.Add(reader.GetString(1));
+                }
+            }
+            return runs;
+        }
+
 
         public Dictionary<string, string> GetNameRoutePairs()
         {
@@ -74,7 +133,7 @@ namespace CourierServiceAssistant
                 {
                     while (reader.Read())
                     {
-                        list.Add(new Run() { Name = reader.GetString(0), TracksInRun = new List<string>() });
+                        list.Add(new Run() { Courier = reader.GetString(0), TracksInRun = new List<string>() });
                     }
                 }
             }
@@ -85,13 +144,12 @@ namespace CourierServiceAssistant
                 {
                     while (reader.Read())
                     {
-                        list.Find((x) => x.Name == reader.GetString(1)).TracksInRun.Add(reader.GetString(0));
+                        list.Find((x) => x.Courier == reader.GetString(1)).TracksInRun.Add(reader.GetString(0));
                     }
                 }
             }
             return list;
         }
-
         public bool AddRoute(string routeName)
         {
             if (routeName.Length > 0)

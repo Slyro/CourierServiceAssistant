@@ -94,7 +94,96 @@ namespace CourierServiceAssistant
 
             UpdateStatistic();
             totalMailLabel.Text = "На балансе УКД: " + AllMailList.Count;
+            DoReport();
         }//Заполнение экземпляра класса UKD информацией об отправлениях лежащих на полках курьеров, операторов, склад самовывоза и взятых в доставку РПО за выбраный день.
+
+        List<Report> reports;
+        private void DoReport()
+        {
+            var gone = DB.GetGoneParcelFromDataBase().Select((x) => x.TrackID).ToList();
+            reportLabelBase.Text += AllMailList.Count;
+            reportLabelGone.Text += gone.Count;
+
+            reports = new List<Report>();
+            Report.GoneByReport = gone;
+
+            foreach (var route in Ukd.GetAllRoutes)
+            {
+                reports.Add(new Report(DB.GetRacksPerDayByRoute(route),DB.GetRunsPerDayByRoute(route)));
+            }
+
+            reports.RemoveAll((x) => string.IsNullOrEmpty(x.Route));
+
+            List<GroupBox> groupBoxes = new List<GroupBox>();
+
+            for (int i = 0; i < reports.Count; i++)
+            {
+                Report report = reports[i];
+                groupBoxes.Add(new GroupBox() { Text = report.Route, AutoSize = true }) ;
+                groupBoxes[i].Controls.Add(new FlowLayoutPanel() { FlowDirection = FlowDirection.TopDown, AutoSize = true, Dock = DockStyle.Fill});
+                groupBoxes[i].Controls[0].Controls.Add(new Label() { Text = $"Посылок всего: {report.AllTracksOnRacks.Count} ({report.UniqueTracksRack.Count})", AutoSize = true });
+                groupBoxes[i].Controls[0].Controls.Add(new Label() { Text = $"Среднее кол-во: {report.AvarageAllRack} ({report.AvarageUniqueRack})", AutoSize = true });
+                groupBoxes[i].Controls[0].Controls.Add(new Label() { Text = $"Убрано отчётом: {report.DeliveredTracksRack.Count}", AutoSize = true });
+                groupBoxes[i].Controls[0].Controls.Add(new Label() { Text = $"Остаток: {report.MustBeOnRack.Count}", AutoSize = true  });
+                groupBoxes[i].Controls[0].Controls.Add(new Label() { Text = $"", AutoSize = true });
+                groupBoxes[i].Controls[0].Controls.Add(new Label() { Text = $"На доставку: {report.AllTracksOnRuns.Count}", AutoSize = true });
+                groupBoxes[i].Controls[0].Controls.Add(new Label() { Text = $"Вручено: {report.DeliveredTracksRun.Count}", AutoSize = true });
+                groupBoxes[i].Controls[0].Controls.Add(new Label() { Text = $"Ждут след. отчёта: {report.NotDeliveredTracksRun.Count}", AutoSize = true });
+                groupBoxes[i].Controls[0].Controls.Add(new Label() { Text = $"Средн. на доставку: {report.AvarageAllRun}", AutoSize = true });
+
+                for (int j = 0; j < groupBoxes[i].Controls[0].Controls.Count; j++)
+                {
+                    groupBoxes[i].Controls[0].Controls[j].Click += reportclick;
+                }
+
+                flowLayoutPanel1.Controls.Add(groupBoxes[i]);
+            }
+        }
+        // 0, 2, 3, 5, 6, 7
+        private void reportclick(object sender, EventArgs e)
+        {
+            var groupBox = ((Label)sender).Parent.Parent;
+            var mainContainer = groupBox.Parent;
+            int reportIndex = mainContainer.Controls.GetChildIndex(groupBox);
+            int labelIndex = groupBox.Controls[0].Controls.GetChildIndex((Label)sender);
+
+            switch (labelIndex)
+            {
+                case 0:
+                    dataGridView1.DataSource = reports[reportIndex].UniqueTracksRack.ConvertAll(x => new { Value = x });
+                    break;
+                //case 1:
+                //    dataGridView1.DataSource = reports[reportIndex].AvarageUniqueRack;
+                //    break;
+                case 2:
+                    dataGridView1.DataSource = reports[reportIndex].DeliveredTracksRack.ConvertAll(x => new { Value = x }); ;
+                    break;
+                case 3:
+                    dataGridView1.DataSource = reports[reportIndex].MustBeOnRack.ConvertAll(x => new { Value = x }); ;
+                    break;
+                case 4:
+                    dataGridView1.DataSource = null;
+                    break;
+                case 5:
+                    dataGridView1.DataSource = reports[reportIndex].AllTracksOnRuns.ConvertAll(x => new { Value = x }); ;
+                    break;
+                case 6:
+                    dataGridView1.DataSource = reports[reportIndex].DeliveredTracksRun.ConvertAll(x => new { Value = x }); ;
+                    break;
+                case 7:
+                    dataGridView1.DataSource = reports[reportIndex].NotDeliveredTracksRun.ConvertAll(x => new { Value = x }); ;
+                    break;
+                //case 8:
+                //    dataGridView1.DataSource = reports[reportIndex];
+                //    break;
+                //case 9:
+                //    dataGridView1.DataSource = reports[reportIndex];
+                //    break;
+                default:
+                    dataGridView1.DataSource = null;
+                    break;                           
+            }
+        }
 
         private void SevenDays()
         {
@@ -128,7 +217,7 @@ namespace CourierServiceAssistant
                     dayOneFlowPanel.Controls.Add(new Label() { Text = dayOneDatePicker.Value.Date.ToShortDateString() });
                 }
                 Rack item = One.GetAllRacks[i];
-                Label label = new Label() {Font = new Font("Century Gothic", 11), Padding = new Padding(-10) };
+                Label label = new Label() { Font = new Font("Century Gothic", 11), Padding = new Padding(-10) };
                 label.Text = item.Route + ": " + item.TrackList.Count;
                 label.AutoSize = true;
                 dayOneFlowPanel.Controls.Add(label);
@@ -230,7 +319,7 @@ namespace CourierServiceAssistant
             {
                 Label label = new Label
                 {
-                    Text = $"{run.Name}: {run.TracksInRun.Count}",
+                    Text = $"{run.Courier}: {run.TracksInRun.Count}",
                     Size = new Size(200, 20)
                 };
                 statisticPanel2.Controls.Add(label);
@@ -747,7 +836,7 @@ namespace CourierServiceAssistant
                 {
                     routeDataGrid.Rows.Remove(routeDataGrid.Rows[0]);
                 }
-                CurrentRun = Ukd.Runs.Find((x) => x.Name == RouteComboBox.SelectedItem.ToString());
+                CurrentRun = Ukd.Runs.Find((x) => x.Courier == RouteComboBox.SelectedItem.ToString());
                 CurrentRun?.TracksInRun.ForEach((x) =>
                 {
                     routeDataGrid.Rows.Add(x);
@@ -760,8 +849,8 @@ namespace CourierServiceAssistant
         private void RouteComboBox_SelectedIndexChanged(object sender, EventArgs e)
         {
             //TODO: Необходим полный реворк?
-            if (Ukd.Runs.Find((x) => x.Name == RouteComboBox.Text) is null)
-                Ukd.Runs.Add(new Run() { Name = RouteComboBox.Text, TracksInRun = new List<string>() });
+            if (Ukd.Runs.Find((x) => x.Courier == RouteComboBox.Text) is null)
+                Ukd.Runs.Add(new Run() { Courier = RouteComboBox.Text, TracksInRun = new List<string>() });
 
             countInRunLabel.ResetText();
             if (routeDatePicker.Value.Date != DateTime.Now.Date || RouteComboBox.SelectedIndex == -1)
@@ -777,7 +866,7 @@ namespace CourierServiceAssistant
             {
                 routeDataGrid.Rows.Remove(routeDataGrid.Rows[0]);
             }
-            CurrentRun = Ukd.Runs.Find((x) => x.Name == RouteComboBox.SelectedItem?.ToString());
+            CurrentRun = Ukd.Runs.Find((x) => x.Courier == RouteComboBox.SelectedItem?.ToString());
             CurrentRun?.TracksInRun.ForEach((x) =>
             {
                 routeDataGrid.Rows.Add(x);
