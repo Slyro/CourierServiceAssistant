@@ -33,6 +33,7 @@ namespace CourierServiceAssistant
         private readonly Regex match;
         private readonly Regex match2;
         private DBAction DB;
+        List<Report> reports;
 
         public Form1()
         {
@@ -96,13 +97,11 @@ namespace CourierServiceAssistant
 
             UpdateStatistic();
             totalMailLabel.Text = "На балансе УКД: " + AllMailList.Count;
-            DoReport();
         }//Заполнение экземпляра класса UKD информацией об отправлениях лежащих на полках курьеров, операторов, склад самовывоза и взятых в доставку РПО за выбраный день.
 
-        List<Report> reports;
         private void DoReport()
         {
-
+            flowLayoutPanel1.Controls.Clear();
             reportLabelBase.Text += AllMailList.Count;
             reportLabelGone.Text += DB.GetGoneParcelFromDataBase().Select(x => x.TrackID).ToList().Count;
 
@@ -135,7 +134,7 @@ namespace CourierServiceAssistant
                 groupBoxes[i].Controls[0].Controls.Add(new Label() { Cursor = Cursors.Hand, Font = clickableLabelFont, Text = $"Разбег: {report.DifferenceTracksRun.Count}", AutoSize = true });//7
                 groupBoxes[i].Controls[0].Controls.Add(new Label() { Cursor = Cursors.Hand, Font = clickableLabelFont, Text = $"На проверку: {report.NotDeliveredTracksRun.Count}", AutoSize = true });//8
                 groupBoxes[i].Controls[0].Controls.Add(new Label() { Text = $"Средн. на доставку: {report.AvarageAllRun}", AutoSize = true });
-
+        
                 for (int j = 0; j < groupBoxes[i].Controls[0].Controls.Count; j++)
                 {
                     groupBoxes[i].Controls[0].Controls[j].Click += reportclick;
@@ -162,9 +161,6 @@ namespace CourierServiceAssistant
                     break;
                 case 3:
                     dataGridView1.DataSource = reports[reportIndex].MustBeOnRack.ConvertAll(x => new { Value = x });
-                    break;
-                case 4:
-                    dataGridView1.DataSource = null;
                     break;
                 case 5:
                     dataGridView1.DataSource = reports[reportIndex].UniqueTracksRun.ConvertAll(x => new { Value = x });
@@ -796,16 +792,10 @@ namespace CourierServiceAssistant
             GetStorageReportByDay(rackDateTimePicker.Value.Date);
         } //Выбора даты на вкладке "Учет склада". Перезаполняет экземпляр Ukd данными за выбранную дату.
 
-        private void button4_Click(object sender, EventArgs e)
-        {
-            //Inventarisation();
-        } //Клик по кнопке "ИНВЕНТАРИЗАЦИЯ"
-
         private void button5_Click(object sender, EventArgs e)
         {
 
         }// Скрыть/Показать поле "Инвентаризация"
-
 
         private void routeDatePicker_ValueChanged(object sender, EventArgs e)
         {

@@ -16,7 +16,6 @@ namespace CourierServiceAssistant
         {
             Manager = manager;
         }
-
         public List<Parcel> GetAllParcelFromDataBase()
         {
             using (var reader = Manager.ExecuteReader(GetAllParcelsCommand))
@@ -25,7 +24,6 @@ namespace CourierServiceAssistant
                 return list = new List<Parcel>(ExcelReader.GetParcel(reader));
             }//Получение Базового списка всех РПО
         }
-
         public List<Parcel> GetGoneParcelFromDataBase()
         {
             using (var reader = Manager.ExecuteReader(GetGoneParcelsCommand))
@@ -34,7 +32,6 @@ namespace CourierServiceAssistant
                 return list = new List<Parcel>(ExcelReader.GetParcel(reader));
             }//Получение Базового списка всех РПО
         }
-
         public List<Rack> GetRacksPerDayByRoute(string route)
         {
             List<string> dates = new List<string>();
@@ -57,7 +54,6 @@ namespace CourierServiceAssistant
             }
             return racks;
         }
-
         public List<Run> GetRunsPerDayByRoute(string route)
         {
             //TODO: Подвязать курьера к рейсам
@@ -82,8 +78,6 @@ namespace CourierServiceAssistant
             }
             return runs;
         }
-
-
         public Dictionary<string, string> GetNameRoutePairs()
         {
             Dictionary<string, string> pairs = new Dictionary<string, string>();
@@ -96,8 +90,6 @@ namespace CourierServiceAssistant
             }//Заполнение экземпляра класса UKD списком курьеров и районов, полок.
             return pairs;
         }
-
-
         public List<Rack> GetRacksByDate(DateTime date)
         {
             List<Rack> list = new List<Rack>();

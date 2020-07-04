@@ -151,12 +151,14 @@
             // 
             // tabControl1
             // 
+            this.tabControl1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.tabControl1.Controls.Add(this.tabPage4);
             this.tabControl1.Controls.Add(this.tabPage5);
             this.tabControl1.Controls.Add(this.tabPage3);
             this.tabControl1.Controls.Add(this.tabPage2);
             this.tabControl1.Controls.Add(this.tabPage1);
-            this.tabControl1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tabControl1.Font = new System.Drawing.Font("Century Gothic", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.tabControl1.HotTrack = true;
             this.tabControl1.ItemSize = new System.Drawing.Size(80, 20);
@@ -164,7 +166,7 @@
             this.tabControl1.Margin = new System.Windows.Forms.Padding(0);
             this.tabControl1.Name = "tabControl1";
             this.tabControl1.SelectedIndex = 0;
-            this.tabControl1.Size = new System.Drawing.Size(1340, 821);
+            this.tabControl1.Size = new System.Drawing.Size(1344, 786);
             this.tabControl1.TabIndex = 6;
             // 
             // tabPage4
@@ -187,7 +189,7 @@
             this.tabPage4.Location = new System.Drawing.Point(4, 24);
             this.tabPage4.Margin = new System.Windows.Forms.Padding(4);
             this.tabPage4.Name = "tabPage4";
-            this.tabPage4.Size = new System.Drawing.Size(1332, 793);
+            this.tabPage4.Size = new System.Drawing.Size(1336, 758);
             this.tabPage4.TabIndex = 3;
             this.tabPage4.Text = "Работа";
             this.tabPage4.UseVisualStyleBackColor = true;
@@ -335,13 +337,14 @@
             this.tabPage5.Controls.Add(this.reportLabelGone);
             this.tabPage5.Location = new System.Drawing.Point(4, 24);
             this.tabPage5.Name = "tabPage5";
-            this.tabPage5.Size = new System.Drawing.Size(1332, 793);
+            this.tabPage5.Size = new System.Drawing.Size(1336, 758);
             this.tabPage5.TabIndex = 4;
             this.tabPage5.Text = "Отчеты";
             this.tabPage5.UseVisualStyleBackColor = true;
             // 
             // dataGridView1
             // 
+            this.dataGridView1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.dataGridView1.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.AllCells;
             this.dataGridView1.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dataGridView1.Location = new System.Drawing.Point(1105, 33);
@@ -353,6 +356,10 @@
             // 
             // flowLayoutPanel1
             // 
+            this.flowLayoutPanel1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.flowLayoutPanel1.AutoScroll = true;
             this.flowLayoutPanel1.Location = new System.Drawing.Point(8, 33);
             this.flowLayoutPanel1.Name = "flowLayoutPanel1";
             this.flowLayoutPanel1.Size = new System.Drawing.Size(1091, 713);
@@ -387,7 +394,7 @@
             this.tabPage3.Location = new System.Drawing.Point(4, 24);
             this.tabPage3.Margin = new System.Windows.Forms.Padding(4);
             this.tabPage3.Name = "tabPage3";
-            this.tabPage3.Size = new System.Drawing.Size(1332, 793);
+            this.tabPage3.Size = new System.Drawing.Size(1336, 758);
             this.tabPage3.TabIndex = 2;
             this.tabPage3.Text = "Учет склада";
             this.tabPage3.UseVisualStyleBackColor = true;
@@ -413,7 +420,7 @@
             this.routeGroupBox.Controls.Add(this.routeDatePicker);
             this.routeGroupBox.Controls.Add(this.routeDataGrid);
             this.routeGroupBox.Controls.Add(this.countInRunLabel);
-            this.routeGroupBox.Location = new System.Drawing.Point(9, 35);
+            this.routeGroupBox.Location = new System.Drawing.Point(9, 542);
             this.routeGroupBox.Name = "routeGroupBox";
             this.routeGroupBox.Size = new System.Drawing.Size(598, 500);
             this.routeGroupBox.TabIndex = 19;
@@ -534,7 +541,7 @@
             this.groupBox4.Controls.Add(this.label12);
             this.groupBox4.Controls.Add(this.label3);
             this.groupBox4.Font = new System.Drawing.Font("Century Gothic", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.groupBox4.Location = new System.Drawing.Point(620, 35);
+            this.groupBox4.Location = new System.Drawing.Point(691, 35);
             this.groupBox4.Margin = new System.Windows.Forms.Padding(4);
             this.groupBox4.Name = "groupBox4";
             this.groupBox4.Padding = new System.Windows.Forms.Padding(4);
@@ -764,7 +771,7 @@
             this.tabPage2.Margin = new System.Windows.Forms.Padding(4);
             this.tabPage2.Name = "tabPage2";
             this.tabPage2.Padding = new System.Windows.Forms.Padding(4);
-            this.tabPage2.Size = new System.Drawing.Size(1332, 793);
+            this.tabPage2.Size = new System.Drawing.Size(1336, 758);
             this.tabPage2.TabIndex = 1;
             this.tabPage2.Text = "Настройки";
             this.tabPage2.UseVisualStyleBackColor = true;
@@ -905,7 +912,7 @@
             this.tabPage1.Location = new System.Drawing.Point(4, 24);
             this.tabPage1.Margin = new System.Windows.Forms.Padding(0);
             this.tabPage1.Name = "tabPage1";
-            this.tabPage1.Size = new System.Drawing.Size(1332, 793);
+            this.tabPage1.Size = new System.Drawing.Size(1336, 758);
             this.tabPage1.TabIndex = 0;
             this.tabPage1.Text = "Импорт Данных";
             this.tabPage1.UseVisualStyleBackColor = true;
@@ -967,12 +974,11 @@
             // 
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
             this.BackColor = System.Drawing.Color.White;
-            this.ClientSize = new System.Drawing.Size(1340, 821);
+            this.ClientSize = new System.Drawing.Size(1353, 795);
             this.Controls.Add(this.tabControl1);
             this.Controls.Add(this.label7);
             this.Font = new System.Drawing.Font("Century Gothic", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.Margin = new System.Windows.Forms.Padding(4);
-            this.MinimizeBox = false;
             this.Name = "Form1";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "CSA";
