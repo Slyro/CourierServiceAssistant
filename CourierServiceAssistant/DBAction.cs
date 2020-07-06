@@ -2,6 +2,7 @@
 using System.Data.SQLite;
 using System.Collections.Generic;
 using System;
+using CourierServiceAssistant.sklad;
 
 namespace CourierServiceAssistant
 {
@@ -180,24 +181,25 @@ namespace CourierServiceAssistant
             }
         }
 
-        public void AddParcelToRunDB(Run run, string track, bool isNew)
+        public void AddParcelToRunDB(Run run, string track, IsPayneedResult seekResult)
         {
-            Manager.ExecuteNonQuery($"INSERT INTO [Runs] (Track, Courier, isNew, Date) VALUES ('{track}', '{run.Courier}', {(isNew?1:0)}, '{run.Date.ToShortDateString()}');");
+            int isNew = seekResult == IsPayneedResult.NotFound ? 1 : 0;
+            Manager.ExecuteNonQuery($"INSERT INTO [Runs] (Track, Courier, isNew, Date) VALUES ('{track}', '{run.Courier}', {isNew}, '{run.Date.ToShortDateString()}');");
         }
-
-        public void AddParcelToRunDB(Run run, string[] tracks, bool isNew)
+        public void AddParcelToRunDB(Run run, string[] tracks, IsPayneedResult seekResult)
         {
+            int isNew = seekResult == IsPayneedResult.NotFound ? 1 : 0;
             for (int i = 0; i < tracks.Length; i++)
             {
-                Manager.ExecuteNonQuery($"INSERT INTO [Runs] (Track, Courier, isNew, Date) VALUES ('{tracks[i]}', '{run.Courier}', {(isNew ? 1 : 0)}, '{run.Date.ToShortDateString()}');");
+                Manager.ExecuteNonQuery($"INSERT INTO [Runs] (Track, Courier, isNew, Date) VALUES ('{tracks[i]}', '{run.Courier}', {isNew}, '{run.Date.ToShortDateString()}');");
             }
         }
-
-        public void AddParcelToRunDB(Run run, List<string> tracks, bool isNew)
+        public void AddParcelToRunDB(Run run, List<string> tracks, IsPayneedResult seekResult)
         {
+            int isNew = seekResult == IsPayneedResult.NotFound ? 1 : 0;
             for (int i = 0; i < tracks.Count; i++)
             {
-                Manager.ExecuteNonQuery($"INSERT INTO [Runs] (Track, Courier, isNew, Date) VALUES ('{tracks[i]}', '{run.Courier}', {(isNew ? 1 : 0)}, '{run.Date.ToShortDateString()}');");
+                Manager.ExecuteNonQuery($"INSERT INTO [Runs] (Track, Courier, isNew, Date) VALUES ('{tracks[i]}', '{run.Courier}', {isNew}, '{run.Date.ToShortDateString()}');");
             }
         }
 

@@ -90,6 +90,7 @@
     <Compile Include="mail\Parcel.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="sklad\enums.cs" />
     <Compile Include="sklad\Rack.cs" />
     <Compile Include="sklad\Report.cs" />
     <Compile Include="sklad\Run.cs" />

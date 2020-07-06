@@ -1,4 +1,5 @@
-﻿using System;
+﻿using CourierServiceAssistant.sklad;
+using System;
 using System.Collections.Generic;
 
 namespace CourierServiceAssistant
@@ -11,7 +12,7 @@ namespace CourierServiceAssistant
         public string Address { get; set; }
         public string Name { get; set; }
         public string TelephoneNumber { get; set; }
-        public bool IsPayNeed { get; set; }
+        public IsPayneedResult IsPayNeed { get; set; }
         public DateTime? PlannedDate { get; set; }
         public int Index { get; set; }
         public int? DestinationIndex { get; set; }

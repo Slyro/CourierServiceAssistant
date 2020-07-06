@@ -154,5 +154,11 @@ namespace CourierServiceAssistant
             });
             return HaveDuplicate;
         }
+
+        public void MergeRuns(Run mergingRun)
+        {
+            var tmp = Runs.Find(x => x.Route == mergingRun.Route && x.Courier == mergingRun.Courier);
+            tmp.TracksInRun = mergingRun.TracksInRun;
+        }
     }
 }

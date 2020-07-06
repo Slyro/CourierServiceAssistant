@@ -9,6 +9,7 @@ using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using CourierServiceAssistant.sklad;
 
 namespace CourierServiceAssistant
 {
@@ -115,6 +116,9 @@ namespace CourierServiceAssistant
 
             foreach (var run in Ukd.Runs)
             {
+                if (run.TracksInRun.Count == 0)
+                    continue;
+
                 Label label = new Label
                 {
                     Text = $"{run.Courier}: {run.TracksInRun.Count}",
@@ -400,11 +404,11 @@ namespace CourierServiceAssistant
                         {
                             if (x.PlannedDate != DateTime.MinValue)
                             {
-                                GoneList.Add($"(\"{x.TrackID}\", \"{x.RegistrationTime}\", \"{x.PlannedDate?.ToShortDateString()}\", \"{x.Index}\", \"{x.UnsuccessfulDeliveryCount}\", \"{x.DestinationIndex}\", \"{x.LastOperation}\", \"{x.Address.Replace('"', ' ')}\", \"{x.Category}\", \"{x.Name.Replace('"', ' ')}\", \"{x.IsPayNeed}\", \"{x.TelephoneNumber}\", \"{x.Type}\", \"{x.LastZone}\", \"{ReportDate}\")");
+                                GoneList.Add($"(\"{x.TrackID}\", \"{x.RegistrationTime}\", \"{x.PlannedDate?.ToShortDateString()}\", \"{x.Index}\", \"{x.UnsuccessfulDeliveryCount}\", \"{x.DestinationIndex}\", \"{x.LastOperation}\", \"{x.Address.Replace('"', ' ')}\", \"{x.Category}\", \"{x.Name.Replace('"', ' ')}\", \"{(int)x.IsPayNeed == 1}\", \"{x.TelephoneNumber}\", \"{x.Type}\", \"{x.LastZone}\", \"{ReportDate}\")");
                             }
                             else
                             {
-                                GoneList.Add($"(\"{x.TrackID}\", \"{x.RegistrationTime}\", \"{null}\", \"{x.Index}\", \"{x.UnsuccessfulDeliveryCount}\", \"{x.DestinationIndex}\", \"{x.LastOperation}\", \"{x.Address.Replace('"', ' ')}\", \"{x.Category}\", \"{x.Name.Replace('"', ' ')}\", \"{x.IsPayNeed}\", \"{x.TelephoneNumber}\", \"{x.Type}\", \"{x.LastZone}\", \"{ReportDate}\")");
+                                GoneList.Add($"(\"{x.TrackID}\", \"{x.RegistrationTime}\", \"{null}\", \"{x.Index}\", \"{x.UnsuccessfulDeliveryCount}\", \"{x.DestinationIndex}\", \"{x.LastOperation}\", \"{x.Address.Replace('"', ' ')}\", \"{x.Category}\", \"{x.Name.Replace('"', ' ')}\", \"{(int)x.IsPayNeed == 1}\", \"{x.TelephoneNumber}\", \"{x.Type}\", \"{x.LastZone}\", \"{ReportDate}\")");
                             }
                         });
                     }
@@ -414,11 +418,11 @@ namespace CourierServiceAssistant
                         {
                             if (x.PlannedDate != DateTime.MinValue)
                             {
-                                NewList.Add($"(\"{x.TrackID}\", \"{x.RegistrationTime}\", \"{x.PlannedDate?.ToShortDateString()}\", \"{x.Index}\", \"{x.UnsuccessfulDeliveryCount}\", \"{x.DestinationIndex}\", \"{x.LastOperation}\", \"{x.Address.Replace('"', ' ')}\", \"{x.Category}\", \"{x.Name.Replace('"', ' ')}\", \"{x.IsPayNeed}\", \"{x.TelephoneNumber}\", \"{x.Type}\", \"{x.LastZone}\", \"{ReportDate}\")");
+                                NewList.Add($"(\"{x.TrackID}\", \"{x.RegistrationTime}\", \"{x.PlannedDate?.ToShortDateString()}\", \"{x.Index}\", \"{x.UnsuccessfulDeliveryCount}\", \"{x.DestinationIndex}\", \"{x.LastOperation}\", \"{x.Address.Replace('"', ' ')}\", \"{x.Category}\", \"{x.Name.Replace('"', ' ')}\", \"{(int)x.IsPayNeed == 1}\", \"{x.TelephoneNumber}\", \"{x.Type}\", \"{x.LastZone}\", \"{ReportDate}\")");
                             }
                             else
                             {
-                                NewList.Add($"(\"{x.TrackID}\", \"{x.RegistrationTime}\", \"{null}\", \"{x.Index}\", \"{x.UnsuccessfulDeliveryCount}\", \"{x.DestinationIndex}\", \"{x.LastOperation}\", \"{x.Address.Replace('"', ' ')}\", \"{x.Category}\", \"{x.Name.Replace('"', ' ')}\", \"{x.IsPayNeed}\", \"{x.TelephoneNumber}\", \"{x.Type}\", \"{x.LastZone}\", \"{ReportDate}\")");
+                                NewList.Add($"(\"{x.TrackID}\", \"{x.RegistrationTime}\", \"{null}\", \"{x.Index}\", \"{x.UnsuccessfulDeliveryCount}\", \"{x.DestinationIndex}\", \"{x.LastOperation}\", \"{x.Address.Replace('"', ' ')}\", \"{x.Category}\", \"{x.Name.Replace('"', ' ')}\", \"{(int)x.IsPayNeed == 1}\", \"{x.TelephoneNumber}\", \"{x.Type}\", \"{x.LastZone}\", \"{ReportDate}\")");
                             }
                         });
                     }
@@ -674,137 +678,160 @@ namespace CourierServiceAssistant
             //TODO: Необходим полный реворк
             if (e.KeyCode == Keys.Enter)
             {
-                var track = routeTextBox.Text.ToUpper();
-                if (RouteComboBox.SelectedIndex != -1)
+                if (CourierNameCombobox.SelectedIndex == -1)
                 {
-                    if (match.IsMatch(track) || match2.IsMatch(track))
+                    MessageBox.Show("Необходимо выбрать курьера\\маршрут.");
+                    return;
+                }
+
+                string track = trackTextBox.Text.ToUpperInvariant();
+
+                if (rackRadioBtn.Checked)
+                {
+
+                }
+
+                if (routeRadioBtn.Checked)
+                {
+                    if (IsValid(track))
                     {
                         label7.ResetText();
                         if (CurrentRun.TracksInRun.Contains(track) || Ukd.GetAllTracksInRuns.Contains(track))
                         {
                             label7.Text = "Повторный ШПИ";
-                            routeTextBox.ResetText();
+                            trackTextBox.ResetText();
                             return;
                         }
 
                         routeDataGrid.Rows.Add(track);
                         CurrentRun.TracksInRun.Add(track);
 
-                        var _rpo = AllMailList.Find((item) => item.TrackID == track)?.IsPayNeed;
-                        switch (_rpo)
-                        {
-                            case true:
-                                Manager.ExecuteNonQuery($"INSERT INTO [Runs] (Track, Courier, isNew, Date) VALUES ('{track}', '{RouteComboBox.SelectedItem}', 0, '{routeDatePicker.Value.ToShortDateString()}');");
-                                break;
-
-                            case false:
-                                Manager.ExecuteNonQuery($"INSERT INTO [Runs] (Track, Courier, isNew, Date) VALUES ('{track}', '{RouteComboBox.SelectedItem}', 0, '{routeDatePicker.Value.ToShortDateString()}');");
-                                break;
-
-                            default:
-                                Manager.ExecuteNonQuery($"INSERT INTO [Runs] (Track, Courier, isNew, Date) VALUES ('{track}', '{RouteComboBox.SelectedItem}', 1, '{routeDatePicker.Value.ToShortDateString()}');");
-                                break;
-                        }
-
                         e.Handled = true;
                         e.SuppressKeyPress = true;
                     }
                     else
                         label7.Text = "Некорректный номер!";
+
+                    trackTextBox.Clear();
                 }
-                else
-                    label7.Text = "Необходимо выбрать курьера!";
-                routeTextBox.Clear();
             }
         }
 
-        private void routeDatePicker_ValueChanged(object sender, EventArgs e)
+        private IsPayneedResult ContainsInDataBase(string track)
+        {
+            return AllMailList.Find((item) => item.TrackID == track)?.IsPayNeed ?? IsPayneedResult.NotFound;
+        }
+        private bool IsValid(string track)
+        {
+            return match.IsMatch(track) || match2.IsMatch(track);
+        }
+
+        private void dayDatePicker_ValueChanged(object sender, EventArgs e)
         {
 
-            GetStorageReportByDay(routeDatePicker.Value);
+            GetStorageReportByDay(dayDatePicker.Value);
 
             //TODO: Необходим полный реворк
             countInRunLabel.ResetText();
-            if (routeDatePicker.Value.Date != DateTime.Now.Date || RouteComboBox.SelectedIndex == -1)
+            if (dayDatePicker.Value.Date != DateTime.Now.Date || CourierNameCombobox.SelectedIndex == -1)
             {
                 //RouteComboBox.Enabled = false;
-                routeTextBox.Enabled = true;
+                trackTextBox.Enabled = true;
             }
             else
             {
                 // RouteComboBox.Enabled = true;
-                routeTextBox.Enabled = true;
+                trackTextBox.Enabled = true;
             }
 
             Ukd.Runs.ForEach((x) => x.TracksInRun.Clear());
+            Ukd.Runs = DB.GetRunsByDate(dayDatePicker.Value);
 
-            Ukd.Runs = DB.GetRunsByDate(routeDatePicker.Value);
 
-
-            var count = routeDataGrid.Rows.Count - 1;
-            if (RouteComboBox.SelectedIndex != -1)
+            var count = routeDataGrid.Rows.Count;
+            if (CourierNameCombobox.SelectedIndex != -1)
             {
                 for (int i = 0; i < count; i++)
                 {
                     routeDataGrid.Rows.Remove(routeDataGrid.Rows[0]);
                 }
-                CurrentRun = Ukd.Runs.Find((x) => x.Courier == RouteComboBox.SelectedItem.ToString());
+                CurrentRun = Ukd.Runs.Find((x) => x.Courier == CourierNameCombobox.SelectedItem.ToString());
                 CurrentRun?.TracksInRun.ForEach((x) =>
                 {
                     routeDataGrid.Rows.Add(x);
                 });
             }
-            countInRunLabel.Text = $"{routeDataGrid.Rows.Count - 1}";
             UpdateStatistic();
         }
 
-        private void RouteComboBox_SelectedIndexChanged(object sender, EventArgs e)
+        private void CourierNameComboBox_SelectedIndexChanged(object sender, EventArgs e)
         {
             //TODO: Необходим полный реворк?
-            if (Ukd.Runs.Find((x) => x.Courier == RouteComboBox.Text) is null)
-                Ukd.Runs.Add(new Run() { Courier = RouteComboBox.Text, TracksInRun = new List<string>() });
 
-            countInRunLabel.ResetText();
-            if (routeDatePicker.Value.Date != DateTime.Now.Date || RouteComboBox.SelectedIndex == -1)
+            var courier = CourierNameCombobox.Text;
+            var route = Ukd.GetRoute(courier);
+
+            if (Ukd.Runs.Find((x) => x.Courier == CourierNameCombobox.Text) is null)
+                Ukd.Runs.Add(new Run() { Courier = courier, Date = dayDatePicker.Value, Route = route, TracksInRun = new List<string>() });
+
+
+            if (dayDatePicker.Value.Date != DateTime.Now.Date || CourierNameCombobox.SelectedIndex == -1)
             {
-                routeTextBox.Enabled = true;
-            }
+                trackTextBox.Enabled = true;
+            } //Можно изменять только текущую дату.
             else
             {
-                routeTextBox.Enabled = true;
+                trackTextBox.Enabled = true;
             }
-            var count = routeDataGrid.Rows.Count - 1;
-            for (int i = 0; i < count; i++)
+
+            int count = routeDataGrid.Rows.Count;
+            for (int i = 0; i < count; i++) //Очистить routeDataGrid (Список почты в ране) после выбора курьера.
             {
                 routeDataGrid.Rows.Remove(routeDataGrid.Rows[0]);
             }
-            CurrentRun = Ukd.Runs.Find((x) => x.Courier == RouteComboBox.SelectedItem?.ToString());
+
+            CurrentRun = Ukd.Runs.Find((x) => x.Courier == CourierNameCombobox.SelectedItem?.ToString());
             CurrentRun?.TracksInRun.ForEach((x) =>
             {
                 routeDataGrid.Rows.Add(x);
             });
-            countInRunLabel.Text = $"{routeDataGrid.Rows.Count - 1}";
+            //CurrentRun = new Run() { Courier = courier, Date = dayDatePicker.Value, Route = route, TracksInRun = new List<string>() };
             UpdateStatistic();
+        }
+
+        private void button6_Click(object sender, EventArgs e)
+        {
+            if (CurrentRun.TracksInRun.Count <= 0)
+            {
+                label7.Text = "Пусто";
+                return;
+            }
+            Ukd.MergeRuns(CurrentRun);
+            foreach (var track in CurrentRun.TracksInRun)
+            {
+                IsPayneedResult isInBase = ContainsInDataBase(track);
+                DB.AddParcelToRunDB(CurrentRun, track, isInBase);
+            }
         }
 
         private void routeDataGrid_RowsAdded(object sender, DataGridViewRowsAddedEventArgs e)
         {
             var track = routeDataGrid.Rows[e.RowIndex].Cells[0].Value.ToString();
-            var _rpo = AllMailList.Find((item) => item.TrackID == track)?.IsPayNeed;
+            var _rpo = AllMailList.Find((item) => item.TrackID == track)?.IsPayNeed ?? IsPayneedResult.NotFound;
             switch (_rpo)
             {
-                case true:
+                case IsPayneedResult.Need:
                     routeDataGrid.Rows[e.RowIndex].Cells[0].Style.BackColor = Color.Yellow;
                     break;
 
-                case false:
+                case IsPayneedResult.NotNeed:
                     break;
 
                 default:
                     routeDataGrid.Rows[e.RowIndex].Cells[0].Style.BackColor = Color.OrangeRed;
                     break;
             }
-            countInRunLabel.Text = $"{routeDataGrid.Rows.Count - 1}";
+            countInRunLabel.Text = routeDataGrid.Rows.Count.ToString();
         }
 
 
@@ -819,38 +846,18 @@ namespace CourierServiceAssistant
         }
         private void importComboBox_SelectedIndexChanged(object sender, EventArgs e)//Предварительное создание пустой полки для выбранного курьера, если полка для него отсутствует.
         {
-            if (Ukd.GetRackByCourier(RouteComboBox.Text) is null)
-                Ukd.AddRack(RouteComboBox.Text, Ukd.GetRoute(RouteComboBox.Text), new List<string>(), routeDatePicker.Value);
+            if (Ukd.GetRackByCourier(CourierNameCombobox.Text) is null)
+                Ukd.AddRack(CourierNameCombobox.Text, Ukd.GetRoute(CourierNameCombobox.Text), new List<string>(), dayDatePicker.Value);
         }
         private void deleteRunButton_Click(object sender, EventArgs e)
         {
-            Manager.ExecuteNonQuery($"DELETE FROM Runs WHERE Courier=('{RouteComboBox.Text}') AND Date=('{routeDatePicker.Value.ToShortDateString()}')");
-            RouteComboBox.SelectedIndex = -1;
+            if (routeRadioBtn.Checked)
+            {
+                Manager.ExecuteNonQuery($"DELETE FROM Runs WHERE Courier=('{CourierNameCombobox.Text}') AND Date=('{dayDatePicker.Value.ToShortDateString()}')");
+                CourierNameCombobox.SelectedIndex = -1;
+            }
+
         }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
         private void button5_Click_1(object sender, EventArgs e)
         {
@@ -889,6 +896,24 @@ namespace CourierServiceAssistant
         {
             dayTwoDatePicker.Value = dayTwoDatePicker.Value.AddDays(1);
         }
+
         #endregion
+
+        private void routeDataGrid_CellMouseDoubleClick(object sender, DataGridViewCellMouseEventArgs e)
+        {
+            if (dayDatePicker.Value.Date != DateTime.Now.Date)
+            {
+                MessageBox.Show("Нельзя удалить");
+                return;
+            }
+            var datagrid = (DataGridView)sender;
+            CurrentRun.TracksInRun.Remove(datagrid.CurrentCell.Value.ToString());
+            datagrid.Rows.Remove(datagrid.CurrentRow);  
+        }
+
+        private void routeDataGrid_RowsRemoved(object sender, DataGridViewRowsRemovedEventArgs e)
+        {
+            countInRunLabel.Text = routeDataGrid.Rows.Count.ToString();
+        }
     }
 }

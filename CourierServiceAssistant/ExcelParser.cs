@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Data.SQLite;
+using CourierServiceAssistant.sklad;
 
 namespace CourierServiceAssistant
 {
@@ -41,7 +42,12 @@ namespace CourierServiceAssistant
             int getUnsuccessfulDeliveryCount() => (int)reader.GetDouble((int)FarEast.UnsuccessfulDeliveryCount);
             string getName() => reader.GetValue((int)FarEast.Name) == null ? string.Empty : reader.GetValue((int)FarEast.Name).ToString();
             string getTelephoneNumber() => reader.GetValue((int)FarEast.Telephone) == null ? string.Empty : reader.GetValue((int)FarEast.Telephone).ToString();
-            bool getIsPayNeed() => (int)reader.GetDouble((int)FarEast.IsNeedPay) == 1;
+            IsPayneedResult getIsPayNeed()
+            {
+                return (int)reader.GetDouble((int)FarEast.IsNeedPay) == 1 ? IsPayneedResult.Need: IsPayneedResult.NotNeed;
+            }
+
+                
 
             Parcel _p = new Parcel
             {
@@ -81,7 +87,7 @@ namespace CourierServiceAssistant
                 //var tel = reader.GetString(12);
                 //var type = reader.GetString(13);
                 //var zone = reader.GetString(14);           
-            Parcel _p = new Parcel
+                Parcel _p = new Parcel
                 {
                     Address = reader.GetString(7),
                     Category = reader.GetString(8),
@@ -94,7 +100,7 @@ namespace CourierServiceAssistant
                     UnsuccessfulDeliveryCount = int.Parse(reader.GetString(4)),
                     Name = reader.GetString(9),
                     TelephoneNumber = reader.GetString(11),
-                    IsPayNeed = bool.Parse(reader.GetString(10))
+                    IsPayNeed = bool.Parse(reader.GetString(10)) ? IsPayneedResult.Need : IsPayneedResult.NotNeed
                 };
                 _p.LastOperation = reader.GetString(6);
                 _p.LastZone = reader.GetString(13);
