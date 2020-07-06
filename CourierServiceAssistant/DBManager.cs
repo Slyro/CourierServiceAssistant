@@ -1,13 +1,12 @@
 ﻿using System.Collections.Generic;
 using System.Data.SQLite;
-using System.Text;
 
 namespace CourierServiceAssistant
 {
     public class DBManager
     {
-        private SQLiteConnection connection;
-        private SQLiteCommand command;
+        private readonly SQLiteConnection connection;
+        private readonly SQLiteCommand command;
         public DBManager(string dataBaseFilePath)
         {
             var connectionString = new SQLiteConnectionStringBuilder

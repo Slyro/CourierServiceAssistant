@@ -160,5 +160,46 @@ namespace CourierServiceAssistant
             }
             return false;
         }
+
+        public void AddParcelToRackDB(Rack rack, string track)
+        {
+            Manager.ExecuteNonQuery($"INSERT INTO [Rack] ([courier_id], [route_id], [track], [date]) VALUES ('{rack.Couerier}', '{rack.Route}', '{track}', '{rack.Date}');");
+        }
+        public void AddParcelToRackDB(Rack rack, string[] tracks)
+        {
+            foreach (var item in tracks)
+            {
+                AddParcelToRackDB(rack, item);
+            }
+        }
+        public void AddParcelToRackDB(Rack rack, List<string> tracks)
+        {
+            foreach (var item in tracks)
+            {
+                AddParcelToRackDB(rack, item);
+            }
+        }
+
+        public void AddParcelToRunDB(Run run, string track, bool isNew)
+        {
+            Manager.ExecuteNonQuery($"INSERT INTO [Runs] (Track, Courier, isNew, Date) VALUES ('{track}', '{run.Courier}', {(isNew?1:0)}, '{run.Date.ToShortDateString()}');");
+        }
+
+        public void AddParcelToRunDB(Run run, string[] tracks, bool isNew)
+        {
+            for (int i = 0; i < tracks.Length; i++)
+            {
+                Manager.ExecuteNonQuery($"INSERT INTO [Runs] (Track, Courier, isNew, Date) VALUES ('{tracks[i]}', '{run.Courier}', {(isNew ? 1 : 0)}, '{run.Date.ToShortDateString()}');");
+            }
+        }
+
+        public void AddParcelToRunDB(Run run, List<string> tracks, bool isNew)
+        {
+            for (int i = 0; i < tracks.Count; i++)
+            {
+                Manager.ExecuteNonQuery($"INSERT INTO [Runs] (Track, Courier, isNew, Date) VALUES ('{tracks[i]}', '{run.Courier}', {(isNew ? 1 : 0)}, '{run.Date.ToShortDateString()}');");
+            }
+        }
+
     }
 }

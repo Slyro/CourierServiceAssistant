@@ -2,3 +2,7 @@
 
 # IDE1006: Стили именования
 dotnet_diagnostic.IDE1006.severity = silent
+
+
+# CA2100: Review SQL queries for security vulnerabilities
+dotnet_diagnostic.CA2100.severity = silent

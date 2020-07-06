@@ -72,19 +72,6 @@
             this.label11 = new System.Windows.Forms.Label();
             this.label12 = new System.Windows.Forms.Label();
             this.label3 = new System.Windows.Forms.Label();
-            this.rackGroupBox = new System.Windows.Forms.GroupBox();
-            this.label10 = new System.Windows.Forms.Label();
-            this.textBox1 = new System.Windows.Forms.TextBox();
-            this.label4 = new System.Windows.Forms.Label();
-            this.label2 = new System.Windows.Forms.Label();
-            this.importVisorTextBox = new System.Windows.Forms.TextBox();
-            this.resetButton = new System.Windows.Forms.Button();
-            this.importLabel = new System.Windows.Forms.Label();
-            this.importComboBox = new System.Windows.Forms.ComboBox();
-            this.rackDateTimePicker = new System.Windows.Forms.DateTimePicker();
-            this.importTextBox = new System.Windows.Forms.TextBox();
-            this.label9 = new System.Windows.Forms.Label();
-            this.label8 = new System.Windows.Forms.Label();
             this.tabPage2 = new System.Windows.Forms.TabPage();
             this.routeSettingsGroupBox = new System.Windows.Forms.GroupBox();
             this.deleteRouteButton = new System.Windows.Forms.Button();
@@ -111,7 +98,6 @@
             this.routeGroupBox.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.routeDataGrid)).BeginInit();
             this.groupBox4.SuspendLayout();
-            this.rackGroupBox.SuspendLayout();
             this.tabPage2.SuspendLayout();
             this.routeSettingsGroupBox.SuspendLayout();
             this.courierSettingsGroupBox.SuspendLayout();
@@ -151,14 +137,12 @@
             // 
             // tabControl1
             // 
-            this.tabControl1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
             this.tabControl1.Controls.Add(this.tabPage4);
             this.tabControl1.Controls.Add(this.tabPage5);
             this.tabControl1.Controls.Add(this.tabPage3);
             this.tabControl1.Controls.Add(this.tabPage2);
             this.tabControl1.Controls.Add(this.tabPage1);
+            this.tabControl1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tabControl1.Font = new System.Drawing.Font("Century Gothic", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.tabControl1.HotTrack = true;
             this.tabControl1.ItemSize = new System.Drawing.Size(80, 20);
@@ -166,7 +150,7 @@
             this.tabControl1.Margin = new System.Windows.Forms.Padding(0);
             this.tabControl1.Name = "tabControl1";
             this.tabControl1.SelectedIndex = 0;
-            this.tabControl1.Size = new System.Drawing.Size(1344, 786);
+            this.tabControl1.Size = new System.Drawing.Size(1291, 795);
             this.tabControl1.TabIndex = 6;
             // 
             // tabPage4
@@ -189,7 +173,7 @@
             this.tabPage4.Location = new System.Drawing.Point(4, 24);
             this.tabPage4.Margin = new System.Windows.Forms.Padding(4);
             this.tabPage4.Name = "tabPage4";
-            this.tabPage4.Size = new System.Drawing.Size(1336, 758);
+            this.tabPage4.Size = new System.Drawing.Size(1959, 767);
             this.tabPage4.TabIndex = 3;
             this.tabPage4.Text = "Работа";
             this.tabPage4.UseVisualStyleBackColor = true;
@@ -337,7 +321,7 @@
             this.tabPage5.Controls.Add(this.reportLabelGone);
             this.tabPage5.Location = new System.Drawing.Point(4, 24);
             this.tabPage5.Name = "tabPage5";
-            this.tabPage5.Size = new System.Drawing.Size(1336, 758);
+            this.tabPage5.Size = new System.Drawing.Size(1959, 767);
             this.tabPage5.TabIndex = 4;
             this.tabPage5.Text = "Отчеты";
             this.tabPage5.UseVisualStyleBackColor = true;
@@ -347,11 +331,11 @@
             this.dataGridView1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.dataGridView1.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.AllCells;
             this.dataGridView1.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dataGridView1.Location = new System.Drawing.Point(1105, 33);
+            this.dataGridView1.Location = new System.Drawing.Point(1728, 33);
             this.dataGridView1.Name = "dataGridView1";
             this.dataGridView1.RowHeadersWidth = 35;
             this.dataGridView1.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
-            this.dataGridView1.Size = new System.Drawing.Size(219, 713);
+            this.dataGridView1.Size = new System.Drawing.Size(219, 722);
             this.dataGridView1.TabIndex = 3;
             // 
             // flowLayoutPanel1
@@ -362,7 +346,7 @@
             this.flowLayoutPanel1.AutoScroll = true;
             this.flowLayoutPanel1.Location = new System.Drawing.Point(8, 33);
             this.flowLayoutPanel1.Name = "flowLayoutPanel1";
-            this.flowLayoutPanel1.Size = new System.Drawing.Size(1091, 713);
+            this.flowLayoutPanel1.Size = new System.Drawing.Size(1714, 722);
             this.flowLayoutPanel1.TabIndex = 2;
             // 
             // reportLabelBase
@@ -389,12 +373,11 @@
             this.tabPage3.Controls.Add(this.routeGroupBox);
             this.tabPage3.Controls.Add(this.rackRadioBtn);
             this.tabPage3.Controls.Add(this.groupBox4);
-            this.tabPage3.Controls.Add(this.rackGroupBox);
             this.tabPage3.Font = new System.Drawing.Font("Century Gothic", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.tabPage3.Location = new System.Drawing.Point(4, 24);
             this.tabPage3.Margin = new System.Windows.Forms.Padding(4);
             this.tabPage3.Name = "tabPage3";
-            this.tabPage3.Size = new System.Drawing.Size(1336, 758);
+            this.tabPage3.Size = new System.Drawing.Size(1283, 767);
             this.tabPage3.TabIndex = 2;
             this.tabPage3.Text = "Учет склада";
             this.tabPage3.UseVisualStyleBackColor = true;
@@ -402,10 +385,12 @@
             // routeRadioBtn
             // 
             this.routeRadioBtn.AutoSize = true;
+            this.routeRadioBtn.Checked = true;
             this.routeRadioBtn.Location = new System.Drawing.Point(92, 4);
             this.routeRadioBtn.Name = "routeRadioBtn";
             this.routeRadioBtn.Size = new System.Drawing.Size(67, 25);
             this.routeRadioBtn.TabIndex = 14;
+            this.routeRadioBtn.TabStop = true;
             this.routeRadioBtn.Text = "Рейс";
             this.routeRadioBtn.UseVisualStyleBackColor = true;
             this.routeRadioBtn.CheckedChanged += new System.EventHandler(this.routeRadioBtn_CheckedChanged);
@@ -420,13 +405,12 @@
             this.routeGroupBox.Controls.Add(this.routeDatePicker);
             this.routeGroupBox.Controls.Add(this.routeDataGrid);
             this.routeGroupBox.Controls.Add(this.countInRunLabel);
-            this.routeGroupBox.Location = new System.Drawing.Point(9, 542);
+            this.routeGroupBox.Location = new System.Drawing.Point(9, 35);
             this.routeGroupBox.Name = "routeGroupBox";
             this.routeGroupBox.Size = new System.Drawing.Size(598, 500);
             this.routeGroupBox.TabIndex = 19;
             this.routeGroupBox.TabStop = false;
             this.routeGroupBox.Text = "Рейс";
-            this.routeGroupBox.Visible = false;
             // 
             // deleteRunButton
             // 
@@ -441,7 +425,7 @@
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(9, 23);
+            this.label1.Location = new System.Drawing.Point(9, 32);
             this.label1.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(50, 21);
@@ -451,7 +435,7 @@
             // routeTextBox
             // 
             this.routeTextBox.Enabled = false;
-            this.routeTextBox.Location = new System.Drawing.Point(14, 101);
+            this.routeTextBox.Location = new System.Drawing.Point(14, 110);
             this.routeTextBox.Name = "routeTextBox";
             this.routeTextBox.Size = new System.Drawing.Size(263, 27);
             this.routeTextBox.TabIndex = 12;
@@ -460,7 +444,7 @@
             // label5
             // 
             this.label5.AutoSize = true;
-            this.label5.Location = new System.Drawing.Point(9, 56);
+            this.label5.Location = new System.Drawing.Point(9, 65);
             this.label5.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label5.Name = "label5";
             this.label5.Size = new System.Drawing.Size(67, 21);
@@ -470,7 +454,7 @@
             // RouteComboBox
             // 
             this.RouteComboBox.FormattingEnabled = true;
-            this.RouteComboBox.Location = new System.Drawing.Point(84, 53);
+            this.RouteComboBox.Location = new System.Drawing.Point(84, 62);
             this.RouteComboBox.Margin = new System.Windows.Forms.Padding(4);
             this.RouteComboBox.Name = "RouteComboBox";
             this.RouteComboBox.Size = new System.Drawing.Size(192, 29);
@@ -481,7 +465,7 @@
             // routeDatePicker
             // 
             this.routeDatePicker.Format = System.Windows.Forms.DateTimePickerFormat.Short;
-            this.routeDatePicker.Location = new System.Drawing.Point(84, 18);
+            this.routeDatePicker.Location = new System.Drawing.Point(84, 27);
             this.routeDatePicker.Name = "routeDatePicker";
             this.routeDatePicker.Size = new System.Drawing.Size(192, 27);
             this.routeDatePicker.TabIndex = 10;
@@ -489,16 +473,21 @@
             // 
             // routeDataGrid
             // 
+            this.routeDataGrid.BackgroundColor = System.Drawing.Color.White;
+            this.routeDataGrid.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            this.routeDataGrid.CellBorderStyle = System.Windows.Forms.DataGridViewCellBorderStyle.None;
+            this.routeDataGrid.ColumnHeadersBorderStyle = System.Windows.Forms.DataGridViewHeaderBorderStyle.None;
             this.routeDataGrid.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.routeDataGrid.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.routeColumn});
-            this.routeDataGrid.Location = new System.Drawing.Point(282, 18);
+            this.routeDataGrid.Location = new System.Drawing.Point(282, 27);
             this.routeDataGrid.Name = "routeDataGrid";
             this.routeDataGrid.ReadOnly = true;
+            this.routeDataGrid.RowHeadersBorderStyle = System.Windows.Forms.DataGridViewHeaderBorderStyle.None;
             this.routeDataGrid.RowHeadersWidth = 12;
             this.routeDataGrid.RowTemplate.Height = 35;
             this.routeDataGrid.ShowEditingIcon = false;
-            this.routeDataGrid.Size = new System.Drawing.Size(263, 476);
+            this.routeDataGrid.Size = new System.Drawing.Size(263, 465);
             this.routeDataGrid.TabIndex = 11;
             this.routeDataGrid.RowsAdded += new System.Windows.Forms.DataGridViewRowsAddedEventHandler(this.routeDataGrid_RowsAdded);
             // 
@@ -512,7 +501,7 @@
             // countInRunLabel
             // 
             this.countInRunLabel.AutoSize = true;
-            this.countInRunLabel.Location = new System.Drawing.Point(552, 24);
+            this.countInRunLabel.Location = new System.Drawing.Point(552, 33);
             this.countInRunLabel.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.countInRunLabel.Name = "countInRunLabel";
             this.countInRunLabel.Size = new System.Drawing.Size(19, 21);
@@ -522,12 +511,10 @@
             // rackRadioBtn
             // 
             this.rackRadioBtn.AutoSize = true;
-            this.rackRadioBtn.Checked = true;
             this.rackRadioBtn.Location = new System.Drawing.Point(9, 4);
             this.rackRadioBtn.Name = "rackRadioBtn";
             this.rackRadioBtn.Size = new System.Drawing.Size(77, 25);
             this.rackRadioBtn.TabIndex = 14;
-            this.rackRadioBtn.TabStop = true;
             this.rackRadioBtn.Text = "Полка";
             this.rackRadioBtn.UseVisualStyleBackColor = true;
             this.rackRadioBtn.CheckedChanged += new System.EventHandler(this.rackRadioBtn_CheckedChanged);
@@ -541,7 +528,7 @@
             this.groupBox4.Controls.Add(this.label12);
             this.groupBox4.Controls.Add(this.label3);
             this.groupBox4.Font = new System.Drawing.Font("Century Gothic", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.groupBox4.Location = new System.Drawing.Point(691, 35);
+            this.groupBox4.Location = new System.Drawing.Point(631, 35);
             this.groupBox4.Margin = new System.Windows.Forms.Padding(4);
             this.groupBox4.Name = "groupBox4";
             this.groupBox4.Padding = new System.Windows.Forms.Padding(4);
@@ -610,159 +597,6 @@
             this.label3.TabIndex = 20;
             this.label3.Text = "РПО в наличии";
             // 
-            // rackGroupBox
-            // 
-            this.rackGroupBox.Controls.Add(this.label10);
-            this.rackGroupBox.Controls.Add(this.textBox1);
-            this.rackGroupBox.Controls.Add(this.label4);
-            this.rackGroupBox.Controls.Add(this.label2);
-            this.rackGroupBox.Controls.Add(this.importVisorTextBox);
-            this.rackGroupBox.Controls.Add(this.resetButton);
-            this.rackGroupBox.Controls.Add(this.importLabel);
-            this.rackGroupBox.Controls.Add(this.importComboBox);
-            this.rackGroupBox.Controls.Add(this.rackDateTimePicker);
-            this.rackGroupBox.Controls.Add(this.importTextBox);
-            this.rackGroupBox.Controls.Add(this.label9);
-            this.rackGroupBox.Controls.Add(this.label8);
-            this.rackGroupBox.Font = new System.Drawing.Font("Century Gothic", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.rackGroupBox.Location = new System.Drawing.Point(9, 35);
-            this.rackGroupBox.Margin = new System.Windows.Forms.Padding(4);
-            this.rackGroupBox.Name = "rackGroupBox";
-            this.rackGroupBox.Padding = new System.Windows.Forms.Padding(4);
-            this.rackGroupBox.Size = new System.Drawing.Size(598, 500);
-            this.rackGroupBox.TabIndex = 16;
-            this.rackGroupBox.TabStop = false;
-            this.rackGroupBox.Text = "Полки";
-            // 
-            // label10
-            // 
-            this.label10.AutoSize = true;
-            this.label10.Location = new System.Drawing.Point(9, 23);
-            this.label10.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
-            this.label10.Name = "label10";
-            this.label10.Size = new System.Drawing.Size(50, 21);
-            this.label10.TabIndex = 9;
-            this.label10.Text = "Дата";
-            // 
-            // textBox1
-            // 
-            this.textBox1.BackColor = System.Drawing.SystemColors.Window;
-            this.textBox1.BorderStyle = System.Windows.Forms.BorderStyle.None;
-            this.textBox1.HideSelection = false;
-            this.textBox1.Location = new System.Drawing.Point(8, 229);
-            this.textBox1.Margin = new System.Windows.Forms.Padding(4);
-            this.textBox1.Multiline = true;
-            this.textBox1.Name = "textBox1";
-            this.textBox1.ReadOnly = true;
-            this.textBox1.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
-            this.textBox1.Size = new System.Drawing.Size(217, 263);
-            this.textBox1.TabIndex = 13;
-            // 
-            // label4
-            // 
-            this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(9, 56);
-            this.label4.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
-            this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(67, 21);
-            this.label4.TabIndex = 9;
-            this.label4.Text = "Курьер";
-            // 
-            // label2
-            // 
-            this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(121, 147);
-            this.label2.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
-            this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(0, 21);
-            this.label2.TabIndex = 12;
-            // 
-            // importVisorTextBox
-            // 
-            this.importVisorTextBox.BackColor = System.Drawing.SystemColors.Window;
-            this.importVisorTextBox.BorderStyle = System.Windows.Forms.BorderStyle.None;
-            this.importVisorTextBox.HideSelection = false;
-            this.importVisorTextBox.Location = new System.Drawing.Point(373, 229);
-            this.importVisorTextBox.Margin = new System.Windows.Forms.Padding(4);
-            this.importVisorTextBox.Multiline = true;
-            this.importVisorTextBox.Name = "importVisorTextBox";
-            this.importVisorTextBox.ReadOnly = true;
-            this.importVisorTextBox.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
-            this.importVisorTextBox.Size = new System.Drawing.Size(217, 263);
-            this.importVisorTextBox.TabIndex = 10;
-            // 
-            // resetButton
-            // 
-            this.resetButton.Location = new System.Drawing.Point(13, 142);
-            this.resetButton.Margin = new System.Windows.Forms.Padding(4);
-            this.resetButton.Name = "resetButton";
-            this.resetButton.Size = new System.Drawing.Size(100, 30);
-            this.resetButton.TabIndex = 9;
-            this.resetButton.Text = "Сброс";
-            this.resetButton.UseVisualStyleBackColor = true;
-            this.resetButton.Click += new System.EventHandler(this.resetButton_Click);
-            // 
-            // importLabel
-            // 
-            this.importLabel.AutoSize = true;
-            this.importLabel.Location = new System.Drawing.Point(285, 104);
-            this.importLabel.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
-            this.importLabel.Name = "importLabel";
-            this.importLabel.Size = new System.Drawing.Size(19, 21);
-            this.importLabel.TabIndex = 8;
-            this.importLabel.Text = "0";
-            // 
-            // importComboBox
-            // 
-            this.importComboBox.FormattingEnabled = true;
-            this.importComboBox.Location = new System.Drawing.Point(84, 53);
-            this.importComboBox.Margin = new System.Windows.Forms.Padding(4);
-            this.importComboBox.Name = "importComboBox";
-            this.importComboBox.Size = new System.Drawing.Size(192, 29);
-            this.importComboBox.TabIndex = 7;
-            this.importComboBox.SelectedIndexChanged += new System.EventHandler(this.importComboBox_SelectedIndexChanged);
-            this.importComboBox.Enter += new System.EventHandler(this.importComboBox_Enter);
-            // 
-            // rackDateTimePicker
-            // 
-            this.rackDateTimePicker.CustomFormat = "";
-            this.rackDateTimePicker.Format = System.Windows.Forms.DateTimePickerFormat.Short;
-            this.rackDateTimePicker.Location = new System.Drawing.Point(84, 18);
-            this.rackDateTimePicker.Margin = new System.Windows.Forms.Padding(4);
-            this.rackDateTimePicker.Name = "rackDateTimePicker";
-            this.rackDateTimePicker.Size = new System.Drawing.Size(192, 27);
-            this.rackDateTimePicker.TabIndex = 1;
-            this.rackDateTimePicker.ValueChanged += new System.EventHandler(this.rackTimePicker_ValueChanged);
-            // 
-            // importTextBox
-            // 
-            this.importTextBox.Location = new System.Drawing.Point(14, 101);
-            this.importTextBox.Margin = new System.Windows.Forms.Padding(4);
-            this.importTextBox.Name = "importTextBox";
-            this.importTextBox.Size = new System.Drawing.Size(263, 27);
-            this.importTextBox.TabIndex = 0;
-            this.importTextBox.KeyDown += new System.Windows.Forms.KeyEventHandler(this.importTextBox_KeyDown);
-            // 
-            // label9
-            // 
-            this.label9.AutoSize = true;
-            this.label9.Location = new System.Drawing.Point(424, 204);
-            this.label9.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
-            this.label9.Name = "label9";
-            this.label9.Size = new System.Drawing.Size(106, 21);
-            this.label9.TabIndex = 9;
-            this.label9.Text = "Корректные";
-            // 
-            // label8
-            // 
-            this.label8.AutoSize = true;
-            this.label8.Location = new System.Drawing.Point(50, 204);
-            this.label8.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
-            this.label8.Name = "label8";
-            this.label8.Size = new System.Drawing.Size(126, 21);
-            this.label8.TabIndex = 9;
-            this.label8.Text = "Некорректные";
-            // 
             // tabPage2
             // 
             this.tabPage2.Controls.Add(this.routeSettingsGroupBox);
@@ -771,7 +605,7 @@
             this.tabPage2.Margin = new System.Windows.Forms.Padding(4);
             this.tabPage2.Name = "tabPage2";
             this.tabPage2.Padding = new System.Windows.Forms.Padding(4);
-            this.tabPage2.Size = new System.Drawing.Size(1336, 758);
+            this.tabPage2.Size = new System.Drawing.Size(1959, 767);
             this.tabPage2.TabIndex = 1;
             this.tabPage2.Text = "Настройки";
             this.tabPage2.UseVisualStyleBackColor = true;
@@ -912,7 +746,7 @@
             this.tabPage1.Location = new System.Drawing.Point(4, 24);
             this.tabPage1.Margin = new System.Windows.Forms.Padding(0);
             this.tabPage1.Name = "tabPage1";
-            this.tabPage1.Size = new System.Drawing.Size(1336, 758);
+            this.tabPage1.Size = new System.Drawing.Size(1959, 767);
             this.tabPage1.TabIndex = 0;
             this.tabPage1.Text = "Импорт Данных";
             this.tabPage1.UseVisualStyleBackColor = true;
@@ -974,7 +808,7 @@
             // 
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
             this.BackColor = System.Drawing.Color.White;
-            this.ClientSize = new System.Drawing.Size(1353, 795);
+            this.ClientSize = new System.Drawing.Size(1291, 795);
             this.Controls.Add(this.tabControl1);
             this.Controls.Add(this.label7);
             this.Font = new System.Drawing.Font("Century Gothic", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
@@ -995,8 +829,6 @@
             ((System.ComponentModel.ISupportInitialize)(this.routeDataGrid)).EndInit();
             this.groupBox4.ResumeLayout(false);
             this.groupBox4.PerformLayout();
-            this.rackGroupBox.ResumeLayout(false);
-            this.rackGroupBox.PerformLayout();
             this.tabPage2.ResumeLayout(false);
             this.routeSettingsGroupBox.ResumeLayout(false);
             this.routeSettingsGroupBox.PerformLayout();
@@ -1032,17 +864,9 @@
         private System.Windows.Forms.Button courierDeleteButton;
         private System.Windows.Forms.Button button3;
         private System.Windows.Forms.ListBox dateOfImportingReportsListBox;
-        private System.Windows.Forms.GroupBox rackGroupBox;
-        private System.Windows.Forms.TextBox importVisorTextBox;
-        private System.Windows.Forms.Button resetButton;
-        private System.Windows.Forms.Label importLabel;
-        private System.Windows.Forms.ComboBox importComboBox;
-        private System.Windows.Forms.DateTimePicker rackDateTimePicker;
-        private System.Windows.Forms.TextBox importTextBox;
         private System.Windows.Forms.GroupBox groupBox4;
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.FlowLayoutPanel statisticPanel1;
-        private System.Windows.Forms.Label label2;
         private System.Windows.Forms.TabPage tabPage4;
         private System.Windows.Forms.ComboBox RouteComboBox;
         private System.Windows.Forms.Label label5;
@@ -1056,15 +880,10 @@
         private System.Windows.Forms.FlowLayoutPanel dayOneFlowPanel;
         private System.Windows.Forms.Button button5;
         private System.Windows.Forms.Label countInRunLabel;
-        private System.Windows.Forms.TextBox textBox1;
-        private System.Windows.Forms.Label label9;
-        private System.Windows.Forms.Label label8;
         private System.Windows.Forms.RadioButton routeRadioBtn;
         private System.Windows.Forms.RadioButton rackRadioBtn;
         private System.Windows.Forms.GroupBox routeGroupBox;
         private System.Windows.Forms.FlowLayoutPanel statisticPanel2;
-        private System.Windows.Forms.Label label10;
-        private System.Windows.Forms.Label label4;
         private System.Windows.Forms.Label label11;
         private System.Windows.Forms.Label label13;
         private System.Windows.Forms.Label label12;

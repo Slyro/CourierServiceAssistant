@@ -154,16 +154,5 @@ namespace CourierServiceAssistant
             });
             return HaveDuplicate;
         }
-
-        //private void AddTrackFromRackToTrackList(List<string> tracklist)
-        //{
-        //    tracklist.ForEach((x) =>
-        //    {
-        //        if (!TrackList.Contains(x))
-        //        {
-        //            TrackList.Add(x);
-        //        }
-        //    });
-        //}
     }
 }
