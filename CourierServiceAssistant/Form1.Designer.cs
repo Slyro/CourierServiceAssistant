@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
             this.button1 = new System.Windows.Forms.Button();
             this.debugTextBox = new System.Windows.Forms.TextBox();
             this.button2 = new System.Windows.Forms.Button();
@@ -55,17 +56,17 @@
             this.tabPage3 = new System.Windows.Forms.TabPage();
             this.routeRadioBtn = new System.Windows.Forms.RadioButton();
             this.routeGroupBox = new System.Windows.Forms.GroupBox();
-            this.button6 = new System.Windows.Forms.Button();
+            this.acceptButton = new System.Windows.Forms.Button();
             this.deleteRunButton = new System.Windows.Forms.Button();
-            this.correctButton = new System.Windows.Forms.Button();
             this.label7 = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
             this.trackTextBox = new System.Windows.Forms.TextBox();
             this.label5 = new System.Windows.Forms.Label();
             this.CourierNameCombobox = new System.Windows.Forms.ComboBox();
+            this.contextMenuStrip1 = new System.Windows.Forms.ContextMenuStrip(this.components);
+            this.обновитьСписокToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.dayDatePicker = new System.Windows.Forms.DateTimePicker();
             this.routeDataGrid = new System.Windows.Forms.DataGridView();
-            this.routeColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.countInRunLabel = new System.Windows.Forms.Label();
             this.rackRadioBtn = new System.Windows.Forms.RadioButton();
             this.groupBox4 = new System.Windows.Forms.GroupBox();
@@ -92,12 +93,14 @@
             this.button3 = new System.Windows.Forms.Button();
             this.label6 = new System.Windows.Forms.Label();
             this.historyLabel = new System.Windows.Forms.Label();
+            this.routeColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.tabControl1.SuspendLayout();
             this.tabPage4.SuspendLayout();
             this.tabPage5.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
             this.tabPage3.SuspendLayout();
             this.routeGroupBox.SuspendLayout();
+            this.contextMenuStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.routeDataGrid)).BeginInit();
             this.groupBox4.SuspendLayout();
             this.tabPage2.SuspendLayout();
@@ -177,7 +180,7 @@
             this.tabPage4.Name = "tabPage4";
             this.tabPage4.Size = new System.Drawing.Size(1283, 767);
             this.tabPage4.TabIndex = 3;
-            this.tabPage4.Text = "Работа";
+            this.tabPage4.Text = "Work";
             this.tabPage4.UseVisualStyleBackColor = true;
             // 
             // reportLabel
@@ -325,7 +328,7 @@
             this.tabPage5.Name = "tabPage5";
             this.tabPage5.Size = new System.Drawing.Size(1283, 767);
             this.tabPage5.TabIndex = 4;
-            this.tabPage5.Text = "Отчеты";
+            this.tabPage5.Text = "Report";
             this.tabPage5.UseVisualStyleBackColor = true;
             // 
             // dataGridView1
@@ -381,7 +384,7 @@
             this.tabPage3.Name = "tabPage3";
             this.tabPage3.Size = new System.Drawing.Size(1283, 767);
             this.tabPage3.TabIndex = 2;
-            this.tabPage3.Text = "Учет склада";
+            this.tabPage3.Text = "Warehouse";
             this.tabPage3.UseVisualStyleBackColor = true;
             // 
             // routeRadioBtn
@@ -399,9 +402,8 @@
             // 
             // routeGroupBox
             // 
-            this.routeGroupBox.Controls.Add(this.button6);
+            this.routeGroupBox.Controls.Add(this.acceptButton);
             this.routeGroupBox.Controls.Add(this.deleteRunButton);
-            this.routeGroupBox.Controls.Add(this.correctButton);
             this.routeGroupBox.Controls.Add(this.label7);
             this.routeGroupBox.Controls.Add(this.label1);
             this.routeGroupBox.Controls.Add(this.trackTextBox);
@@ -415,18 +417,18 @@
             this.routeGroupBox.Size = new System.Drawing.Size(598, 500);
             this.routeGroupBox.TabIndex = 19;
             this.routeGroupBox.TabStop = false;
-            this.routeGroupBox.Text = "Рейс";
+            this.routeGroupBox.Text = "Route";
             // 
-            // button6
+            // acceptButton
             // 
-            this.button6.Font = new System.Drawing.Font("Century Gothic", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.button6.Location = new System.Drawing.Point(13, 201);
-            this.button6.Name = "button6";
-            this.button6.Size = new System.Drawing.Size(108, 32);
-            this.button6.TabIndex = 13;
-            this.button6.Text = "Add\\Merge";
-            this.button6.UseVisualStyleBackColor = true;
-            this.button6.Click += new System.EventHandler(this.button6_Click);
+            this.acceptButton.Font = new System.Drawing.Font("Century Gothic", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.acceptButton.Location = new System.Drawing.Point(15, 167);
+            this.acceptButton.Name = "acceptButton";
+            this.acceptButton.Size = new System.Drawing.Size(108, 32);
+            this.acceptButton.TabIndex = 13;
+            this.acceptButton.Text = "Insert";
+            this.acceptButton.UseVisualStyleBackColor = true;
+            this.acceptButton.Click += new System.EventHandler(this.button6_Click);
             // 
             // deleteRunButton
             // 
@@ -438,16 +440,6 @@
             this.deleteRunButton.Text = "Dell from DB";
             this.deleteRunButton.UseVisualStyleBackColor = true;
             this.deleteRunButton.Click += new System.EventHandler(this.deleteRunButton_Click);
-            // 
-            // correctButton
-            // 
-            this.correctButton.Font = new System.Drawing.Font("Century Gothic", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.correctButton.Location = new System.Drawing.Point(13, 163);
-            this.correctButton.Name = "correctButton";
-            this.correctButton.Size = new System.Drawing.Size(108, 32);
-            this.correctButton.TabIndex = 13;
-            this.correctButton.Text = "Correct";
-            this.correctButton.UseVisualStyleBackColor = true;
             // 
             // label7
             // 
@@ -489,6 +481,7 @@
             // 
             // CourierNameCombobox
             // 
+            this.CourierNameCombobox.ContextMenuStrip = this.contextMenuStrip1;
             this.CourierNameCombobox.FormattingEnabled = true;
             this.CourierNameCombobox.Location = new System.Drawing.Point(84, 62);
             this.CourierNameCombobox.Margin = new System.Windows.Forms.Padding(4);
@@ -496,7 +489,22 @@
             this.CourierNameCombobox.Size = new System.Drawing.Size(192, 28);
             this.CourierNameCombobox.TabIndex = 8;
             this.CourierNameCombobox.SelectedIndexChanged += new System.EventHandler(this.CourierNameComboBox_SelectedIndexChanged);
-            this.CourierNameCombobox.Enter += new System.EventHandler(this.importComboBox_Enter);
+            // 
+            // contextMenuStrip1
+            // 
+            this.contextMenuStrip1.Font = new System.Drawing.Font("Century Gothic", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.contextMenuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.обновитьСписокToolStripMenuItem});
+            this.contextMenuStrip1.Name = "contextMenuStrip1";
+            this.contextMenuStrip1.ShowImageMargin = false;
+            this.contextMenuStrip1.Size = new System.Drawing.Size(156, 26);
+            // 
+            // обновитьСписокToolStripMenuItem
+            // 
+            this.обновитьСписокToolStripMenuItem.Name = "обновитьСписокToolStripMenuItem";
+            this.обновитьСписокToolStripMenuItem.Size = new System.Drawing.Size(155, 22);
+            this.обновитьСписокToolStripMenuItem.Text = "Обновить список";
+            this.обновитьСписокToolStripMenuItem.Click += new System.EventHandler(this.обновитьСписокToolStripMenuItem_Click);
             // 
             // dayDatePicker
             // 
@@ -530,13 +538,6 @@
             this.routeDataGrid.CellMouseDoubleClick += new System.Windows.Forms.DataGridViewCellMouseEventHandler(this.routeDataGrid_CellMouseDoubleClick);
             this.routeDataGrid.RowsAdded += new System.Windows.Forms.DataGridViewRowsAddedEventHandler(this.routeDataGrid_RowsAdded);
             this.routeDataGrid.RowsRemoved += new System.Windows.Forms.DataGridViewRowsRemovedEventHandler(this.routeDataGrid_RowsRemoved);
-            // 
-            // routeColumn
-            // 
-            this.routeColumn.HeaderText = "Рейс";
-            this.routeColumn.Name = "routeColumn";
-            this.routeColumn.ReadOnly = true;
-            this.routeColumn.Width = 245;
             // 
             // countInRunLabel
             // 
@@ -647,7 +648,7 @@
             this.tabPage2.Padding = new System.Windows.Forms.Padding(4);
             this.tabPage2.Size = new System.Drawing.Size(1283, 767);
             this.tabPage2.TabIndex = 1;
-            this.tabPage2.Text = "Настройки";
+            this.tabPage2.Text = "Settings";
             this.tabPage2.UseVisualStyleBackColor = true;
             // 
             // routeSettingsGroupBox
@@ -788,7 +789,7 @@
             this.tabPage1.Name = "tabPage1";
             this.tabPage1.Size = new System.Drawing.Size(1283, 767);
             this.tabPage1.TabIndex = 0;
-            this.tabPage1.Text = "Импорт Данных";
+            this.tabPage1.Text = "Import";
             this.tabPage1.UseVisualStyleBackColor = true;
             // 
             // dateOfImportingReportsListBox
@@ -835,6 +836,13 @@
             this.historyLabel.TabIndex = 6;
             this.historyLabel.Text = "label2";
             // 
+            // routeColumn
+            // 
+            this.routeColumn.HeaderText = "Track";
+            this.routeColumn.Name = "routeColumn";
+            this.routeColumn.ReadOnly = true;
+            this.routeColumn.Width = 245;
+            // 
             // Form1
             // 
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
@@ -856,6 +864,7 @@
             this.tabPage3.PerformLayout();
             this.routeGroupBox.ResumeLayout(false);
             this.routeGroupBox.PerformLayout();
+            this.contextMenuStrip1.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.routeDataGrid)).EndInit();
             this.groupBox4.ResumeLayout(false);
             this.groupBox4.PerformLayout();
@@ -905,7 +914,6 @@
         private System.Windows.Forms.DataGridView routeDataGrid;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Label label7;
-        private System.Windows.Forms.DataGridViewTextBoxColumn routeColumn;
         private System.Windows.Forms.FlowLayoutPanel dayOneFlowPanel;
         private System.Windows.Forms.Button button5;
         private System.Windows.Forms.Label countInRunLabel;
@@ -933,9 +941,11 @@
         private System.Windows.Forms.Label reportLabelGone;
         private System.Windows.Forms.FlowLayoutPanel flowLayoutPanel1;
         private System.Windows.Forms.DataGridView dataGridView1;
-        private System.Windows.Forms.Button button6;
+        private System.Windows.Forms.Button acceptButton;
         private System.Windows.Forms.Button deleteRunButton;
-        private System.Windows.Forms.Button correctButton;
+        private System.Windows.Forms.ContextMenuStrip contextMenuStrip1;
+        private System.Windows.Forms.ToolStripMenuItem обновитьСписокToolStripMenuItem;
+        private System.Windows.Forms.DataGridViewTextBoxColumn routeColumn;
     }
 }
 

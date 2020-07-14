@@ -25,6 +25,19 @@ namespace CourierServiceAssistant
                 return list = new List<Parcel>(ExcelReader.GetParcel(reader));
             }//Получение Базового списка всех РПО
         }
+        public List<object> GetCourierListFromDataBase()
+        {//TODO: В DBAction перенести нужно.
+            List<object> list = new List<object>();
+            using (var reader = Manager.ExecuteReader($"SELECT fullName, route FROM Courier"))
+            {
+                while (reader.Read())
+                {
+                    list.Add(reader.GetString(0));
+                }
+            }
+            return list;
+        } //Достать список курьеров из БД
+
         public List<Parcel> GetGoneParcelFromDataBase()
         {
             using (var reader = Manager.ExecuteReader(GetGoneParcelsCommand))
@@ -166,6 +179,13 @@ namespace CourierServiceAssistant
         {
             Manager.ExecuteNonQuery($"INSERT INTO [Rack] ([courier_id], [route_id], [track], [date]) VALUES ('{rack.Couerier}', '{rack.Route}', '{track}', '{rack.Date}');");
         }
+
+        public void RemoveParcelFromRun(string coureir,string date,string  track)
+        {
+            Manager.ExecuteNonQuery($"DELETE FROM Runs WHERE Courier = '{coureir}' AND Track = '{track}' AND Date = '{date}'");
+        }
+
+
         public void AddParcelToRackDB(Rack rack, string[] tracks)
         {
             foreach (var item in tracks)
@@ -180,7 +200,6 @@ namespace CourierServiceAssistant
                 AddParcelToRackDB(rack, item);
             }
         }
-
         public void AddParcelToRunDB(Run run, string track, IsPayneedResult seekResult)
         {
             int isNew = seekResult == IsPayneedResult.NotFound ? 1 : 0;

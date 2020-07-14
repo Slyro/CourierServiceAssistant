@@ -24,7 +24,6 @@ namespace CourierServiceAssistant
         private GoneMail GoneMail;
         private NewMail NewMail;
         private readonly UKD Ukd;
-        private readonly List<string> ListOfImportedTracks;
         private readonly List<string> GoneList;
         private readonly List<string> NewList;
         private Run CurrentRun;
@@ -42,7 +41,6 @@ namespace CourierServiceAssistant
             InitializeComponent();
             Load += Form1_Load;
             ExcelReportMailList = new List<Parcel>();
-            ListOfImportedTracks = new List<string>();
             sb = new StringBuilder();
             GoneList = new List<string>();
             NewList = new List<string>();
@@ -86,8 +84,10 @@ namespace CourierServiceAssistant
             RefreshRouteBox();
             RefreshReportsDate();
             RefreshCourierList();
+            UpdateCourierNameComboboxData();
+
             button2.Enabled = false;
-        }
+        } //Загрузка формы
 
         private void GetStorageReportByDay(DateTime date)
         {
@@ -329,7 +329,6 @@ namespace CourierServiceAssistant
         }
 
 
-
         #region ExcelExportTabPage
 
         private List<Parcel> BalanceParseFromExcelFile(string filepath)
@@ -538,25 +537,6 @@ namespace CourierServiceAssistant
 
         #region SettingTabPage
 
-        private List<object> GetCourierListFromDataBase()
-        {//TODO: В DBAction перенести нужно.
-            List<object> list = new List<object>();
-            using (var reader = Manager.ExecuteReader($"SELECT fullName, route FROM Courier"))
-            {
-                while (reader.Read())
-                {
-                    list.Add(reader.GetString(0));
-                }
-            }
-            return list;
-        } //Достать список курьеров из БД
-
-        private void importComboBox_Enter(object sender, EventArgs e)
-        {
-            (sender as ComboBox).Items.Clear();
-            (sender as ComboBox).Items.AddRange(GetCourierListFromDataBase().ToArray());
-        } // Выгрузка списка курьеров в контролы на вкладках рейса и настройки
-
         private void addRouteTextBox_KeyPress(object sender, KeyPressEventArgs e)
         {
             if (e.KeyChar == (char)Keys.Enter)
@@ -689,11 +669,14 @@ namespace CourierServiceAssistant
                 if (rackRadioBtn.Checked)
                 {
 
+                    throw new NotImplementedException();
+
+                    //TODO: Заполнение полок.
                 }
 
                 if (routeRadioBtn.Checked)
                 {
-                    if (IsValid(track))
+                    if (IsValid(track))//TODO: Избежать дублирования кода - Поднять проверку валидности ШПИ на уровень выше. 
                     {
                         label7.ResetText();
                         if (CurrentRun.TracksInRun.Contains(track) || Ukd.GetAllTracksInRuns.Contains(track))
@@ -715,7 +698,7 @@ namespace CourierServiceAssistant
                     trackTextBox.Clear();
                 }
             }
-        }
+        } //Текстовое поле ввода трек-номера
 
         private IsPayneedResult ContainsInDataBase(string track)
         {
@@ -728,7 +711,6 @@ namespace CourierServiceAssistant
 
         private void dayDatePicker_ValueChanged(object sender, EventArgs e)
         {
-
             GetStorageReportByDay(dayDatePicker.Value);
 
             //TODO: Необходим полный реворк
@@ -755,13 +737,13 @@ namespace CourierServiceAssistant
                 {
                     routeDataGrid.Rows.Remove(routeDataGrid.Rows[0]);
                 }
-                CurrentRun = Ukd.Runs.Find((x) => x.Courier == CourierNameCombobox.SelectedItem.ToString());
-                CurrentRun?.TracksInRun.ForEach((x) =>
+                var run = Ukd.Runs.Find((x) => x.Courier == CourierNameCombobox.SelectedItem.ToString());
+                run?.TracksInRun.ForEach((x) =>
                 {
                     routeDataGrid.Rows.Add(x);
                 });
             }
-            UpdateStatistic();
+            UpdateStatistic();   
         }
 
         private void CourierNameComboBox_SelectedIndexChanged(object sender, EventArgs e)
@@ -790,12 +772,12 @@ namespace CourierServiceAssistant
                 routeDataGrid.Rows.Remove(routeDataGrid.Rows[0]);
             }
 
-            CurrentRun = Ukd.Runs.Find((x) => x.Courier == CourierNameCombobox.SelectedItem?.ToString());
-            CurrentRun?.TracksInRun.ForEach((x) =>
+            var run = Ukd.Runs.Find((x) => x.Courier == CourierNameCombobox.SelectedItem?.ToString());
+            run?.TracksInRun.ForEach((x) =>
             {
                 routeDataGrid.Rows.Add(x);
             });
-            //CurrentRun = new Run() { Courier = courier, Date = dayDatePicker.Value, Route = route, TracksInRun = new List<string>() };
+            CurrentRun = new Run() { Courier = courier, Date = dayDatePicker.Value, Route = route, TracksInRun = new List<string>() };
             UpdateStatistic();
         }
 
@@ -806,12 +788,12 @@ namespace CourierServiceAssistant
                 label7.Text = "Пусто";
                 return;
             }
-            Ukd.MergeRuns(CurrentRun);
-            foreach (var track in CurrentRun.TracksInRun)
+            foreach (var track in CurrentRun.TracksInRun.Except(Ukd.GetAllTracksInRuns))
             {
                 IsPayneedResult isInBase = ContainsInDataBase(track);
                 DB.AddParcelToRunDB(CurrentRun, track, isInBase);
             }
+            Ukd.MergeRuns(CurrentRun);
         }
 
         private void routeDataGrid_RowsAdded(object sender, DataGridViewRowsAddedEventArgs e)
@@ -834,15 +816,14 @@ namespace CourierServiceAssistant
             countInRunLabel.Text = routeDataGrid.Rows.Count.ToString();
         }
 
-
         private void rackRadioBtn_CheckedChanged(object sender, EventArgs e)
         {
-            routeGroupBox.Text = "Полки";
+            routeGroupBox.Text = "Rack";
         }
 
         private void routeRadioBtn_CheckedChanged(object sender, EventArgs e)
         {
-            routeGroupBox.Text = "Маршруты";
+            routeGroupBox.Text = "Route";
         }
         private void importComboBox_SelectedIndexChanged(object sender, EventArgs e)//Предварительное создание пустой полки для выбранного курьера, если полка для него отсутствует.
         {
@@ -901,19 +882,33 @@ namespace CourierServiceAssistant
 
         private void routeDataGrid_CellMouseDoubleClick(object sender, DataGridViewCellMouseEventArgs e)
         {
-            if (dayDatePicker.Value.Date != DateTime.Now.Date)
-            {
-                MessageBox.Show("Нельзя удалить");
-                return;
-            }
+            //if (dayDatePicker.Value.Date != DateTime.Now.Date)
+            //{
+            //    MessageBox.Show("Нельзя удалить");
+            //    return;
+            //}
             var datagrid = (DataGridView)sender;
             CurrentRun.TracksInRun.Remove(datagrid.CurrentCell.Value.ToString());
-            datagrid.Rows.Remove(datagrid.CurrentRow);  
+            DB.RemoveParcelFromRun(CourierNameCombobox.Text, dayDatePicker.Text, datagrid.CurrentCell.Value.ToString());
+            datagrid.Rows.Remove(datagrid.CurrentRow);
+            Ukd.Runs = DB.GetRunsByDate(dayDatePicker.Value); //Выгрузка Рейсов
+            UpdateStatistic();
         }
 
         private void routeDataGrid_RowsRemoved(object sender, DataGridViewRowsRemovedEventArgs e)
         {
             countInRunLabel.Text = routeDataGrid.Rows.Count.ToString();
+        }
+
+        private void обновитьСписокToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            UpdateCourierNameComboboxData();
+        }
+
+        private void UpdateCourierNameComboboxData()
+        {
+            CourierNameCombobox.Items.Clear();
+            CourierNameCombobox.Items.AddRange(DB.GetCourierListFromDataBase().ToArray());
         }
     }
 }
