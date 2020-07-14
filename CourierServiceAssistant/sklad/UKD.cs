@@ -13,7 +13,7 @@ namespace CourierServiceAssistant
         public UKD()
         {
             Rack = new List<Rack>();
-            TrackList = new List<string>();
+            TrackListOnRacks = new List<string>();
             Date = new DateTime();
             CourierRouteDictionary = new Dictionary<string, string>();
             Runs = new List<Run>();
@@ -32,9 +32,8 @@ namespace CourierServiceAssistant
                     i += item.TracksInRun.Count;
                 }
                 return i;
-            } 
+            }
         }
-
         public List<string> GetAllTracksInRuns
         {
             get
@@ -47,9 +46,22 @@ namespace CourierServiceAssistant
                 return temp;
             }
         }
+        public List<string> GetAllTracksInRacks
+        {
+            get
+            {
+                List<string> temp = new List<string>();
+                foreach (var item in GetAllRacks)
+                {
+                    temp.AddRange(item.TrackList);
+                }
+                return temp;
+            }
+        }
+
 
         public Dictionary<string, string> GetCourierRouteDictionary() => CourierRouteDictionary;
-        public List<string> TrackList { get; }
+        public List<string> TrackListOnRacks { get; }
         public void AddCourier(string courier, string route)
         {
             CourierRouteDictionary.Add(courier, route);
@@ -99,7 +111,7 @@ namespace CourierServiceAssistant
             else
             {
                 _rack.TrackList.Add(track);
-                TrackList.Add(track);
+                TrackListOnRacks.Add(track);
             }
         }
 
@@ -125,12 +137,12 @@ namespace CourierServiceAssistant
             //{
             //    Rack.Add(new Rack(item.Key, item.Value, new List<string>(), new DateTime()));
             //}
-            TrackList.Clear();
+            TrackListOnRacks.Clear();
         }
         private void AddTrackFromRackToTrackList()
         {
-            TrackList.Clear();
-            Rack.ForEach((x) => TrackList.AddRange(x.TrackList));
+            TrackListOnRacks.Clear();
+            Rack.ForEach((x) => TrackListOnRacks.AddRange(x.TrackList));
         }
 
         /// <summary>
@@ -143,9 +155,9 @@ namespace CourierServiceAssistant
             bool HaveDuplicate = false;
             rack.TrackList.ForEach((x) =>
             {
-                if (!TrackList.Contains(x))
+                if (!TrackListOnRacks.Contains(x))
                 {
-                    TrackList.Add(x);
+                    TrackListOnRacks.Add(x);
                 }
                 else
                 {

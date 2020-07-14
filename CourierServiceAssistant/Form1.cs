@@ -127,7 +127,7 @@ namespace CourierServiceAssistant
                 statisticPanel2.Controls.Add(label);
             }
 
-            label3.Text = "РПО на складе: " + Ukd.TrackList.Count; //почты инвентаризированно.
+            label3.Text = "РПО на складе: " + Ukd.TrackListOnRacks.Count; //почты инвентаризированно.
             label11.Text = "Всего: " + Ukd.GetCountTracksInRuns;
         }//Заполнение области "Статистика" информацией о колличестве посылок на "районах" в т.ч. окно, сортировчный цех.
 
@@ -541,47 +541,47 @@ namespace CourierServiceAssistant
         {
             if (e.KeyChar == (char)Keys.Enter)
             {
-                if (AddRoute(addRouteTextBox.Text))
+                if (AddRoute(settings_addRouteTextBox.Text))
                 {
                     RefreshRouteBox();
-                    addRouteTextBox.ResetText();
+                    settings_addRouteTextBox.ResetText();
                 }
             }
         }
 
         private void addRouteButton_Click(object sender, EventArgs e)
         {
-            if (AddRoute(addRouteTextBox.Text))
+            if (AddRoute(settings_addRouteTextBox.Text))
             {
                 RefreshRouteBox();
-                addRouteTextBox.ResetText();
+                settings_addRouteTextBox.ResetText();
             }
         }
 
         private void deleteRouteButton_Click(object sender, EventArgs e)
         {
-            if (routBox.SelectedIndex != -1)
+            if (settings_routBox.SelectedIndex != -1)
             {
-                Manager.ExecuteNonQuery($"DELETE FROM Route WHERE route_name='{routBox.SelectedItem}'");
+                Manager.ExecuteNonQuery($"DELETE FROM Route WHERE route_name='{settings_routBox.SelectedItem}'");
                 RefreshRouteBox();
             }
         }
 
         private void courierRouteComboBox_Enter(object sender, EventArgs e)
         {
-            courierRouteComboBox.Items.Clear();
+            settings_courierRouteComboBox.Items.Clear();
             using (var reader = Manager.ExecuteReader($"SELECT route_name FROM Route"))
             {
                 while (reader.Read())
                 {
-                    courierRouteComboBox.Items.Add(reader.GetString(0));
+                    settings_courierRouteComboBox.Items.Add(reader.GetString(0));
                 }
             }
         }
 
         private void courierAddButton_Click(object sender, EventArgs e)
         {
-            AddCourier(courierNameTextBox.Text, courierRouteComboBox.Text);
+            AddCourier(settings_courierNameTextBox.Text, settings_courierRouteComboBox.Text);
             RefreshCourierList();
         }
 
@@ -611,24 +611,24 @@ namespace CourierServiceAssistant
 
         private void RefreshCourierList()
         {
-            courierListBox.Items.Clear();
+            settings_courierListBox.Items.Clear();
             using (var reader = Manager.ExecuteReader($"SELECT fullName, route FROM Courier"))
             {
                 while (reader.Read())
                 {
-                    courierListBox.Items.Add(reader.GetString(0) + " - " + reader.GetString(1));
+                    settings_courierListBox.Items.Add(reader.GetString(0) + " - " + reader.GetString(1));
                 }
             }
         }
 
         private void RefreshRouteBox()
         {
-            routBox.Items.Clear();
+            settings_routBox.Items.Clear();
             using (var reader = Manager.ExecuteReader($"SELECT route_name FROM Route"))
             {
                 while (reader.Read())
                 {
-                    routBox.Items.Add(reader.GetString(0));
+                    settings_routBox.Items.Add(reader.GetString(0));
                 }
             }
         }
@@ -664,14 +664,33 @@ namespace CourierServiceAssistant
                     return;
                 }
 
-                string track = trackTextBox.Text.ToUpperInvariant();
+                string track = trackTextBox.Text.ToUpper();
 
                 if (rackRadioBtn.Checked)
                 {
+                    string name = CourierNameCombobox.Text;
+                    string date = dayDatePicker.Text;
+                    if (!IsValid(track))
+                    {
+                        label7.Text = "Некорректный номер";
+                        trackTextBox.ResetText();
+                        return;
+                    }
 
-                    throw new NotImplementedException();
+                    label7.ResetText();
+                    if (Ukd.TrackListOnRacks.Contains(track))
+                    {
+                        label7.Text = "Повторный ШПИ";
+                        trackTextBox.ResetText();
+                        return;
+                    }
 
-                    //TODO: Заполнение полок.
+
+                    routeDataGrid.Rows.Add(track);
+ 
+
+                    e.Handled = true;
+                    e.SuppressKeyPress = true;
                 }
 
                 if (routeRadioBtn.Checked)
@@ -693,12 +712,14 @@ namespace CourierServiceAssistant
                         e.SuppressKeyPress = true;
                     }
                     else
-                        label7.Text = "Некорректный номер!";
+                        label7.Text = "Некорректный номер";
 
                     trackTextBox.Clear();
                 }
             }
         } //Текстовое поле ввода трек-номера
+
+
 
         private IsPayneedResult ContainsInDataBase(string track)
         {
@@ -743,7 +764,7 @@ namespace CourierServiceAssistant
                     routeDataGrid.Rows.Add(x);
                 });
             }
-            UpdateStatistic();   
+            UpdateStatistic();
         }
 
         private void CourierNameComboBox_SelectedIndexChanged(object sender, EventArgs e)
@@ -783,17 +804,39 @@ namespace CourierServiceAssistant
 
         private void button6_Click(object sender, EventArgs e)
         {
-            if (CurrentRun.TracksInRun.Count <= 0)
+            if (rackRadioBtn.Checked)
             {
-                label7.Text = "Пусто";
-                return;
+                string name = CourierNameCombobox.Text;
+                string date = dayDatePicker.Text;
+
+                if (Ukd.GetRackByCourier(name) is null)
+                    Ukd.AddRack(name, Ukd.GetRoute(name), new List<string>(), dayDatePicker.Value);
+
+                foreach (DataGridViewRow row in routeDataGrid.Rows)
+                {
+                    string track = row.Cells[0].Value.ToString();
+                    Ukd.AddTrackToRack(track, Ukd.GetRackByCourier(name));
+                    Manager.ExecuteNonQuery($"INSERT INTO [Rack] ([courier_id], [route_id], [track], [date]) VALUES ('{name}', '{Ukd.GetRoute(name)}', '{track}', '{date}');"); //Запись в БД информации о сканировании РПО.
+                }
+
+                UpdateStatistic();
             }
-            foreach (var track in CurrentRun.TracksInRun.Except(Ukd.GetAllTracksInRuns))
+
+            if (routeRadioBtn.Checked)
             {
-                IsPayneedResult isInBase = ContainsInDataBase(track);
-                DB.AddParcelToRunDB(CurrentRun, track, isInBase);
+                if (CurrentRun.TracksInRun.Count <= 0)
+                {
+                    label7.Text = "Пусто";
+                    return;
+                }
+                foreach (var track in CurrentRun.TracksInRun.Except(Ukd.GetAllTracksInRuns))
+                {
+                    IsPayneedResult isInBase = ContainsInDataBase(track);
+                    DB.AddParcelToRunDB(CurrentRun, track, isInBase);
+                }
+                Ukd.MergeRuns(CurrentRun);
             }
-            Ukd.MergeRuns(CurrentRun);
+
         }
 
         private void routeDataGrid_RowsAdded(object sender, DataGridViewRowsAddedEventArgs e)

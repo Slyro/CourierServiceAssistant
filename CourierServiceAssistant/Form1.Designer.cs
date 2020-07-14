@@ -78,16 +78,16 @@
             this.label3 = new System.Windows.Forms.Label();
             this.tabPage2 = new System.Windows.Forms.TabPage();
             this.routeSettingsGroupBox = new System.Windows.Forms.GroupBox();
-            this.deleteRouteButton = new System.Windows.Forms.Button();
-            this.addRouteButton = new System.Windows.Forms.Button();
-            this.addRouteTextBox = new System.Windows.Forms.TextBox();
-            this.routBox = new System.Windows.Forms.ListBox();
+            this.settings_deleteRouteButton = new System.Windows.Forms.Button();
+            this.settings_addRouteButton = new System.Windows.Forms.Button();
+            this.settings_addRouteTextBox = new System.Windows.Forms.TextBox();
+            this.settings_routBox = new System.Windows.Forms.ListBox();
             this.courierSettingsGroupBox = new System.Windows.Forms.GroupBox();
-            this.courierListBox = new System.Windows.Forms.ListBox();
-            this.courierDeleteButton = new System.Windows.Forms.Button();
-            this.courierAddButton = new System.Windows.Forms.Button();
-            this.courierNameTextBox = new System.Windows.Forms.TextBox();
-            this.courierRouteComboBox = new System.Windows.Forms.ComboBox();
+            this.settings_courierListBox = new System.Windows.Forms.ListBox();
+            this.settings_courierDeleteButton = new System.Windows.Forms.Button();
+            this.settings_courierAddButton = new System.Windows.Forms.Button();
+            this.settings_courierNameTextBox = new System.Windows.Forms.TextBox();
+            this.settings_courierRouteComboBox = new System.Windows.Forms.ComboBox();
             this.tabPage1 = new System.Windows.Forms.TabPage();
             this.dateOfImportingReportsListBox = new System.Windows.Forms.ListBox();
             this.button3 = new System.Windows.Forms.Button();
@@ -422,7 +422,7 @@
             // acceptButton
             // 
             this.acceptButton.Font = new System.Drawing.Font("Century Gothic", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.acceptButton.Location = new System.Drawing.Point(15, 167);
+            this.acceptButton.Location = new System.Drawing.Point(13, 163);
             this.acceptButton.Name = "acceptButton";
             this.acceptButton.Size = new System.Drawing.Size(108, 32);
             this.acceptButton.TabIndex = 13;
@@ -444,7 +444,7 @@
             // label7
             // 
             this.label7.AutoSize = true;
-            this.label7.Location = new System.Drawing.Point(11, 140);
+            this.label7.Location = new System.Drawing.Point(13, 140);
             this.label7.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label7.Name = "label7";
             this.label7.Size = new System.Drawing.Size(0, 20);
@@ -653,10 +653,10 @@
             // 
             // routeSettingsGroupBox
             // 
-            this.routeSettingsGroupBox.Controls.Add(this.deleteRouteButton);
-            this.routeSettingsGroupBox.Controls.Add(this.addRouteButton);
-            this.routeSettingsGroupBox.Controls.Add(this.addRouteTextBox);
-            this.routeSettingsGroupBox.Controls.Add(this.routBox);
+            this.routeSettingsGroupBox.Controls.Add(this.settings_deleteRouteButton);
+            this.routeSettingsGroupBox.Controls.Add(this.settings_addRouteButton);
+            this.routeSettingsGroupBox.Controls.Add(this.settings_addRouteTextBox);
+            this.routeSettingsGroupBox.Controls.Add(this.settings_routBox);
             this.routeSettingsGroupBox.Font = new System.Drawing.Font("Century Gothic", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.routeSettingsGroupBox.Location = new System.Drawing.Point(11, 8);
             this.routeSettingsGroupBox.Margin = new System.Windows.Forms.Padding(4);
@@ -667,54 +667,54 @@
             this.routeSettingsGroupBox.TabStop = false;
             this.routeSettingsGroupBox.Text = "Маршруты";
             // 
-            // deleteRouteButton
+            // settings_deleteRouteButton
             // 
-            this.deleteRouteButton.Location = new System.Drawing.Point(198, 61);
-            this.deleteRouteButton.Margin = new System.Windows.Forms.Padding(4);
-            this.deleteRouteButton.Name = "deleteRouteButton";
-            this.deleteRouteButton.Size = new System.Drawing.Size(123, 30);
-            this.deleteRouteButton.TabIndex = 4;
-            this.deleteRouteButton.Text = "Удалить";
-            this.deleteRouteButton.UseVisualStyleBackColor = true;
-            this.deleteRouteButton.Click += new System.EventHandler(this.deleteRouteButton_Click);
+            this.settings_deleteRouteButton.Location = new System.Drawing.Point(198, 61);
+            this.settings_deleteRouteButton.Margin = new System.Windows.Forms.Padding(4);
+            this.settings_deleteRouteButton.Name = "settings_deleteRouteButton";
+            this.settings_deleteRouteButton.Size = new System.Drawing.Size(123, 30);
+            this.settings_deleteRouteButton.TabIndex = 4;
+            this.settings_deleteRouteButton.Text = "Удалить";
+            this.settings_deleteRouteButton.UseVisualStyleBackColor = true;
+            this.settings_deleteRouteButton.Click += new System.EventHandler(this.deleteRouteButton_Click);
             // 
-            // addRouteButton
+            // settings_addRouteButton
             // 
-            this.addRouteButton.Location = new System.Drawing.Point(198, 22);
-            this.addRouteButton.Margin = new System.Windows.Forms.Padding(4);
-            this.addRouteButton.Name = "addRouteButton";
-            this.addRouteButton.Size = new System.Drawing.Size(123, 30);
-            this.addRouteButton.TabIndex = 3;
-            this.addRouteButton.Text = "Добавить";
-            this.addRouteButton.UseVisualStyleBackColor = true;
-            this.addRouteButton.Click += new System.EventHandler(this.addRouteButton_Click);
+            this.settings_addRouteButton.Location = new System.Drawing.Point(198, 22);
+            this.settings_addRouteButton.Margin = new System.Windows.Forms.Padding(4);
+            this.settings_addRouteButton.Name = "settings_addRouteButton";
+            this.settings_addRouteButton.Size = new System.Drawing.Size(123, 30);
+            this.settings_addRouteButton.TabIndex = 3;
+            this.settings_addRouteButton.Text = "Добавить";
+            this.settings_addRouteButton.UseVisualStyleBackColor = true;
+            this.settings_addRouteButton.Click += new System.EventHandler(this.addRouteButton_Click);
             // 
-            // addRouteTextBox
+            // settings_addRouteTextBox
             // 
-            this.addRouteTextBox.Location = new System.Drawing.Point(8, 25);
-            this.addRouteTextBox.Margin = new System.Windows.Forms.Padding(4);
-            this.addRouteTextBox.Name = "addRouteTextBox";
-            this.addRouteTextBox.Size = new System.Drawing.Size(173, 27);
-            this.addRouteTextBox.TabIndex = 2;
-            this.addRouteTextBox.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.addRouteTextBox_KeyPress);
+            this.settings_addRouteTextBox.Location = new System.Drawing.Point(8, 25);
+            this.settings_addRouteTextBox.Margin = new System.Windows.Forms.Padding(4);
+            this.settings_addRouteTextBox.Name = "settings_addRouteTextBox";
+            this.settings_addRouteTextBox.Size = new System.Drawing.Size(173, 27);
+            this.settings_addRouteTextBox.TabIndex = 2;
+            this.settings_addRouteTextBox.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.addRouteTextBox_KeyPress);
             // 
-            // routBox
+            // settings_routBox
             // 
-            this.routBox.FormattingEnabled = true;
-            this.routBox.ItemHeight = 21;
-            this.routBox.Location = new System.Drawing.Point(8, 61);
-            this.routBox.Margin = new System.Windows.Forms.Padding(4);
-            this.routBox.Name = "routBox";
-            this.routBox.Size = new System.Drawing.Size(173, 424);
-            this.routBox.TabIndex = 0;
+            this.settings_routBox.FormattingEnabled = true;
+            this.settings_routBox.ItemHeight = 21;
+            this.settings_routBox.Location = new System.Drawing.Point(8, 61);
+            this.settings_routBox.Margin = new System.Windows.Forms.Padding(4);
+            this.settings_routBox.Name = "settings_routBox";
+            this.settings_routBox.Size = new System.Drawing.Size(173, 424);
+            this.settings_routBox.TabIndex = 0;
             // 
             // courierSettingsGroupBox
             // 
-            this.courierSettingsGroupBox.Controls.Add(this.courierListBox);
-            this.courierSettingsGroupBox.Controls.Add(this.courierDeleteButton);
-            this.courierSettingsGroupBox.Controls.Add(this.courierAddButton);
-            this.courierSettingsGroupBox.Controls.Add(this.courierNameTextBox);
-            this.courierSettingsGroupBox.Controls.Add(this.courierRouteComboBox);
+            this.courierSettingsGroupBox.Controls.Add(this.settings_courierListBox);
+            this.courierSettingsGroupBox.Controls.Add(this.settings_courierDeleteButton);
+            this.courierSettingsGroupBox.Controls.Add(this.settings_courierAddButton);
+            this.courierSettingsGroupBox.Controls.Add(this.settings_courierNameTextBox);
+            this.courierSettingsGroupBox.Controls.Add(this.settings_courierRouteComboBox);
             this.courierSettingsGroupBox.Font = new System.Drawing.Font("Century Gothic", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.courierSettingsGroupBox.Location = new System.Drawing.Point(365, 8);
             this.courierSettingsGroupBox.Margin = new System.Windows.Forms.Padding(4);
@@ -725,55 +725,55 @@
             this.courierSettingsGroupBox.TabStop = false;
             this.courierSettingsGroupBox.Text = "Курьеры";
             // 
-            // courierListBox
+            // settings_courierListBox
             // 
-            this.courierListBox.FormattingEnabled = true;
-            this.courierListBox.ItemHeight = 21;
-            this.courierListBox.Location = new System.Drawing.Point(8, 61);
-            this.courierListBox.Margin = new System.Windows.Forms.Padding(4);
-            this.courierListBox.Name = "courierListBox";
-            this.courierListBox.Size = new System.Drawing.Size(301, 424);
-            this.courierListBox.TabIndex = 6;
+            this.settings_courierListBox.FormattingEnabled = true;
+            this.settings_courierListBox.ItemHeight = 21;
+            this.settings_courierListBox.Location = new System.Drawing.Point(8, 61);
+            this.settings_courierListBox.Margin = new System.Windows.Forms.Padding(4);
+            this.settings_courierListBox.Name = "settings_courierListBox";
+            this.settings_courierListBox.Size = new System.Drawing.Size(301, 424);
+            this.settings_courierListBox.TabIndex = 6;
             // 
-            // courierDeleteButton
+            // settings_courierDeleteButton
             // 
-            this.courierDeleteButton.Location = new System.Drawing.Point(319, 61);
-            this.courierDeleteButton.Margin = new System.Windows.Forms.Padding(4);
-            this.courierDeleteButton.Name = "courierDeleteButton";
-            this.courierDeleteButton.Size = new System.Drawing.Size(124, 30);
-            this.courierDeleteButton.TabIndex = 5;
-            this.courierDeleteButton.Text = "Удалить";
-            this.courierDeleteButton.UseVisualStyleBackColor = true;
-            this.courierDeleteButton.Click += new System.EventHandler(this.courierDeleteButton_Click);
+            this.settings_courierDeleteButton.Location = new System.Drawing.Point(319, 61);
+            this.settings_courierDeleteButton.Margin = new System.Windows.Forms.Padding(4);
+            this.settings_courierDeleteButton.Name = "settings_courierDeleteButton";
+            this.settings_courierDeleteButton.Size = new System.Drawing.Size(124, 30);
+            this.settings_courierDeleteButton.TabIndex = 5;
+            this.settings_courierDeleteButton.Text = "Удалить";
+            this.settings_courierDeleteButton.UseVisualStyleBackColor = true;
+            this.settings_courierDeleteButton.Click += new System.EventHandler(this.courierDeleteButton_Click);
             // 
-            // courierAddButton
+            // settings_courierAddButton
             // 
-            this.courierAddButton.Location = new System.Drawing.Point(319, 26);
-            this.courierAddButton.Margin = new System.Windows.Forms.Padding(4);
-            this.courierAddButton.Name = "courierAddButton";
-            this.courierAddButton.Size = new System.Drawing.Size(124, 30);
-            this.courierAddButton.TabIndex = 5;
-            this.courierAddButton.Text = "Добавить";
-            this.courierAddButton.UseVisualStyleBackColor = true;
-            this.courierAddButton.Click += new System.EventHandler(this.courierAddButton_Click);
+            this.settings_courierAddButton.Location = new System.Drawing.Point(319, 26);
+            this.settings_courierAddButton.Margin = new System.Windows.Forms.Padding(4);
+            this.settings_courierAddButton.Name = "settings_courierAddButton";
+            this.settings_courierAddButton.Size = new System.Drawing.Size(124, 30);
+            this.settings_courierAddButton.TabIndex = 5;
+            this.settings_courierAddButton.Text = "Добавить";
+            this.settings_courierAddButton.UseVisualStyleBackColor = true;
+            this.settings_courierAddButton.Click += new System.EventHandler(this.courierAddButton_Click);
             // 
-            // courierNameTextBox
+            // settings_courierNameTextBox
             // 
-            this.courierNameTextBox.Location = new System.Drawing.Point(8, 26);
-            this.courierNameTextBox.Margin = new System.Windows.Forms.Padding(4);
-            this.courierNameTextBox.Name = "courierNameTextBox";
-            this.courierNameTextBox.Size = new System.Drawing.Size(132, 27);
-            this.courierNameTextBox.TabIndex = 1;
+            this.settings_courierNameTextBox.Location = new System.Drawing.Point(8, 26);
+            this.settings_courierNameTextBox.Margin = new System.Windows.Forms.Padding(4);
+            this.settings_courierNameTextBox.Name = "settings_courierNameTextBox";
+            this.settings_courierNameTextBox.Size = new System.Drawing.Size(132, 27);
+            this.settings_courierNameTextBox.TabIndex = 1;
             // 
-            // courierRouteComboBox
+            // settings_courierRouteComboBox
             // 
-            this.courierRouteComboBox.FormattingEnabled = true;
-            this.courierRouteComboBox.Location = new System.Drawing.Point(149, 26);
-            this.courierRouteComboBox.Margin = new System.Windows.Forms.Padding(4);
-            this.courierRouteComboBox.Name = "courierRouteComboBox";
-            this.courierRouteComboBox.Size = new System.Drawing.Size(160, 29);
-            this.courierRouteComboBox.TabIndex = 0;
-            this.courierRouteComboBox.Enter += new System.EventHandler(this.courierRouteComboBox_Enter);
+            this.settings_courierRouteComboBox.FormattingEnabled = true;
+            this.settings_courierRouteComboBox.Location = new System.Drawing.Point(149, 26);
+            this.settings_courierRouteComboBox.Margin = new System.Windows.Forms.Padding(4);
+            this.settings_courierRouteComboBox.Name = "settings_courierRouteComboBox";
+            this.settings_courierRouteComboBox.Size = new System.Drawing.Size(160, 29);
+            this.settings_courierRouteComboBox.TabIndex = 0;
+            this.settings_courierRouteComboBox.Enter += new System.EventHandler(this.courierRouteComboBox_Enter);
             // 
             // tabPage1
             // 
@@ -889,17 +889,17 @@
         private System.Windows.Forms.TabPage tabPage2;
         private System.Windows.Forms.Label historyLabel;
         private System.Windows.Forms.GroupBox routeSettingsGroupBox;
-        private System.Windows.Forms.Button addRouteButton;
-        private System.Windows.Forms.TextBox addRouteTextBox;
-        private System.Windows.Forms.ListBox routBox;
+        private System.Windows.Forms.Button settings_addRouteButton;
+        private System.Windows.Forms.TextBox settings_addRouteTextBox;
+        private System.Windows.Forms.ListBox settings_routBox;
         private System.Windows.Forms.GroupBox courierSettingsGroupBox;
-        private System.Windows.Forms.Button deleteRouteButton;
-        private System.Windows.Forms.ListBox courierListBox;
-        private System.Windows.Forms.Button courierAddButton;
-        private System.Windows.Forms.TextBox courierNameTextBox;
-        private System.Windows.Forms.ComboBox courierRouteComboBox;
+        private System.Windows.Forms.Button settings_deleteRouteButton;
+        private System.Windows.Forms.ListBox settings_courierListBox;
+        private System.Windows.Forms.Button settings_courierAddButton;
+        private System.Windows.Forms.TextBox settings_courierNameTextBox;
+        private System.Windows.Forms.ComboBox settings_courierRouteComboBox;
         private System.Windows.Forms.TabPage tabPage3;
-        private System.Windows.Forms.Button courierDeleteButton;
+        private System.Windows.Forms.Button settings_courierDeleteButton;
         private System.Windows.Forms.Button button3;
         private System.Windows.Forms.ListBox dateOfImportingReportsListBox;
         private System.Windows.Forms.GroupBox groupBox4;
