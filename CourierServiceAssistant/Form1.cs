@@ -878,6 +878,7 @@ namespace CourierServiceAssistant
             if (routeRadioBtn.Checked)
             {
                 Manager.ExecuteNonQuery($"DELETE FROM Runs WHERE Courier=('{CourierNameCombobox.Text}') AND Date=('{dayDatePicker.Value.ToShortDateString()}')");
+                Manager.ExecuteNonQuery($"DELETE FROM Racks WHERE Courier=('{CourierNameCombobox.Text}') AND Date=('{dayDatePicker.Value.ToShortDateString()}')");
                 CourierNameCombobox.SelectedIndex = -1;
             }
 

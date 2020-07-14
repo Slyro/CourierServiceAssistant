@@ -437,7 +437,7 @@
             this.deleteRunButton.Name = "deleteRunButton";
             this.deleteRunButton.Size = new System.Drawing.Size(186, 32);
             this.deleteRunButton.TabIndex = 13;
-            this.deleteRunButton.Text = "Dell from DB";
+            this.deleteRunButton.Text = "Remove from DB";
             this.deleteRunButton.UseVisualStyleBackColor = true;
             this.deleteRunButton.Click += new System.EventHandler(this.deleteRunButton_Click);
             // 
