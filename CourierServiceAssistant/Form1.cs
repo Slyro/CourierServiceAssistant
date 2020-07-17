@@ -26,6 +26,7 @@ namespace CourierServiceAssistant
         private readonly UKD Ukd;
         private readonly List<string> GoneList;
         private readonly List<string> NewList;
+        private readonly List<string> AllGoneList;
         private Run CurrentRun;
         private readonly string reg1 = "^[a-zA-Z]{2}[0-9]{9}[a-zA-Z]{2}$";
         private readonly string reg2 = "^[0-9]{14}$";
@@ -34,6 +35,7 @@ namespace CourierServiceAssistant
         private readonly Regex match2;
         private DBAction DB;
         List<Report> reports;
+        TableLayoutPanel titlebox;
 
         public Form1()
         {
@@ -134,13 +136,18 @@ namespace CourierServiceAssistant
         private void DoReport()
         {
             // 0, 2, 3, 5, 6, 7
+
+            var _list = DB.GetGoneParcelFromDataBase().Select(x => x.TrackID).ToList();
             flowLayoutPanel1.Controls.Clear();
-            reportLabelBase.Text += AllMailList.Count;
-            reportLabelGone.Text += DB.GetGoneParcelFromDataBase().Select(x => x.TrackID).ToList().Count;
+
+            reportLabelBase.Text = "Всего РПО: " + AllMailList.Count;
+            reportLabelGone.Text = "Доставлено РПО: " + _list.Count;
 
             reports = new List<Report>();
-            Report.GoneByReport = DB.GetGoneParcelFromDataBase().Select(x => x.TrackID).ToList();
+
+            Report.GoneByReport = _list;
             Report.CurrentList = AllMailList.Select(x => x.TrackID).ToList();
+
 
             foreach (var route in Ukd.GetAllRoutes)
             {
@@ -149,34 +156,111 @@ namespace CourierServiceAssistant
 
             reports.RemoveAll((x) => string.IsNullOrEmpty(x.Route));
 
-            List<GroupBox> groupBoxes = new List<GroupBox>();
+            string[] titles = new string[]
+            {
+                "Район",
+                "Посылок всего",
+                "Среднее кол-во",
+                "Убрано отчётом",
+                "Остаток",
+                "На доставку",
+                "Вручено" ,
+                "Ошибки" ,
+                "На проверку",
+                "Ср. в дост"
+            };
 
-            var clickableLabelFont = new Font("Century Gothic", 11, FontStyle.Underline);
+            titlebox = new TableLayoutPanel()
+            {
+                Dock = DockStyle.Fill,
+                AutoSize = true,
+            };
+
+            titlebox.ColumnCount = 10;
+            titlebox.ColumnStyles.Add(new ColumnStyle() { SizeType = SizeType.Percent, Width = 10F });//"Район",
+            titlebox.ColumnStyles.Add(new ColumnStyle() { SizeType = SizeType.Percent, Width = 10F }); //"Посылок всего",
+            titlebox.ColumnStyles.Add(new ColumnStyle() { SizeType = SizeType.Percent, Width = 10F }); //"Среднее кол-во",
+            titlebox.ColumnStyles.Add(new ColumnStyle() { SizeType = SizeType.Percent, Width = 10F }); //"Убрано отчётом",
+            titlebox.ColumnStyles.Add(new ColumnStyle() { SizeType = SizeType.Percent, Width = 8F });  //"Остаток",
+            titlebox.ColumnStyles.Add(new ColumnStyle() { SizeType = SizeType.Percent, Width = 10F }); //"На доставку",
+            titlebox.ColumnStyles.Add(new ColumnStyle() { SizeType = SizeType.Percent, Width = 8F });  //"Вручено" ,
+            titlebox.ColumnStyles.Add(new ColumnStyle() { SizeType = SizeType.Percent, Width = 8F });  //"Проблемы" ,
+            titlebox.ColumnStyles.Add(new ColumnStyle() { SizeType = SizeType.Percent, Width = 8F });  //"На проверку",
+            titlebox.ColumnStyles.Add(new ColumnStyle() { SizeType = SizeType.Percent, Width = 8F });  //"Ср. в дост"
+
+            titlebox.RowStyles.Add(new RowStyle() { SizeType = SizeType.Absolute, Height = 45F });
+
+            titlebox.Controls.Add(new Label() { Dock = DockStyle.Fill, TextAlign = ContentAlignment.MiddleCenter, AutoSize = true, Text = titles[0] }, 0, 0);
+            titlebox.Controls.Add(new Label() { Dock = DockStyle.Fill, TextAlign = ContentAlignment.MiddleCenter, AutoSize = true, AutoEllipsis = true, Text = titles[1] }, 1, 0);
+            titlebox.Controls.Add(new Label() { Dock = DockStyle.Fill, TextAlign = ContentAlignment.MiddleCenter, AutoSize = true, AutoEllipsis = true, Text = titles[2] }, 2, 0);
+            titlebox.Controls.Add(new Label() { Dock = DockStyle.Fill, TextAlign = ContentAlignment.MiddleCenter, AutoSize = true, AutoEllipsis = true, Text = titles[3] }, 3, 0);
+            titlebox.Controls.Add(new Label() { Dock = DockStyle.Fill, TextAlign = ContentAlignment.MiddleCenter, AutoSize = true, AutoEllipsis = true, Text = titles[4] }, 4, 0);
+            titlebox.Controls.Add(new Label() { Dock = DockStyle.Fill, TextAlign = ContentAlignment.MiddleCenter, AutoSize = true, AutoEllipsis = true, Text = titles[5] }, 5, 0);
+            titlebox.Controls.Add(new Label() { Dock = DockStyle.Fill, TextAlign = ContentAlignment.MiddleCenter, AutoSize = true, AutoEllipsis = true, Text = titles[6] }, 6, 0);
+            titlebox.Controls.Add(new Label() { Dock = DockStyle.Fill, TextAlign = ContentAlignment.MiddleCenter, AutoSize = true, AutoEllipsis = true, Text = titles[7] }, 7, 0);
+            titlebox.Controls.Add(new Label() { Dock = DockStyle.Fill, TextAlign = ContentAlignment.MiddleCenter, AutoSize = true, AutoEllipsis = true, Text = titles[8] }, 8, 0);
+            titlebox.Controls.Add(new Label() { Dock = DockStyle.Fill, TextAlign = ContentAlignment.MiddleCenter, AutoSize = true, AutoEllipsis = true, Text = titles[9] }, 9, 0);
+
+
+
+            var clickableLabelFont = new Font("Century Gothic", 12, FontStyle.Underline);
+
+            Color[] colors = new Color[]
+            {
+                Color.Bisque,
+                Color.MistyRose,
+                Color.DarkKhaki,
+                Color.Aquamarine,
+                Color.CadetBlue,
+                Color.Firebrick,
+                Color.Chocolate,
+                Color.Coral,
+                Color.DarkGoldenrod,
+                Color.DarkSalmon,
+                Color.LightCoral,
+                Color.DarkSlateBlue,
+                Color.Gainsboro,
+                Color.FloralWhite,
+                Color.Snow
+            };
+
+
             for (int i = 0; i < reports.Count; i++)
             {
                 Report report = reports[i];
-                groupBoxes.Add(new GroupBox() { Text = report.Route, AutoSize = true });
-                groupBoxes[i].Controls.Add(new FlowLayoutPanel() { FlowDirection = FlowDirection.TopDown, AutoSize = true, Dock = DockStyle.Fill });
-                groupBoxes[i].Controls[0].Controls.Add(new Label() { Cursor = Cursors.Hand, Font = clickableLabelFont, Text = $"Посылок всего: {report.AllTracksOnRacks.Count} ({report.UniqueTracksRack.Count})", AutoSize = true }); //0
-                groupBoxes[i].Controls[0].Controls.Add(new Label() { Text = $"Среднее кол-во: {report.AvarageAllRack} ({report.AvarageUniqueRack})", AutoSize = true });
-                groupBoxes[i].Controls[0].Controls.Add(new Label() { Cursor = Cursors.Hand, Font = clickableLabelFont, Text = $"Убрано отчётом: {report.DeliveredTracksRack.Count}", AutoSize = true });//2
-                groupBoxes[i].Controls[0].Controls.Add(new Label() { Cursor = Cursors.Hand, Font = clickableLabelFont, Text = $"Остаток: {report.MustBeOnRack.Count}", AutoSize = true });//3
-                groupBoxes[i].Controls[0].Controls.Add(new Label() { Text = $"", AutoSize = true });
-                groupBoxes[i].Controls[0].Controls.Add(new Label() { Cursor = Cursors.Hand, Font = clickableLabelFont, Text = $"На доставку: {report.AllTracksOnRuns.Count} ({report.UniqueTracksRun.Count})", AutoSize = true });//5
-                groupBoxes[i].Controls[0].Controls.Add(new Label() { Cursor = Cursors.Hand, Font = clickableLabelFont, Text = $"Вручено: {report.DeliveredTracksRun.Count}", AutoSize = true });//6
-                groupBoxes[i].Controls[0].Controls.Add(new Label() { Cursor = Cursors.Hand, Font = clickableLabelFont, Text = $"Разбег: {report.DifferenceTracksRun.Count}", AutoSize = true });//7
-                groupBoxes[i].Controls[0].Controls.Add(new Label() { Cursor = Cursors.Hand, Font = clickableLabelFont, Text = $"На проверку: {report.NotDeliveredTracksRun.Count}", AutoSize = true });//8
-                groupBoxes[i].Controls[0].Controls.Add(new Label() { Text = $"Средн. на доставку: {report.AvarageAllRun}", AutoSize = true });
 
-                for (int j = 0; j < groupBoxes[i].Controls[0].Controls.Count; j++)
+                Label[] labels = new Label[]
                 {
-                    groupBoxes[i].Controls[0].Controls[j].Click += reportclick;
+                    new Label() {BackColor = colors[i], Dock = DockStyle.Fill, TextAlign = ContentAlignment.MiddleCenter, Text = report.Route },
+                    new Label() {BackColor = colors[i], Dock = DockStyle.Fill, TextAlign = ContentAlignment.MiddleCenter, Cursor = Cursors.Hand, Font = clickableLabelFont, Text = $"{report.AllTracksOnRacks.Count} ({report.UniqueTracksRack.Count})" },
+                    new Label() {BackColor = colors[i], Dock = DockStyle.Fill, TextAlign = ContentAlignment.MiddleCenter, Text = $"{report.AvarageAllRack} ({report.AvarageUniqueRack})" },
+                    new Label() {BackColor = colors[i], Dock = DockStyle.Fill, TextAlign = ContentAlignment.MiddleCenter, Cursor = Cursors.Hand, Font = clickableLabelFont, Text = $"{report.DeliveredTracksRack.Count}" },//2
+                    new Label() {BackColor = colors[i], Dock = DockStyle.Fill, TextAlign = ContentAlignment.MiddleCenter, Cursor = Cursors.Hand, Font = clickableLabelFont, Text = $"{report.MustBeOnRack.Count}" },//3
+                    new Label() {BackColor = colors[i], Dock = DockStyle.Fill, TextAlign = ContentAlignment.MiddleCenter, Cursor = Cursors.Hand, Font = clickableLabelFont, Text = $"{report.AllTracksOnRuns.Count} ({report.UniqueTracksRun.Count})" },//4
+                    new Label() {BackColor = colors[i], Dock = DockStyle.Fill, TextAlign = ContentAlignment.MiddleCenter, Cursor = Cursors.Hand, Font = clickableLabelFont, Text = $"{report.DeliveredTracksRun.Count}" },//5
+                    new Label() {BackColor = colors[i], Dock = DockStyle.Fill, TextAlign = ContentAlignment.MiddleCenter, Cursor = Cursors.Hand, Font = clickableLabelFont, Text = $"{report.DifferenceTracksRun.Count}" },//6
+                    new Label() {BackColor = colors[i], Dock = DockStyle.Fill, TextAlign = ContentAlignment.MiddleCenter, Cursor = Cursors.Hand, Font = clickableLabelFont, Text = $"{report.NotDeliveredTracksRun.Count}" },//7
+                    new Label() {BackColor = colors[i], Dock = DockStyle.Fill, TextAlign = ContentAlignment.MiddleCenter, Text = $"{report.AvarageAllRun}" }
+                };
+
+                for (int x = 0; x < labels.Length; x++)
+                {
+                    labels[x].Click += reportclick;
                 }
-
-                flowLayoutPanel1.Controls.Add(groupBoxes[i]);
+                titlebox.RowStyles.Add(new RowStyle() { SizeType = SizeType.Absolute, Height = 60F });
+                titlebox.Controls.Add(labels[0], 0, i + 1);
+                titlebox.Controls.Add(labels[1], 1, i + 1);
+                titlebox.Controls.Add(labels[2], 2, i + 1);
+                titlebox.Controls.Add(labels[3], 3, i + 1);
+                titlebox.Controls.Add(labels[4], 4, i + 1);
+                titlebox.Controls.Add(labels[5], 5, i + 1);
+                titlebox.Controls.Add(labels[6], 6, i + 1);
+                titlebox.Controls.Add(labels[7], 7, i + 1);
+                titlebox.Controls.Add(labels[8], 8, i + 1);
+                titlebox.Controls.Add(labels[9], 9, i + 1);
             }
+            flowLayoutPanel1.Controls.Add(titlebox);
         }
-
         private void SevenDays()
         {
             dayOneFlowPanel.Controls.Clear();
@@ -256,71 +340,35 @@ namespace CourierServiceAssistant
                 totalFlowPanel.Controls.Add(new Label() { Text = $"Меньше на {-beta}", AutoSize = true });
             }
 
-
-
-            //for (int i = 0; i < aDay.Length - 1; i++)
-            //{
-            //    UKD dOne, dTwo;
-
-            //    dOne = aDay[i];
-            //    dTwo = aDay[i + 1];
-
-            //    FlowLayoutPanel panel = new FlowLayoutPanel();
-            //    dayOneFlowPanel.Controls.Add(panel);
-            //    dayOneFlowPanel.AutoScroll = true;
-            //    //panel.Dock = DockStyle.Fill;
-            //    foreach (var todayRack in dTwo.GetAllRacks)
-            //    {
-            //        var route = todayRack.Route;
-
-            //        var yesterdayRack = dOne.GetAllRacks.Find((x) => x.Route == todayRack.Route);
-            //        if (yesterdayRack != null)
-            //        {
-            //            var lost = yesterdayRack.TrackList.Except(todayRack.TrackList);
-
-            //            ListBox listOfGoneMail = new ListBox();
-            //            listOfGoneMail.Items.Add(route);
-            //            listOfGoneMail.Size = new Size(120,650);
-            //            panel.AutoSize = true;
-            //            foreach (var item in lost)
-            //            {
-            //                listOfGoneMail.Items.Add(item);
-            //            }
-            //            panel.Controls.Add(listOfGoneMail);
-            //        }
-            //    }
-            //}
         }
-
         private void reportclick(object sender, EventArgs e)
         {
-            var groupBox = ((Label)sender).Parent.Parent;
-            var mainContainer = groupBox.Parent;
-            int reportIndex = mainContainer.Controls.GetChildIndex(groupBox);
-            int labelIndex = groupBox.Controls[0].Controls.GetChildIndex((Label)sender);
+            TableLayoutPanel tablePanel = (TableLayoutPanel)((Label)sender).Parent;
+            int Y = tablePanel.GetCellPosition((Label)sender).Column;
+            int X = tablePanel.GetCellPosition((Label)sender).Row - 1;
 
-            switch (labelIndex)
+            switch (Y)
             {
-                case 0:
-                    dataGridView1.DataSource = reports[reportIndex].UniqueTracksRack.ConvertAll(x => new { Value = x });
-                    break;
-                case 2:
-                    dataGridView1.DataSource = reports[reportIndex].DeliveredTracksRack.ConvertAll(x => new { Value = x });
+                case 1:
+                    dataGridView1.DataSource = reports[X].UniqueTracksRack.ConvertAll(x => new { Value = x });
                     break;
                 case 3:
-                    dataGridView1.DataSource = reports[reportIndex].MustBeOnRack.ConvertAll(x => new { Value = x });
+                    dataGridView1.DataSource = reports[X].DeliveredTracksRack.ConvertAll(x => new { Value = x });
+                    break;
+                case 4:
+                    dataGridView1.DataSource = reports[X].MustBeOnRack.ConvertAll(x => new { Value = x });
                     break;
                 case 5:
-                    dataGridView1.DataSource = reports[reportIndex].UniqueTracksRun.ConvertAll(x => new { Value = x });
+                    dataGridView1.DataSource = reports[X].UniqueTracksRun.ConvertAll(x => new { Value = x });
                     break;
                 case 6:
-                    dataGridView1.DataSource = reports[reportIndex].DeliveredTracksRun.ConvertAll(x => new { Value = x });
+                    dataGridView1.DataSource = reports[X].DeliveredTracksRun.ConvertAll(x => new { Value = x });
                     break;
                 case 7:
-                    dataGridView1.DataSource = reports[reportIndex].DifferenceTracksRun.ConvertAll(x => new { Value = x });
+                    dataGridView1.DataSource = reports[X].DifferenceTracksRun.ConvertAll(x => new { Value = x });
                     break;
                 case 8:
-                    dataGridView1.DataSource = reports[reportIndex].NotDeliveredTracksRun.ConvertAll(x => new { Value = x });
+                    dataGridView1.DataSource = reports[X].NotDeliveredTracksRun.ConvertAll(x => new { Value = x });
                     break;
                 default:
                     dataGridView1.DataSource = null;
@@ -683,7 +731,7 @@ namespace CourierServiceAssistant
                         return;
                     }
 
-                    trackDataGrid.Rows.Add(track); 
+                    trackDataGrid.Rows.Add(track);
 
                     e.Handled = true;
                     e.SuppressKeyPress = true;
@@ -714,8 +762,6 @@ namespace CourierServiceAssistant
                 }
             }
         } //Текстовое поле ввода трек-номера
-
-
 
         private IsPayneedResult ContainsInDataBase(string track)
         {
@@ -976,6 +1022,16 @@ namespace CourierServiceAssistant
         private void button4_Click(object sender, EventArgs e)
         {
             DoReport();
+        }
+
+        private void Form1_ResizeBegin(object sender, EventArgs e)
+        {
+            SuspendLayout();
+        }
+
+        private void Form1_ResizeEnd(object sender, EventArgs e)
+        {
+            this.ResumeLayout();
         }
     }
 }
