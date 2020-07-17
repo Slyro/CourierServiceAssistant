@@ -66,7 +66,8 @@
             this.contextMenuStrip1 = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.обновитьСписокToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.dayDatePicker = new System.Windows.Forms.DateTimePicker();
-            this.routeDataGrid = new System.Windows.Forms.DataGridView();
+            this.trackDataGrid = new System.Windows.Forms.DataGridView();
+            this.routeColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.countInRunLabel = new System.Windows.Forms.Label();
             this.rackRadioBtn = new System.Windows.Forms.RadioButton();
             this.groupBox4 = new System.Windows.Forms.GroupBox();
@@ -93,7 +94,7 @@
             this.button3 = new System.Windows.Forms.Button();
             this.label6 = new System.Windows.Forms.Label();
             this.historyLabel = new System.Windows.Forms.Label();
-            this.routeColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.button4 = new System.Windows.Forms.Button();
             this.tabControl1.SuspendLayout();
             this.tabPage4.SuspendLayout();
             this.tabPage5.SuspendLayout();
@@ -101,7 +102,7 @@
             this.tabPage3.SuspendLayout();
             this.routeGroupBox.SuspendLayout();
             this.contextMenuStrip1.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.routeDataGrid)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.trackDataGrid)).BeginInit();
             this.groupBox4.SuspendLayout();
             this.tabPage2.SuspendLayout();
             this.routeSettingsGroupBox.SuspendLayout();
@@ -150,7 +151,7 @@
             this.tabControl1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tabControl1.Font = new System.Drawing.Font("Century Gothic", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.tabControl1.HotTrack = true;
-            this.tabControl1.ItemSize = new System.Drawing.Size(80, 20);
+            this.tabControl1.ItemSize = new System.Drawing.Size(80, 25);
             this.tabControl1.Location = new System.Drawing.Point(0, 0);
             this.tabControl1.Margin = new System.Windows.Forms.Padding(0);
             this.tabControl1.Name = "tabControl1";
@@ -320,13 +321,14 @@
             // 
             // tabPage5
             // 
+            this.tabPage5.Controls.Add(this.button4);
             this.tabPage5.Controls.Add(this.dataGridView1);
             this.tabPage5.Controls.Add(this.flowLayoutPanel1);
             this.tabPage5.Controls.Add(this.reportLabelBase);
             this.tabPage5.Controls.Add(this.reportLabelGone);
-            this.tabPage5.Location = new System.Drawing.Point(4, 24);
+            this.tabPage5.Location = new System.Drawing.Point(4, 29);
             this.tabPage5.Name = "tabPage5";
-            this.tabPage5.Size = new System.Drawing.Size(1283, 767);
+            this.tabPage5.Size = new System.Drawing.Size(1283, 762);
             this.tabPage5.TabIndex = 4;
             this.tabPage5.Text = "Report";
             this.tabPage5.UseVisualStyleBackColor = true;
@@ -340,7 +342,7 @@
             this.dataGridView1.Name = "dataGridView1";
             this.dataGridView1.RowHeadersWidth = 35;
             this.dataGridView1.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
-            this.dataGridView1.Size = new System.Drawing.Size(219, 722);
+            this.dataGridView1.Size = new System.Drawing.Size(219, 717);
             this.dataGridView1.TabIndex = 3;
             // 
             // flowLayoutPanel1
@@ -351,7 +353,7 @@
             this.flowLayoutPanel1.AutoScroll = true;
             this.flowLayoutPanel1.Location = new System.Drawing.Point(8, 33);
             this.flowLayoutPanel1.Name = "flowLayoutPanel1";
-            this.flowLayoutPanel1.Size = new System.Drawing.Size(1038, 722);
+            this.flowLayoutPanel1.Size = new System.Drawing.Size(1038, 717);
             this.flowLayoutPanel1.TabIndex = 2;
             // 
             // reportLabelBase
@@ -379,10 +381,10 @@
             this.tabPage3.Controls.Add(this.rackRadioBtn);
             this.tabPage3.Controls.Add(this.groupBox4);
             this.tabPage3.Font = new System.Drawing.Font("Century Gothic", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.tabPage3.Location = new System.Drawing.Point(4, 24);
+            this.tabPage3.Location = new System.Drawing.Point(4, 29);
             this.tabPage3.Margin = new System.Windows.Forms.Padding(4);
             this.tabPage3.Name = "tabPage3";
-            this.tabPage3.Size = new System.Drawing.Size(1283, 767);
+            this.tabPage3.Size = new System.Drawing.Size(1283, 762);
             this.tabPage3.TabIndex = 2;
             this.tabPage3.Text = "Warehouse";
             this.tabPage3.UseVisualStyleBackColor = true;
@@ -410,7 +412,7 @@
             this.routeGroupBox.Controls.Add(this.label5);
             this.routeGroupBox.Controls.Add(this.CourierNameCombobox);
             this.routeGroupBox.Controls.Add(this.dayDatePicker);
-            this.routeGroupBox.Controls.Add(this.routeDataGrid);
+            this.routeGroupBox.Controls.Add(this.trackDataGrid);
             this.routeGroupBox.Controls.Add(this.countInRunLabel);
             this.routeGroupBox.Location = new System.Drawing.Point(9, 35);
             this.routeGroupBox.Name = "routeGroupBox";
@@ -421,6 +423,7 @@
             // 
             // acceptButton
             // 
+            this.acceptButton.Enabled = false;
             this.acceptButton.Font = new System.Drawing.Font("Century Gothic", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.acceptButton.Location = new System.Drawing.Point(13, 163);
             this.acceptButton.Name = "acceptButton";
@@ -489,6 +492,7 @@
             this.CourierNameCombobox.Size = new System.Drawing.Size(192, 28);
             this.CourierNameCombobox.TabIndex = 8;
             this.CourierNameCombobox.SelectedIndexChanged += new System.EventHandler(this.CourierNameComboBox_SelectedIndexChanged);
+            this.CourierNameCombobox.TextChanged += new System.EventHandler(this.CourierNameCombobox_TextChanged);
             // 
             // contextMenuStrip1
             // 
@@ -515,29 +519,36 @@
             this.dayDatePicker.TabIndex = 10;
             this.dayDatePicker.ValueChanged += new System.EventHandler(this.dayDatePicker_ValueChanged);
             // 
-            // routeDataGrid
+            // trackDataGrid
             // 
-            this.routeDataGrid.AllowUserToAddRows = false;
-            this.routeDataGrid.BackgroundColor = System.Drawing.Color.White;
-            this.routeDataGrid.BorderStyle = System.Windows.Forms.BorderStyle.None;
-            this.routeDataGrid.CellBorderStyle = System.Windows.Forms.DataGridViewCellBorderStyle.None;
-            this.routeDataGrid.ColumnHeadersBorderStyle = System.Windows.Forms.DataGridViewHeaderBorderStyle.None;
-            this.routeDataGrid.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.routeDataGrid.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
+            this.trackDataGrid.AllowUserToAddRows = false;
+            this.trackDataGrid.BackgroundColor = System.Drawing.Color.White;
+            this.trackDataGrid.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            this.trackDataGrid.CellBorderStyle = System.Windows.Forms.DataGridViewCellBorderStyle.None;
+            this.trackDataGrid.ColumnHeadersBorderStyle = System.Windows.Forms.DataGridViewHeaderBorderStyle.None;
+            this.trackDataGrid.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.trackDataGrid.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.routeColumn});
-            this.routeDataGrid.Location = new System.Drawing.Point(287, 25);
-            this.routeDataGrid.MultiSelect = false;
-            this.routeDataGrid.Name = "routeDataGrid";
-            this.routeDataGrid.ReadOnly = true;
-            this.routeDataGrid.RowHeadersBorderStyle = System.Windows.Forms.DataGridViewHeaderBorderStyle.None;
-            this.routeDataGrid.RowHeadersWidth = 12;
-            this.routeDataGrid.RowTemplate.Height = 35;
-            this.routeDataGrid.ShowEditingIcon = false;
-            this.routeDataGrid.Size = new System.Drawing.Size(263, 465);
-            this.routeDataGrid.TabIndex = 11;
-            this.routeDataGrid.CellMouseDoubleClick += new System.Windows.Forms.DataGridViewCellMouseEventHandler(this.routeDataGrid_CellMouseDoubleClick);
-            this.routeDataGrid.RowsAdded += new System.Windows.Forms.DataGridViewRowsAddedEventHandler(this.routeDataGrid_RowsAdded);
-            this.routeDataGrid.RowsRemoved += new System.Windows.Forms.DataGridViewRowsRemovedEventHandler(this.routeDataGrid_RowsRemoved);
+            this.trackDataGrid.Location = new System.Drawing.Point(287, 25);
+            this.trackDataGrid.MultiSelect = false;
+            this.trackDataGrid.Name = "trackDataGrid";
+            this.trackDataGrid.ReadOnly = true;
+            this.trackDataGrid.RowHeadersBorderStyle = System.Windows.Forms.DataGridViewHeaderBorderStyle.None;
+            this.trackDataGrid.RowHeadersWidth = 12;
+            this.trackDataGrid.RowTemplate.Height = 35;
+            this.trackDataGrid.ShowEditingIcon = false;
+            this.trackDataGrid.Size = new System.Drawing.Size(263, 465);
+            this.trackDataGrid.TabIndex = 11;
+            this.trackDataGrid.CellMouseDoubleClick += new System.Windows.Forms.DataGridViewCellMouseEventHandler(this.routeDataGrid_CellMouseDoubleClick);
+            this.trackDataGrid.RowsAdded += new System.Windows.Forms.DataGridViewRowsAddedEventHandler(this.routeDataGrid_RowsAdded);
+            this.trackDataGrid.RowsRemoved += new System.Windows.Forms.DataGridViewRowsRemovedEventHandler(this.routeDataGrid_RowsRemoved);
+            // 
+            // routeColumn
+            // 
+            this.routeColumn.HeaderText = "Track";
+            this.routeColumn.Name = "routeColumn";
+            this.routeColumn.ReadOnly = true;
+            this.routeColumn.Width = 245;
             // 
             // countInRunLabel
             // 
@@ -836,12 +847,16 @@
             this.historyLabel.TabIndex = 6;
             this.historyLabel.Text = "label2";
             // 
-            // routeColumn
+            // button4
             // 
-            this.routeColumn.HeaderText = "Track";
-            this.routeColumn.Name = "routeColumn";
-            this.routeColumn.ReadOnly = true;
-            this.routeColumn.Width = 245;
+            this.button4.Font = new System.Drawing.Font("Century Gothic", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.button4.Location = new System.Drawing.Point(700, 7);
+            this.button4.Name = "button4";
+            this.button4.Size = new System.Drawing.Size(75, 23);
+            this.button4.TabIndex = 4;
+            this.button4.Text = "отчет";
+            this.button4.UseVisualStyleBackColor = true;
+            this.button4.Click += new System.EventHandler(this.button4_Click);
             // 
             // Form1
             // 
@@ -865,7 +880,7 @@
             this.routeGroupBox.ResumeLayout(false);
             this.routeGroupBox.PerformLayout();
             this.contextMenuStrip1.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.routeDataGrid)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.trackDataGrid)).EndInit();
             this.groupBox4.ResumeLayout(false);
             this.groupBox4.PerformLayout();
             this.tabPage2.ResumeLayout(false);
@@ -911,7 +926,7 @@
         private System.Windows.Forms.Label label6;
         private System.Windows.Forms.DateTimePicker dayDatePicker;
         private System.Windows.Forms.TextBox trackTextBox;
-        private System.Windows.Forms.DataGridView routeDataGrid;
+        private System.Windows.Forms.DataGridView trackDataGrid;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Label label7;
         private System.Windows.Forms.FlowLayoutPanel dayOneFlowPanel;
@@ -946,6 +961,7 @@
         private System.Windows.Forms.ContextMenuStrip contextMenuStrip1;
         private System.Windows.Forms.ToolStripMenuItem обновитьСписокToolStripMenuItem;
         private System.Windows.Forms.DataGridViewTextBoxColumn routeColumn;
+        private System.Windows.Forms.Button button4;
     }
 }
 

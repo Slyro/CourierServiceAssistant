@@ -71,9 +71,9 @@ namespace CourierServiceAssistant
 
             #region Двойная буферизация для DataGridView Инвентаризации.
 
-            var dgvType = routeDataGrid.GetType();
+            var dgvType = trackDataGrid.GetType();
             var pi = dgvType.GetProperty("DoubleBuffered", System.Reflection.BindingFlags.Instance | System.Reflection.BindingFlags.NonPublic);
-            pi.SetValue(routeDataGrid, true, null);
+            pi.SetValue(trackDataGrid, true, null);
 
             #endregion Двойная буферизация для DataGridView Инвентаризации.
 
@@ -668,8 +668,6 @@ namespace CourierServiceAssistant
 
                 if (rackRadioBtn.Checked)
                 {
-                    string name = CourierNameCombobox.Text;
-                    string date = dayDatePicker.Text;
                     if (!IsValid(track))
                     {
                         label7.Text = "Некорректный номер";
@@ -685,9 +683,7 @@ namespace CourierServiceAssistant
                         return;
                     }
 
-
-                    routeDataGrid.Rows.Add(track);
- 
+                    trackDataGrid.Rows.Add(track); 
 
                     e.Handled = true;
                     e.SuppressKeyPress = true;
@@ -705,7 +701,7 @@ namespace CourierServiceAssistant
                             return;
                         }
 
-                        routeDataGrid.Rows.Add(track);
+                        trackDataGrid.Rows.Add(track);
                         CurrentRun.TracksInRun.Add(track);
 
                         e.Handled = true;
@@ -736,35 +732,44 @@ namespace CourierServiceAssistant
 
             //TODO: Необходим полный реворк
             countInRunLabel.ResetText();
-            if (dayDatePicker.Value.Date != DateTime.Now.Date || CourierNameCombobox.SelectedIndex == -1)
-            {
-                //RouteComboBox.Enabled = false;
-                trackTextBox.Enabled = true;
-            }
-            else
-            {
-                // RouteComboBox.Enabled = true;
-                trackTextBox.Enabled = true;
-            }
+
+            IsReadyToWork();
 
             Ukd.Runs.ForEach((x) => x.TracksInRun.Clear());
             Ukd.Runs = DB.GetRunsByDate(dayDatePicker.Value);
 
 
-            var count = routeDataGrid.Rows.Count;
+
+            TrackDataGridClear();
             if (CourierNameCombobox.SelectedIndex != -1)
             {
-                for (int i = 0; i < count; i++)
+                if (routeRadioBtn.Checked)
                 {
-                    routeDataGrid.Rows.Remove(routeDataGrid.Rows[0]);
+                    FillRunForCurrentCourier();
                 }
-                var run = Ukd.Runs.Find((x) => x.Courier == CourierNameCombobox.SelectedItem.ToString());
-                run?.TracksInRun.ForEach((x) =>
-                {
-                    routeDataGrid.Rows.Add(x);
-                });
             }
+
             UpdateStatistic();
+        }
+
+        private void FillRunForCurrentCourier()
+        {
+            var run = Ukd.Runs.Find((x) => x.Courier == CourierNameCombobox.SelectedItem.ToString());
+            run?.TracksInRun.ForEach((x) =>
+            {
+                trackDataGrid.Rows.Add(x);
+            });
+        }
+        private void IsReadyToWork()
+        {
+            if (dayDatePicker.Value.Date != DateTime.Now.Date || CourierNameCombobox.SelectedIndex == -1)
+            {
+                trackTextBox.Enabled = false;
+            }
+            else
+            {
+                trackTextBox.Enabled = true;
+            }
         }
 
         private void CourierNameComboBox_SelectedIndexChanged(object sender, EventArgs e)
@@ -774,36 +779,33 @@ namespace CourierServiceAssistant
             var courier = CourierNameCombobox.Text;
             var route = Ukd.GetRoute(courier);
 
-            if (Ukd.Runs.Find((x) => x.Courier == CourierNameCombobox.Text) is null)
+            if (Ukd.Runs.Find((x) => x.Courier == CourierNameCombobox.Text) is null) // Создание пустой полки выбранному курьеру для заполнения.
                 Ukd.Runs.Add(new Run() { Courier = courier, Date = dayDatePicker.Value, Route = route, TracksInRun = new List<string>() });
 
+            IsReadyToWork();
 
-            if (dayDatePicker.Value.Date != DateTime.Now.Date || CourierNameCombobox.SelectedIndex == -1)
+            if (routeRadioBtn.Checked)
             {
-                trackTextBox.Enabled = true;
-            } //Можно изменять только текущую дату.
-            else
-            {
-                trackTextBox.Enabled = true;
-            }
+                TrackDataGridClear();
+                FillRunForCurrentCourier();
+            }//Рейс
 
-            int count = routeDataGrid.Rows.Count;
-            for (int i = 0; i < count; i++) //Очистить routeDataGrid (Список почты в ране) после выбора курьера.
-            {
-                routeDataGrid.Rows.Remove(routeDataGrid.Rows[0]);
-            }
-
-            var run = Ukd.Runs.Find((x) => x.Courier == CourierNameCombobox.SelectedItem?.ToString());
-            run?.TracksInRun.ForEach((x) =>
-            {
-                routeDataGrid.Rows.Add(x);
-            });
             CurrentRun = new Run() { Courier = courier, Date = dayDatePicker.Value, Route = route, TracksInRun = new List<string>() };
             UpdateStatistic();
         }
 
+        private void TrackDataGridClear()
+        {
+            int count = trackDataGrid.Rows.Count;
+            for (int i = 0; i < count; i++) //Очистить routeDataGrid (Список почты в ране) после выбора курьера.
+            {
+                trackDataGrid.Rows.Remove(trackDataGrid.Rows[0]);
+            }
+        }
+
         private void button6_Click(object sender, EventArgs e)
         {
+            label7.ResetText();
             if (rackRadioBtn.Checked)
             {
                 string name = CourierNameCombobox.Text;
@@ -812,7 +814,7 @@ namespace CourierServiceAssistant
                 if (Ukd.GetRackByCourier(name) is null)
                     Ukd.AddRack(name, Ukd.GetRoute(name), new List<string>(), dayDatePicker.Value);
 
-                foreach (DataGridViewRow row in routeDataGrid.Rows)
+                foreach (DataGridViewRow row in trackDataGrid.Rows)
                 {
                     string track = row.Cells[0].Value.ToString();
                     Ukd.AddTrackToRack(track, Ukd.GetRackByCourier(name));
@@ -841,32 +843,36 @@ namespace CourierServiceAssistant
 
         private void routeDataGrid_RowsAdded(object sender, DataGridViewRowsAddedEventArgs e)
         {
-            var track = routeDataGrid.Rows[e.RowIndex].Cells[0].Value.ToString();
+            var track = trackDataGrid.Rows[e.RowIndex].Cells[0].Value.ToString();
             var _rpo = AllMailList.Find((item) => item.TrackID == track)?.IsPayNeed ?? IsPayneedResult.NotFound;
             switch (_rpo)
             {
                 case IsPayneedResult.Need:
-                    routeDataGrid.Rows[e.RowIndex].Cells[0].Style.BackColor = Color.Yellow;
+                    trackDataGrid.Rows[e.RowIndex].Cells[0].Style.BackColor = Color.Yellow;
                     break;
 
                 case IsPayneedResult.NotNeed:
                     break;
 
                 default:
-                    routeDataGrid.Rows[e.RowIndex].Cells[0].Style.BackColor = Color.OrangeRed;
+                    trackDataGrid.Rows[e.RowIndex].Cells[0].Style.BackColor = Color.OrangeRed;
                     break;
             }
-            countInRunLabel.Text = routeDataGrid.Rows.Count.ToString();
+            countInRunLabel.Text = trackDataGrid.Rows.Count.ToString();
         }
 
         private void rackRadioBtn_CheckedChanged(object sender, EventArgs e)
         {
             routeGroupBox.Text = "Rack";
+            TrackDataGridClear();
         }
 
         private void routeRadioBtn_CheckedChanged(object sender, EventArgs e)
         {
             routeGroupBox.Text = "Route";
+            TrackDataGridClear();
+            if (CourierNameCombobox.SelectedIndex != -1)
+                FillRunForCurrentCourier();
         }
         private void importComboBox_SelectedIndexChanged(object sender, EventArgs e)//Предварительное создание пустой полки для выбранного курьера, если полка для него отсутствует.
         {
@@ -941,7 +947,7 @@ namespace CourierServiceAssistant
 
         private void routeDataGrid_RowsRemoved(object sender, DataGridViewRowsRemovedEventArgs e)
         {
-            countInRunLabel.Text = routeDataGrid.Rows.Count.ToString();
+            countInRunLabel.Text = trackDataGrid.Rows.Count.ToString();
         }
 
         private void обновитьСписокToolStripMenuItem_Click(object sender, EventArgs e)
@@ -953,6 +959,23 @@ namespace CourierServiceAssistant
         {
             CourierNameCombobox.Items.Clear();
             CourierNameCombobox.Items.AddRange(DB.GetCourierListFromDataBase().ToArray());
+        }
+
+        private void CourierNameCombobox_TextChanged(object sender, EventArgs e)
+        {
+            if (CourierNameCombobox.Text.Length <= 0)
+            {
+                acceptButton.Enabled = false;
+            }
+            else
+            {
+                acceptButton.Enabled = true;
+            }
+        }
+
+        private void button4_Click(object sender, EventArgs e)
+        {
+            DoReport();
         }
     }
 }
