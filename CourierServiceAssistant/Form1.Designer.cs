@@ -336,11 +336,12 @@
             // button4
             // 
             this.button4.Font = new System.Drawing.Font("Century Gothic", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.button4.Location = new System.Drawing.Point(700, 7);
+            this.button4.Location = new System.Drawing.Point(1052, 0);
+            this.button4.Margin = new System.Windows.Forms.Padding(0);
             this.button4.Name = "button4";
-            this.button4.Size = new System.Drawing.Size(75, 23);
+            this.button4.Size = new System.Drawing.Size(219, 30);
             this.button4.TabIndex = 4;
-            this.button4.Text = "отчет";
+            this.button4.Text = "Create Report";
             this.button4.UseVisualStyleBackColor = true;
             this.button4.Click += new System.EventHandler(this.button4_Click);
             // 
@@ -375,18 +376,18 @@
             this.reportLabelBase.AutoSize = true;
             this.reportLabelBase.Location = new System.Drawing.Point(8, 10);
             this.reportLabelBase.Name = "reportLabelBase";
-            this.reportLabelBase.Size = new System.Drawing.Size(115, 20);
+            this.reportLabelBase.Size = new System.Drawing.Size(74, 20);
             this.reportLabelBase.TabIndex = 0;
-            this.reportLabelBase.Text = "Отправления: ";
+            this.reportLabelBase.Text = "Storage: ";
             // 
             // reportLabelGone
             // 
             this.reportLabelGone.AutoSize = true;
             this.reportLabelGone.Location = new System.Drawing.Point(260, 10);
             this.reportLabelGone.Name = "reportLabelGone";
-            this.reportLabelGone.Size = new System.Drawing.Size(108, 20);
+            this.reportLabelGone.Size = new System.Drawing.Size(89, 20);
             this.reportLabelGone.TabIndex = 0;
-            this.reportLabelGone.Text = "Доставлено: ";
+            this.reportLabelGone.Text = "Delivered: ";
             // 
             // tabPage3
             // 

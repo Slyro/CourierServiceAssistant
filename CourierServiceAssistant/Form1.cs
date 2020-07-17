@@ -140,8 +140,8 @@ namespace CourierServiceAssistant
             var _list = DB.GetGoneParcelFromDataBase().Select(x => x.TrackID).ToList();
             flowLayoutPanel1.Controls.Clear();
 
-            reportLabelBase.Text = "Всего РПО: " + AllMailList.Count;
-            reportLabelGone.Text = "Доставлено РПО: " + _list.Count;
+            reportLabelBase.Text = "Storage: " + AllMailList.Count;
+            reportLabelGone.Text = "Delivered: " + _list.Count;
 
             reports = new List<Report>();
 
@@ -188,18 +188,18 @@ namespace CourierServiceAssistant
             titlebox.ColumnStyles.Add(new ColumnStyle() { SizeType = SizeType.Percent, Width = 8F });  //"На проверку",
             titlebox.ColumnStyles.Add(new ColumnStyle() { SizeType = SizeType.Percent, Width = 8F });  //"Ср. в дост"
 
-            titlebox.RowStyles.Add(new RowStyle() { SizeType = SizeType.Absolute, Height = 45F });
 
+            titlebox.RowStyles.Add(new RowStyle() { SizeType = SizeType.Absolute, Height = 45F });
             titlebox.Controls.Add(new Label() { Dock = DockStyle.Fill, TextAlign = ContentAlignment.MiddleCenter, AutoSize = true, Text = titles[0] }, 0, 0);
-            titlebox.Controls.Add(new Label() { Dock = DockStyle.Fill, TextAlign = ContentAlignment.MiddleCenter, AutoSize = true, AutoEllipsis = true, Text = titles[1] }, 1, 0);
-            titlebox.Controls.Add(new Label() { Dock = DockStyle.Fill, TextAlign = ContentAlignment.MiddleCenter, AutoSize = true, AutoEllipsis = true, Text = titles[2] }, 2, 0);
-            titlebox.Controls.Add(new Label() { Dock = DockStyle.Fill, TextAlign = ContentAlignment.MiddleCenter, AutoSize = true, AutoEllipsis = true, Text = titles[3] }, 3, 0);
-            titlebox.Controls.Add(new Label() { Dock = DockStyle.Fill, TextAlign = ContentAlignment.MiddleCenter, AutoSize = true, AutoEllipsis = true, Text = titles[4] }, 4, 0);
-            titlebox.Controls.Add(new Label() { Dock = DockStyle.Fill, TextAlign = ContentAlignment.MiddleCenter, AutoSize = true, AutoEllipsis = true, Text = titles[5] }, 5, 0);
-            titlebox.Controls.Add(new Label() { Dock = DockStyle.Fill, TextAlign = ContentAlignment.MiddleCenter, AutoSize = true, AutoEllipsis = true, Text = titles[6] }, 6, 0);
-            titlebox.Controls.Add(new Label() { Dock = DockStyle.Fill, TextAlign = ContentAlignment.MiddleCenter, AutoSize = true, AutoEllipsis = true, Text = titles[7] }, 7, 0);
-            titlebox.Controls.Add(new Label() { Dock = DockStyle.Fill, TextAlign = ContentAlignment.MiddleCenter, AutoSize = true, AutoEllipsis = true, Text = titles[8] }, 8, 0);
-            titlebox.Controls.Add(new Label() { Dock = DockStyle.Fill, TextAlign = ContentAlignment.MiddleCenter, AutoSize = true, AutoEllipsis = true, Text = titles[9] }, 9, 0);
+            titlebox.Controls.Add(new Label() { Dock = DockStyle.Fill, TextAlign = ContentAlignment.MiddleCenter, AutoSize = true, Text = titles[1] }, 1, 0);
+            titlebox.Controls.Add(new Label() { Dock = DockStyle.Fill, TextAlign = ContentAlignment.MiddleCenter, AutoSize = true, Text = titles[2] }, 2, 0);
+            titlebox.Controls.Add(new Label() { Dock = DockStyle.Fill, TextAlign = ContentAlignment.MiddleCenter, AutoSize = true, Text = titles[3] }, 3, 0);
+            titlebox.Controls.Add(new Label() { Dock = DockStyle.Fill, TextAlign = ContentAlignment.MiddleCenter, AutoSize = true, Text = titles[4] }, 4, 0);
+            titlebox.Controls.Add(new Label() { Dock = DockStyle.Fill, TextAlign = ContentAlignment.MiddleCenter, AutoSize = true, Text = titles[5] }, 5, 0);
+            titlebox.Controls.Add(new Label() { Dock = DockStyle.Fill, TextAlign = ContentAlignment.MiddleCenter, AutoSize = true, Text = titles[6] }, 6, 0);
+            titlebox.Controls.Add(new Label() { Dock = DockStyle.Fill, TextAlign = ContentAlignment.MiddleCenter, AutoSize = true, Text = titles[7] }, 7, 0);
+            titlebox.Controls.Add(new Label() { Dock = DockStyle.Fill, TextAlign = ContentAlignment.MiddleCenter, AutoSize = true, Text = titles[8] }, 8, 0);
+            titlebox.Controls.Add(new Label() { Dock = DockStyle.Fill, TextAlign = ContentAlignment.MiddleCenter, AutoSize = true, Text = titles[9] }, 9, 0);
 
 
 
