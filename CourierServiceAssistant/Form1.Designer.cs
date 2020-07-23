@@ -156,7 +156,7 @@
             this.tabControl1.Margin = new System.Windows.Forms.Padding(0);
             this.tabControl1.Name = "tabControl1";
             this.tabControl1.SelectedIndex = 0;
-            this.tabControl1.Size = new System.Drawing.Size(1291, 795);
+            this.tabControl1.Size = new System.Drawing.Size(1547, 795);
             this.tabControl1.TabIndex = 6;
             // 
             // tabPage4
@@ -328,15 +328,16 @@
             this.tabPage5.Controls.Add(this.reportLabelGone);
             this.tabPage5.Location = new System.Drawing.Point(4, 29);
             this.tabPage5.Name = "tabPage5";
-            this.tabPage5.Size = new System.Drawing.Size(1283, 762);
+            this.tabPage5.Size = new System.Drawing.Size(1539, 762);
             this.tabPage5.TabIndex = 4;
             this.tabPage5.Text = "Report";
             this.tabPage5.UseVisualStyleBackColor = true;
             // 
             // button4
             // 
+            this.button4.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.button4.Font = new System.Drawing.Font("Century Gothic", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.button4.Location = new System.Drawing.Point(1052, 0);
+            this.button4.Location = new System.Drawing.Point(1308, 3);
             this.button4.Margin = new System.Windows.Forms.Padding(0);
             this.button4.Name = "button4";
             this.button4.Size = new System.Drawing.Size(219, 30);
@@ -351,7 +352,7 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.dataGridView1.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.AllCells;
             this.dataGridView1.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dataGridView1.Location = new System.Drawing.Point(1052, 36);
+            this.dataGridView1.Location = new System.Drawing.Point(1308, 36);
             this.dataGridView1.Name = "dataGridView1";
             this.dataGridView1.RowHeadersWidth = 35;
             this.dataGridView1.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
@@ -368,7 +369,7 @@
             this.flowLayoutPanel1.Font = new System.Drawing.Font("Century Gothic", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.flowLayoutPanel1.Location = new System.Drawing.Point(8, 33);
             this.flowLayoutPanel1.Name = "flowLayoutPanel1";
-            this.flowLayoutPanel1.Size = new System.Drawing.Size(1038, 717);
+            this.flowLayoutPanel1.Size = new System.Drawing.Size(1294, 717);
             this.flowLayoutPanel1.TabIndex = 2;
             // 
             // reportLabelBase
@@ -866,7 +867,7 @@
             // 
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
             this.BackColor = System.Drawing.Color.White;
-            this.ClientSize = new System.Drawing.Size(1291, 795);
+            this.ClientSize = new System.Drawing.Size(1547, 795);
             this.Controls.Add(this.tabControl1);
             this.Font = new System.Drawing.Font("Century Gothic", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.Margin = new System.Windows.Forms.Padding(4);
