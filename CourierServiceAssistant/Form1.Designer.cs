@@ -31,10 +31,6 @@
             this.components = new System.ComponentModel.Container();
             System.Windows.Forms.TabPage tabPage4;
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Form1));
-            this.button1 = new System.Windows.Forms.Button();
-            this.debugTextBox = new System.Windows.Forms.TextBox();
-            this.button2 = new System.Windows.Forms.Button();
-            this.tabControl1 = new System.Windows.Forms.TabControl();
             this.reportLabel = new System.Windows.Forms.Label();
             this.totalMailLabel = new System.Windows.Forms.Label();
             this.dayTwoAddDayButton = new System.Windows.Forms.Button();
@@ -49,6 +45,10 @@
             this.dayTwoFlowPanel = new System.Windows.Forms.FlowLayoutPanel();
             this.dayOneFlowPanel = new System.Windows.Forms.FlowLayoutPanel();
             this.workTESTButton = new System.Windows.Forms.Button();
+            this.button1 = new System.Windows.Forms.Button();
+            this.debugTextBox = new System.Windows.Forms.TextBox();
+            this.button2 = new System.Windows.Forms.Button();
+            this.tabControl1 = new System.Windows.Forms.TabControl();
             this.tabPage5 = new System.Windows.Forms.TabPage();
             this.createReportButton = new System.Windows.Forms.Button();
             this.dataGridView1 = new System.Windows.Forms.DataGridView();
@@ -56,6 +56,8 @@
             this.reportLabelBase = new System.Windows.Forms.Label();
             this.reportLabelGone = new System.Windows.Forms.Label();
             this.tabPage3 = new System.Windows.Forms.TabPage();
+            this.approveGroupBox = new System.Windows.Forms.GroupBox();
+            this.approveTextBox = new System.Windows.Forms.TextBox();
             this.routeRadioBtn = new System.Windows.Forms.RadioButton();
             this.routeGroupBox = new System.Windows.Forms.GroupBox();
             this.InsertButton = new System.Windows.Forms.Button();
@@ -96,14 +98,14 @@
             this.button3 = new System.Windows.Forms.Button();
             this.label6 = new System.Windows.Forms.Label();
             this.historyLabel = new System.Windows.Forms.Label();
-            this.approveTextBox = new System.Windows.Forms.TextBox();
-            this.approveGroupBox = new System.Windows.Forms.GroupBox();
+            this.label2 = new System.Windows.Forms.Label();
             tabPage4 = new System.Windows.Forms.TabPage();
-            this.tabControl1.SuspendLayout();
             tabPage4.SuspendLayout();
+            this.tabControl1.SuspendLayout();
             this.tabPage5.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
             this.tabPage3.SuspendLayout();
+            this.approveGroupBox.SuspendLayout();
             this.routeGroupBox.SuspendLayout();
             this.contextMenuStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.trackDataGrid)).BeginInit();
@@ -112,57 +114,7 @@
             this.routeSettingsGroupBox.SuspendLayout();
             this.courierSettingsGroupBox.SuspendLayout();
             this.tabPage1.SuspendLayout();
-            this.approveGroupBox.SuspendLayout();
             this.SuspendLayout();
-            // 
-            // button1
-            // 
-            this.button1.Location = new System.Drawing.Point(15, 24);
-            this.button1.Margin = new System.Windows.Forms.Padding(4);
-            this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(216, 60);
-            this.button1.TabIndex = 0;
-            this.button1.Text = "Выбрать файл";
-            this.button1.UseVisualStyleBackColor = true;
-            this.button1.Click += new System.EventHandler(this.button1_Click);
-            // 
-            // debugTextBox
-            // 
-            this.debugTextBox.Location = new System.Drawing.Point(199, 215);
-            this.debugTextBox.Margin = new System.Windows.Forms.Padding(4);
-            this.debugTextBox.Multiline = true;
-            this.debugTextBox.Name = "debugTextBox";
-            this.debugTextBox.Size = new System.Drawing.Size(163, 264);
-            this.debugTextBox.TabIndex = 1;
-            // 
-            // button2
-            // 
-            this.button2.Location = new System.Drawing.Point(15, 92);
-            this.button2.Margin = new System.Windows.Forms.Padding(4);
-            this.button2.Name = "button2";
-            this.button2.Size = new System.Drawing.Size(216, 59);
-            this.button2.TabIndex = 2;
-            this.button2.Text = "button2";
-            this.button2.UseVisualStyleBackColor = true;
-            this.button2.Click += new System.EventHandler(this.button2_Click);
-            // 
-            // tabControl1
-            // 
-            this.tabControl1.Controls.Add(this.tabPage5);
-            this.tabControl1.Controls.Add(this.tabPage3);
-            this.tabControl1.Controls.Add(this.tabPage2);
-            this.tabControl1.Controls.Add(this.tabPage1);
-            this.tabControl1.Controls.Add(tabPage4);
-            this.tabControl1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.tabControl1.Font = new System.Drawing.Font("Century Gothic", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.tabControl1.HotTrack = true;
-            this.tabControl1.ItemSize = new System.Drawing.Size(80, 25);
-            this.tabControl1.Location = new System.Drawing.Point(0, 0);
-            this.tabControl1.Margin = new System.Windows.Forms.Padding(0);
-            this.tabControl1.Name = "tabControl1";
-            this.tabControl1.SelectedIndex = 0;
-            this.tabControl1.Size = new System.Drawing.Size(1494, 637);
-            this.tabControl1.TabIndex = 6;
             // 
             // tabPage4
             // 
@@ -184,7 +136,7 @@
             tabPage4.Location = new System.Drawing.Point(4, 29);
             tabPage4.Margin = new System.Windows.Forms.Padding(4);
             tabPage4.Name = "tabPage4";
-            tabPage4.Size = new System.Drawing.Size(1539, 762);
+            tabPage4.Size = new System.Drawing.Size(1486, 604);
             tabPage4.TabIndex = 3;
             tabPage4.Text = "Work";
             tabPage4.UseVisualStyleBackColor = true;
@@ -324,6 +276,55 @@
             this.workTESTButton.UseVisualStyleBackColor = true;
             this.workTESTButton.Click += new System.EventHandler(this.button5_Click_1);
             // 
+            // button1
+            // 
+            this.button1.Location = new System.Drawing.Point(15, 24);
+            this.button1.Margin = new System.Windows.Forms.Padding(4);
+            this.button1.Name = "button1";
+            this.button1.Size = new System.Drawing.Size(216, 60);
+            this.button1.TabIndex = 0;
+            this.button1.Text = "Выбрать файл";
+            this.button1.UseVisualStyleBackColor = true;
+            this.button1.Click += new System.EventHandler(this.button1_Click);
+            // 
+            // debugTextBox
+            // 
+            this.debugTextBox.Location = new System.Drawing.Point(199, 215);
+            this.debugTextBox.Margin = new System.Windows.Forms.Padding(4);
+            this.debugTextBox.Multiline = true;
+            this.debugTextBox.Name = "debugTextBox";
+            this.debugTextBox.Size = new System.Drawing.Size(163, 264);
+            this.debugTextBox.TabIndex = 1;
+            // 
+            // button2
+            // 
+            this.button2.Location = new System.Drawing.Point(15, 92);
+            this.button2.Margin = new System.Windows.Forms.Padding(4);
+            this.button2.Name = "button2";
+            this.button2.Size = new System.Drawing.Size(216, 59);
+            this.button2.TabIndex = 2;
+            this.button2.Text = "button2";
+            this.button2.UseVisualStyleBackColor = true;
+            this.button2.Click += new System.EventHandler(this.button2_Click);
+            // 
+            // tabControl1
+            // 
+            this.tabControl1.Controls.Add(this.tabPage5);
+            this.tabControl1.Controls.Add(this.tabPage3);
+            this.tabControl1.Controls.Add(this.tabPage2);
+            this.tabControl1.Controls.Add(this.tabPage1);
+            this.tabControl1.Controls.Add(tabPage4);
+            this.tabControl1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.tabControl1.Font = new System.Drawing.Font("Century Gothic", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.tabControl1.HotTrack = true;
+            this.tabControl1.ItemSize = new System.Drawing.Size(80, 25);
+            this.tabControl1.Location = new System.Drawing.Point(0, 0);
+            this.tabControl1.Margin = new System.Windows.Forms.Padding(0);
+            this.tabControl1.Name = "tabControl1";
+            this.tabControl1.SelectedIndex = 0;
+            this.tabControl1.Size = new System.Drawing.Size(1494, 637);
+            this.tabControl1.TabIndex = 6;
+            // 
             // tabPage5
             // 
             this.tabPage5.Controls.Add(this.createReportButton);
@@ -397,6 +398,7 @@
             // 
             // tabPage3
             // 
+            this.tabPage3.Controls.Add(this.label2);
             this.tabPage3.Controls.Add(this.approveGroupBox);
             this.tabPage3.Controls.Add(this.routeRadioBtn);
             this.tabPage3.Controls.Add(this.routeGroupBox);
@@ -411,6 +413,24 @@
             this.tabPage3.Text = "Warehouse";
             this.tabPage3.UseVisualStyleBackColor = true;
             // 
+            // approveGroupBox
+            // 
+            this.approveGroupBox.Controls.Add(this.approveTextBox);
+            this.approveGroupBox.Location = new System.Drawing.Point(1248, 44);
+            this.approveGroupBox.Name = "approveGroupBox";
+            this.approveGroupBox.Size = new System.Drawing.Size(231, 110);
+            this.approveGroupBox.TabIndex = 21;
+            this.approveGroupBox.TabStop = false;
+            this.approveGroupBox.Text = "Approve Delivery";
+            // 
+            // approveTextBox
+            // 
+            this.approveTextBox.Location = new System.Drawing.Point(13, 47);
+            this.approveTextBox.Name = "approveTextBox";
+            this.approveTextBox.Size = new System.Drawing.Size(202, 26);
+            this.approveTextBox.TabIndex = 20;
+            this.approveTextBox.KeyDown += new System.Windows.Forms.KeyEventHandler(this.approveTextBox_KeyDown);
+            // 
             // routeRadioBtn
             // 
             this.routeRadioBtn.Checked = true;
@@ -420,6 +440,7 @@
             this.routeRadioBtn.Name = "routeRadioBtn";
             this.routeRadioBtn.Size = new System.Drawing.Size(55, 45);
             this.routeRadioBtn.TabIndex = 14;
+            this.routeRadioBtn.TabStop = true;
             this.routeRadioBtn.UseVisualStyleBackColor = true;
             this.routeRadioBtn.CheckedChanged += new System.EventHandler(this.routeRadioBtn_CheckedChanged);
             // 
@@ -682,7 +703,7 @@
             this.tabPage2.Margin = new System.Windows.Forms.Padding(4);
             this.tabPage2.Name = "tabPage2";
             this.tabPage2.Padding = new System.Windows.Forms.Padding(4);
-            this.tabPage2.Size = new System.Drawing.Size(1539, 762);
+            this.tabPage2.Size = new System.Drawing.Size(1486, 604);
             this.tabPage2.TabIndex = 1;
             this.tabPage2.Text = "Settings";
             this.tabPage2.UseVisualStyleBackColor = true;
@@ -823,7 +844,7 @@
             this.tabPage1.Location = new System.Drawing.Point(4, 29);
             this.tabPage1.Margin = new System.Windows.Forms.Padding(0);
             this.tabPage1.Name = "tabPage1";
-            this.tabPage1.Size = new System.Drawing.Size(1539, 762);
+            this.tabPage1.Size = new System.Drawing.Size(1486, 604);
             this.tabPage1.TabIndex = 0;
             this.tabPage1.Text = "Import";
             this.tabPage1.UseVisualStyleBackColor = true;
@@ -872,23 +893,14 @@
             this.historyLabel.TabIndex = 6;
             this.historyLabel.Text = "label2";
             // 
-            // approveTextBox
+            // label2
             // 
-            this.approveTextBox.Location = new System.Drawing.Point(13, 47);
-            this.approveTextBox.Name = "approveTextBox";
-            this.approveTextBox.Size = new System.Drawing.Size(202, 26);
-            this.approveTextBox.TabIndex = 20;
-            this.approveTextBox.KeyDown += new System.Windows.Forms.KeyEventHandler(this.approveTextBox_KeyDown);
-            // 
-            // approveGroupBox
-            // 
-            this.approveGroupBox.Controls.Add(this.approveTextBox);
-            this.approveGroupBox.Location = new System.Drawing.Point(1248, 44);
-            this.approveGroupBox.Name = "approveGroupBox";
-            this.approveGroupBox.Size = new System.Drawing.Size(231, 110);
-            this.approveGroupBox.TabIndex = 21;
-            this.approveGroupBox.TabStop = false;
-            this.approveGroupBox.Text = "Approve Delivery";
+            this.label2.AutoSize = true;
+            this.label2.Location = new System.Drawing.Point(308, 25);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(53, 20);
+            this.label2.TabIndex = 22;
+            this.label2.Text = "label2";
             // 
             // Form1
             // 
@@ -903,13 +915,16 @@
             this.Text = "CSA";
             this.ResizeBegin += new System.EventHandler(this.Form1_ResizeBegin);
             this.ResizeEnd += new System.EventHandler(this.Form1_ResizeEnd);
-            this.tabControl1.ResumeLayout(false);
             tabPage4.ResumeLayout(false);
             tabPage4.PerformLayout();
+            this.tabControl1.ResumeLayout(false);
             this.tabPage5.ResumeLayout(false);
             this.tabPage5.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).EndInit();
             this.tabPage3.ResumeLayout(false);
+            this.tabPage3.PerformLayout();
+            this.approveGroupBox.ResumeLayout(false);
+            this.approveGroupBox.PerformLayout();
             this.routeGroupBox.ResumeLayout(false);
             this.routeGroupBox.PerformLayout();
             this.contextMenuStrip1.ResumeLayout(false);
@@ -923,8 +938,6 @@
             this.courierSettingsGroupBox.PerformLayout();
             this.tabPage1.ResumeLayout(false);
             this.tabPage1.PerformLayout();
-            this.approveGroupBox.ResumeLayout(false);
-            this.approveGroupBox.PerformLayout();
             this.ResumeLayout(false);
 
         }
@@ -998,6 +1011,7 @@
         private System.Windows.Forms.GroupBox approveGroupBox;
         private System.Windows.Forms.TextBox approveTextBox;
         private System.Windows.Forms.RadioButton rackRadioBtn;
+        private System.Windows.Forms.Label label2;
     }
 }
 

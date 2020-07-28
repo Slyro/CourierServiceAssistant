@@ -102,6 +102,8 @@ namespace CourierServiceAssistant
         private void UpdateStatistic()
         {
             //TODO: Выводить больше информации о складе, включая статистические данные об изменении кол-ва посылок на полках.
+            Ukd.Runs.ForEach((x) => x.TracksInRun.Clear());
+            Ukd.Runs = DB.GetRunsByDate(dayDatePicker.Value);
             statisticPanel1.Controls.Clear();
             statisticPanel2.Controls.Clear();
             foreach (var rack in Ukd.GetAllRacks)
@@ -856,9 +858,6 @@ namespace CourierServiceAssistant
 
         private void CourierNameComboBox_SelectedIndexChanged(object sender, EventArgs e)
         { 
-            var courier = CourierNameCombobox.Text;
-            var route = Ukd.GetRoute(courier);
-
             IsReadyToWork();
             TrackDataGridClear();
             FillRunForCurrentCourier();
@@ -870,12 +869,7 @@ namespace CourierServiceAssistant
 
             if(routeRadioBtn.Checked)
             {
-                
-                if (Ukd.Runs.Find((x) => x.Courier == CourierNameCombobox.Text) == null) // Создание пустой полки выбранному курьеру для заполнения.
-                    Ukd.Runs.Add(new Run() { Courier = courier, Date = dayDatePicker.Value, Route = route, TracksInRun = new List<string>() });
-
-                CurrentRun = null;
-                CurrentRun = new Run() { Courier = courier, Date = dayDatePicker.Value, Route = route, TracksInRun = new List<string>() };
+                CurrentRun = new Run() { Courier = CourierNameCombobox.Text, Date = dayDatePicker.Value, Route = Ukd.GetRoute(CourierNameCombobox.Text), TracksInRun = new List<string>() };
             }
             UpdateStatistic();
         }
@@ -914,13 +908,23 @@ namespace CourierServiceAssistant
             }
 
             if (routeRadioBtn.Checked)
-            {              
+            {
                 if (CurrentRun.TracksInRun?.Count <= 0)
                 {
                     label7.Text = "Пусто";
                     return;
                 }
 
+                var courier = CourierNameCombobox.Text;
+
+                //if (Ukd.Runs.Find((x) => x.Courier == courier) == null) // Создание пустой полки выбранному курьеру для заполнения.
+                //    Ukd.Runs.Add(new Run() { Courier = courier, Date = dayDatePicker.Value, Route = route, TracksInRun = new List<string>() });
+
+                if (CurrentRun.Courier != courier)
+                {
+                    MessageBox.Show("Ошибка");
+                    return;
+                }
 
                 CurrentRun.TracksInRun = CurrentRun.TracksInRun.Except(Ukd.GetAllTracksInRuns).ToList();
                 foreach (var track in CurrentRun.TracksInRun)
@@ -974,10 +978,15 @@ namespace CourierServiceAssistant
         /// <param name="e"></param>
         private void deleteRunButton_Click(object sender, EventArgs e)
         {
+            if(rackRadioBtn.Checked)
+            {
+                Manager.ExecuteNonQuery($"DELETE FROM Rack WHERE courier_id=('{CourierNameCombobox.Text}') AND date=('{dayDatePicker.Value.ToShortDateString()}')");
+                trackDataGrid.Rows.Clear();
+            }
             if (routeRadioBtn.Checked)
             {
                 Manager.ExecuteNonQuery($"DELETE FROM Runs WHERE Courier=('{CourierNameCombobox.Text}') AND Date=('{dayDatePicker.Value.ToShortDateString()}')");
-                Manager.ExecuteNonQuery($"DELETE FROM Rack WHERE courier_id=('{CourierNameCombobox.Text}') AND date=('{dayDatePicker.Value.ToShortDateString()}')");
+                trackDataGrid.Rows.Clear();
             }
             UpdateStatistic();
         }
