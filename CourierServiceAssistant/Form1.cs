@@ -26,7 +26,10 @@ namespace CourierServiceAssistant
         private readonly UKD Ukd;
         private readonly List<string> GoneList;
         private readonly List<string> NewList;
+
         private Run CurrentRun;
+        private List<string> CurrentRackList;
+
         private readonly string reg1 = "^[a-zA-Z]{2}[0-9]{9}[a-zA-Z]{2}$";
         private readonly string reg2 = "^[0-9]{14}$";
 
@@ -46,6 +49,7 @@ namespace CourierServiceAssistant
             GoneList = new List<string>();
             NewList = new List<string>();
             CurrentRun = new Run();
+            CurrentRackList = new List<string>();
             button2.Text = "Внести изменения в Базу Данных";
             match = new Regex(reg1);
             match2 = new Regex(reg2);
@@ -59,10 +63,6 @@ namespace CourierServiceAssistant
             historyLabel.ResetText();
 
             AllMailList = DB.GetAllParcelFromDataBase(); //Получение Базового списка всех РПО
-
-
-            dayOneDatePicker.Value = new DateTime(2020, 6, 3);
-            dayTwoDatePicker.Value = new DateTime(2020, 6, 4);
 
             Dictionary<string, string> NameRoutePairs = DB.GetNameRoutePairs();
             foreach (string key in NameRoutePairs.Keys)
@@ -78,9 +78,7 @@ namespace CourierServiceAssistant
 
             #endregion Двойная буферизация для DataGridView Инвентаризации.
 
-            //GetStorageReportByDay(rackDateTimePicker.Value.Date);//Выгрузка информации о пикнут отправлениях на складе на основе даты.
-
-            //DoReport();
+            GetStorageReportByDay(dayDatePicker.Value.Date);//Выгрузка информации о пикнут отправлениях на складе на основе даты.
 
             RefreshRouteBox();
             RefreshReportsDate();
@@ -100,6 +98,7 @@ namespace CourierServiceAssistant
             UpdateStatistic();
             totalMailLabel.Text = "На балансе УКД: " + AllMailList.Count;
         }//Заполнение экземпляра класса UKD информацией об отправлениях лежащих на полках курьеров, операторов, склад самовывоза и взятых в доставку РПО за выбраный день.
+
         private void UpdateStatistic()
         {
             //TODO: Выводить больше информации о складе, включая статистические данные об изменении кол-ва посылок на полках.
@@ -138,11 +137,7 @@ namespace CourierServiceAssistant
 
             if (titlebox != null)
             {
-                titlebox.Visible = false;
-                titlebox.SuspendLayout();
-                titlebox.Controls.Clear();
-                titlebox.ResumeLayout();
-                titlebox.Visible = true;
+                titlebox.Dispose();
             }
 
             var _list = DB.GetGoneParcelFromDataBase().Select(x => x.TrackID).ToList();
@@ -155,75 +150,71 @@ namespace CourierServiceAssistant
 
             Report.GoneByReport = _list;
             Report.CurrentList = AllMailList.Select(x => x.TrackID).ToList();
-
+            Report.Approved = DB.SelectAllFromApproveTable();
 
             foreach (var route in Ukd.GetAllRoutes)
             {
                 reports.Add(new Report(DB.GetRacksPerDayByRoute(route), DB.GetRunsPerDayByRoute(route)));
             }
-
             reports.RemoveAll((x) => string.IsNullOrEmpty(x.Route));
 
             string[] titles = new string[]
             {
-                "Район",
-                "Посылок за всё время",
-                "Среднее кол-во",
-                "Убрано отчётом",
-                "Остаток",
-                "Не были в доставке",
-                "На доставку за всё время",
-                "Вручено" ,
-                "Ошибки" ,
-                "На проверку",
-                "Ср. доставка"
+                "Route",            //0
+                "Rack total",       //1
+                "Scannig avg.",     //2
+                "Done by report",   //3
+                "Must be on rack",  //4
+                "No Delivery",      //5
+                "Run total",        //6
+                "Delivered",        //7
+                "Check",            //8
+                "Errors",           //9
+                "By run avg."       //10
             };
 
             titlebox = new MyTableLayoutPanel()
             {
                 Parent = flowLayoutPanel1,
-                //Anchor = (AnchorStyles)(AnchorStyles.Top | AnchorStyles.Right | AnchorStyles.Bottom | AnchorStyles.Left),
+                Anchor = (AnchorStyles)(AnchorStyles.Top | AnchorStyles.Right | AnchorStyles.Bottom | AnchorStyles.Left),
                 AutoSize = true,
                 Dock = DockStyle.Fill,
                 CellBorderStyle = TableLayoutPanelCellBorderStyle.Single
             };
 
             titlebox.ColumnCount = titles.Length;
-            titlebox.ColumnStyles.Add(new ColumnStyle() { SizeType = SizeType.Percent, Width = 8F });  //"Район",
-            titlebox.ColumnStyles.Add(new ColumnStyle() { SizeType = SizeType.Percent, Width = 9F });  //"Посылок за всё время",
+            titlebox.ColumnStyles.Add(new ColumnStyle() { SizeType = SizeType.Percent, Width = 7F });  //"Район",
+            titlebox.ColumnStyles.Add(new ColumnStyle() { SizeType = SizeType.Percent, Width = 6F });  //"Посылок за всё время",
             titlebox.ColumnStyles.Add(new ColumnStyle() { SizeType = SizeType.Percent, Width = 6F });  //"Среднее кол-во",
             titlebox.ColumnStyles.Add(new ColumnStyle() { SizeType = SizeType.Percent, Width = 6F });  //"Убрано отчётом",
-            titlebox.ColumnStyles.Add(new ColumnStyle() { SizeType = SizeType.Percent, Width = 6F });  //"Остаток",
+            titlebox.ColumnStyles.Add(new ColumnStyle() { SizeType = SizeType.Percent, Width = 5F });  //"Остаток",
             titlebox.ColumnStyles.Add(new ColumnStyle() { SizeType = SizeType.Percent, Width = 6F });  //"Не были в доставке",
-            titlebox.ColumnStyles.Add(new ColumnStyle() { SizeType = SizeType.Percent, Width = 8F });  //"На доставку за всё время",
+            titlebox.ColumnStyles.Add(new ColumnStyle() { SizeType = SizeType.Percent, Width = 6F });  //"На доставку за всё время",
             titlebox.ColumnStyles.Add(new ColumnStyle() { SizeType = SizeType.Percent, Width = 6F });  //"Вручено" ,
-            titlebox.ColumnStyles.Add(new ColumnStyle() { SizeType = SizeType.Percent, Width = 6F });  //"Ошибки" ,
-            titlebox.ColumnStyles.Add(new ColumnStyle() { SizeType = SizeType.Percent, Width = 6F });  //"На проверку",
+            titlebox.ColumnStyles.Add(new ColumnStyle() { SizeType = SizeType.Percent, Width = 5F });  //"На проверку" ,
+            titlebox.ColumnStyles.Add(new ColumnStyle() { SizeType = SizeType.Percent, Width = 5F });  //"Ошибки",
             titlebox.ColumnStyles.Add(new ColumnStyle() { SizeType = SizeType.Percent, Width = 6F });  //"Ср. доставка"
 
 
             titlebox.RowStyles.Add(new RowStyle() { SizeType = SizeType.Absolute, Height = 45F });
-            //titlebox.Controls.Add(new Label() { Dock = DockStyle.Fill, TextAlign = ContentAlignment.MiddleCenter, AutoSize = true, Text = titles[0] }, 0, 0);
-            //titlebox.Controls.Add(new Label() { Dock = DockStyle.Fill, TextAlign = ContentAlignment.MiddleCenter, AutoSize = true, Text = titles[1] }, 1, 0);
-            //titlebox.Controls.Add(new Label() { Dock = DockStyle.Fill, TextAlign = ContentAlignment.MiddleCenter, AutoSize = true, Text = titles[2] }, 2, 0);
-            //titlebox.Controls.Add(new Label() { Dock = DockStyle.Fill, TextAlign = ContentAlignment.MiddleCenter, AutoSize = true, Text = titles[3] }, 3, 0);
-            //titlebox.Controls.Add(new Label() { Dock = DockStyle.Fill, TextAlign = ContentAlignment.MiddleCenter, AutoSize = true, Text = titles[4] }, 4, 0);
-            //titlebox.Controls.Add(new Label() { Dock = DockStyle.Fill, TextAlign = ContentAlignment.MiddleCenter, AutoSize = true, Text = titles[5] }, 5, 0);
-            //titlebox.Controls.Add(new Label() { Dock = DockStyle.Fill, TextAlign = ContentAlignment.MiddleCenter, AutoSize = true, Text = titles[6] }, 6, 0);
-            //titlebox.Controls.Add(new Label() { Dock = DockStyle.Fill, TextAlign = ContentAlignment.MiddleCenter, AutoSize = true, Text = titles[7] }, 7, 0);
-            //titlebox.Controls.Add(new Label() { Dock = DockStyle.Fill, TextAlign = ContentAlignment.MiddleCenter, AutoSize = true, Text = titles[8] }, 8, 0);
-            //titlebox.Controls.Add(new Label() { Dock = DockStyle.Fill, TextAlign = ContentAlignment.MiddleCenter, AutoSize = true, Text = titles[9] }, 9, 0);
-            //titlebox.Controls.Add(new Label() { Dock = DockStyle.Fill, TextAlign = ContentAlignment.MiddleCenter, AutoSize = true, Text = titles[10] }, 10, 0);
             for (int i = 0; i < titles.Length; i++)
             {
-                if (i > 0 & i < 6)
-                {
-                    titlebox.Controls.Add(new Label() { BackColor = Color.FromArgb(245, 219, 118), Margin = new Padding(0), Dock = DockStyle.Fill, TextAlign = ContentAlignment.MiddleCenter, AutoSize = true, Text = titles[i] }, i, 0);
-                }
-                else
-                {
-                    titlebox.Controls.Add(new Label() { BackColor = Color.FromArgb(200, 200, 100), Margin = new Padding(0), Dock = DockStyle.Fill, TextAlign = ContentAlignment.MiddleCenter, AutoSize = true, Text = titles[i] }, i, 0);
-                }
+                var lbl = new Label() { Margin = new Padding(0), Dock = DockStyle.Fill, TextAlign = ContentAlignment.MiddleCenter, AutoSize = true, Text = titles[i] };
+
+                if (i == 0)
+                    lbl.BackColor = Color.White;
+                if (i > 0 && i < 4)
+                    lbl.BackColor = Color.CornflowerBlue;
+                if (i == 5)
+                    lbl.BackColor = Color.Yellow;
+                if (i > 5 && i < 8)
+                    lbl.BackColor = Color.LightGreen;
+                if (i == 4 || i == 9)
+                    lbl.BackColor = Color.IndianRed;
+                if (i == 8)
+                    lbl.BackColor = Color.Yellow;
+
+                titlebox.Controls.Add(lbl, i, 0);
             }
 
 
@@ -255,7 +246,7 @@ namespace CourierServiceAssistant
 
                 labels = new Label[]
                 {
-                    new Label() { BackColor = Color.FromArgb(245, 219, 118),Margin = new Padding(0), Dock = DockStyle.Fill, TextAlign = ContentAlignment.MiddleCenter, 
+                    new Label() { BackColor = Color.FromArgb(245, 219, 118),Margin = new Padding(0), Dock = DockStyle.Fill, TextAlign = ContentAlignment.MiddleCenter,
                                                                                                                                              Text = report.Route },                                                          //"Район",
                     new Label() { Dock = DockStyle.Fill, TextAlign = ContentAlignment.MiddleCenter, Cursor = Cursors.Hand, Font = clickFont, Text = $"{report.AllTracksOnRacks.Count} ({report.UniqueTracksRack.Count})" },  //"Посылок за всё время",
                     new Label() { Dock = DockStyle.Fill, TextAlign = ContentAlignment.MiddleCenter,                                          Text = $"{report.AvarageAllRack} ({report.AvarageUniqueRack})" },               //"Среднее кол-во",
@@ -264,8 +255,8 @@ namespace CourierServiceAssistant
                     new Label() { Dock = DockStyle.Fill, TextAlign = ContentAlignment.MiddleCenter, Cursor = Cursors.Hand, Font = clickFont, Text = $"{report.WithoutDelivery.Count}" },  //4                                //"Не были в доставке",
                     new Label() { Dock = DockStyle.Fill, TextAlign = ContentAlignment.MiddleCenter, Cursor = Cursors.Hand, Font = clickFont, Text = $"{report.AllTrackInRuns.Count} ({report.UniqueTracksRun.Count})" },//5  //"На доставку за всё время",
                     new Label() { Dock = DockStyle.Fill, TextAlign = ContentAlignment.MiddleCenter, Cursor = Cursors.Hand, Font = clickFont, Text = $"{report.DeliveredTracksRun.Count}" },//6                               //"Вручено" ,
-                    new Label() { Dock = DockStyle.Fill, TextAlign = ContentAlignment.MiddleCenter, Cursor = Cursors.Hand, Font = clickFont, Text = $"{report.DifferenceTracksRun.Count}" },//7                              //"Ошибки" ,
-                    new Label() { Dock = DockStyle.Fill, TextAlign = ContentAlignment.MiddleCenter, Cursor = Cursors.Hand, Font = clickFont, Text = $"{report.NotDeliveredTracksRun.Count}" },//8                            //"На проверку",
+                    new Label() { Dock = DockStyle.Fill, TextAlign = ContentAlignment.MiddleCenter, Cursor = Cursors.Hand, Font = clickFont, Text = $"{report.DifferenceTracksRun.Count}" },//7                              //"На проверку" ,
+                    new Label() { Dock = DockStyle.Fill, TextAlign = ContentAlignment.MiddleCenter, Cursor = Cursors.Hand, Font = clickFont, Text = $"{report.NotDeliveredTracksRun.Count}" },//8                            //"Ошибки",
                     new Label() { Dock = DockStyle.Fill, TextAlign = ContentAlignment.MiddleCenter,                                          Text = $"{report.AvarageAllRun}" }                                              //"Ср. доставка"                                        
                 };
 
@@ -275,17 +266,6 @@ namespace CourierServiceAssistant
                 }
 
                 titlebox.RowStyles.Add(new RowStyle() { SizeType = SizeType.Absolute, Height = 40F });
-                //titlebox.Controls.Add(labels[0], 0, row + 1);
-                //titlebox.Controls.Add(labels[1], 1, row + 1);
-                //titlebox.Controls.Add(labels[2], 2, row + 1);
-                //titlebox.Controls.Add(labels[3], 3, row + 1);
-                //titlebox.Controls.Add(labels[4], 4, row + 1);
-                //titlebox.Controls.Add(labels[5], 5, row + 1);
-                //titlebox.Controls.Add(labels[6], 6, row + 1);
-                //titlebox.Controls.Add(labels[7], 7, row + 1);
-                //titlebox.Controls.Add(labels[8], 8, row + 1);
-                //titlebox.Controls.Add(labels[9], 9, row + 1);
-                //titlebox.Controls.Add(labels[10], 10, row + 1);
                 for (int column = 0; column < labels.Length; column++)
                 {
                     titlebox.Controls.Add(labels[column], column, row + 1);
@@ -379,12 +359,12 @@ namespace CourierServiceAssistant
             }
 
         }
+
         private void reportclick(object sender, EventArgs e)
         {
             TableLayoutPanel tablePanel = (TableLayoutPanel)((Label)sender).Parent;
             int Y = tablePanel.GetCellPosition((Label)sender).Column;
             int X = tablePanel.GetCellPosition((Label)sender).Row - 1;
-
             switch (Y)
             {
                 case 1:
@@ -394,10 +374,10 @@ namespace CourierServiceAssistant
                     dataGridView1.DataSource = reports[X].DeliveredTracksRack.ConvertAll(x => new { Value = x });
                     break;
                 case 4:
-                    dataGridView1.DataSource = reports[X].WithoutDelivery.ConvertAll(x => new { Value = x });
+                    dataGridView1.DataSource = reports[X].MustBeOnRack.ConvertAll(x => new { Value = x });
                     break;
                 case 5:
-                    dataGridView1.DataSource = reports[X].MustBeOnRack.ConvertAll(x => new { Value = x });
+                    dataGridView1.DataSource = reports[X].WithoutDelivery.ConvertAll(x => new { Value = x });
                     break;
                 case 6:
                     dataGridView1.DataSource = reports[X].UniqueTracksRun.ConvertAll(x => new { Value = x });
@@ -412,7 +392,7 @@ namespace CourierServiceAssistant
                     dataGridView1.DataSource = reports[X].NotDeliveredTracksRun.ConvertAll(x => new { Value = x });
                     break;
                 default:
-                    //dataGridView1.DataSource = null;
+                    dataGridView1.DataSource = null;
                     break;
             }
         }
@@ -765,14 +745,17 @@ namespace CourierServiceAssistant
                     }
 
                     label7.ResetText();
-                    if (Ukd.TrackListOnRacks.Contains(track))
+                    if (Ukd.TrackListOnRacks.Contains(track) || CurrentRackList.Contains(track))
                     {
                         label7.Text = "Повторный ШПИ";
                         trackTextBox.ResetText();
                         return;
                     }
 
+                    CurrentRackList.Add(track);
                     trackDataGrid.Rows.Add(track);
+
+                    trackTextBox.Clear();
 
                     e.Handled = true;
                     e.SuppressKeyPress = true;
@@ -841,17 +824,29 @@ namespace CourierServiceAssistant
 
         private void FillRunForCurrentCourier()
         {
-            var run = Ukd.Runs.Find((x) => x.Courier == CourierNameCombobox.SelectedItem.ToString());
-            run?.TracksInRun.ForEach((x) =>
+            if (rackRadioBtn.Checked)
             {
-                trackDataGrid.Rows.Add(x);
-            });
+                var rack = Ukd.GetRackByCourier(CourierNameCombobox.Text);
+                rack?.TrackList.ForEach((x) =>
+                {
+                    trackDataGrid.Rows.Add(x);
+                });
+            }
+            else
+            {
+                var run = Ukd.Runs.Find((x) => x.Courier == CourierNameCombobox.SelectedItem.ToString());
+                run?.TracksInRun.ForEach((x) =>
+                {
+                    trackDataGrid.Rows.Add(x);
+                });
+            }
         }
+
         private void IsReadyToWork()
         {
             if (dayDatePicker.Value.Date != DateTime.Now.Date || CourierNameCombobox.SelectedIndex == -1)
             {
-                trackTextBox.Enabled = false;
+                trackTextBox.Enabled = true;
             }
             else
             {
@@ -860,24 +855,28 @@ namespace CourierServiceAssistant
         }
 
         private void CourierNameComboBox_SelectedIndexChanged(object sender, EventArgs e)
-        {
-            //TODO: Необходим полный реворк?
-
+        { 
             var courier = CourierNameCombobox.Text;
             var route = Ukd.GetRoute(courier);
 
-            if (Ukd.Runs.Find((x) => x.Courier == CourierNameCombobox.Text) is null) // Создание пустой полки выбранному курьеру для заполнения.
-                Ukd.Runs.Add(new Run() { Courier = courier, Date = dayDatePicker.Value, Route = route, TracksInRun = new List<string>() });
-
             IsReadyToWork();
+            TrackDataGridClear();
+            FillRunForCurrentCourier();
 
-            if (routeRadioBtn.Checked)
+            if (rackRadioBtn.Checked)
             {
-                TrackDataGridClear();
-                FillRunForCurrentCourier();
-            }//Рейс
+                CurrentRackList.Clear();
+            }
 
-            CurrentRun = new Run() { Courier = courier, Date = dayDatePicker.Value, Route = route, TracksInRun = new List<string>() };
+            if(routeRadioBtn.Checked)
+            {
+                
+                if (Ukd.Runs.Find((x) => x.Courier == CourierNameCombobox.Text) == null) // Создание пустой полки выбранному курьеру для заполнения.
+                    Ukd.Runs.Add(new Run() { Courier = courier, Date = dayDatePicker.Value, Route = route, TracksInRun = new List<string>() });
+
+                CurrentRun = null;
+                CurrentRun = new Run() { Courier = courier, Date = dayDatePicker.Value, Route = route, TracksInRun = new List<string>() };
+            }
             UpdateStatistic();
         }
 
@@ -890,7 +889,7 @@ namespace CourierServiceAssistant
             }
         }
 
-        private void button6_Click(object sender, EventArgs e)
+        private void InsertButton_Click(object sender, EventArgs e)
         {
             label7.ResetText();
             if (rackRadioBtn.Checked)
@@ -901,57 +900,48 @@ namespace CourierServiceAssistant
                 if (Ukd.GetRackByCourier(name) is null)
                     Ukd.AddRack(name, Ukd.GetRoute(name), new List<string>(), dayDatePicker.Value);
 
+                Rack _rack = Ukd.GetRackByCourier(name);
                 foreach (DataGridViewRow row in trackDataGrid.Rows)
                 {
                     string track = row.Cells[0].Value.ToString();
-                    Ukd.AddTrackToRack(track, Ukd.GetRackByCourier(name));
-                    Manager.ExecuteNonQuery($"INSERT INTO [Rack] ([courier_id], [route_id], [track], [date]) VALUES ('{name}', '{Ukd.GetRoute(name)}', '{track}', '{date}');"); //Запись в БД информации о сканировании РПО.
+                    if (!_rack.TrackList.Contains(track))
+                    {
+                        Ukd.AddTrackToRack(track, Ukd.GetRackByCourier(name));
+                        Manager.ExecuteNonQuery($"INSERT INTO [Rack] ([courier_id], [route_id], [track], [date]) VALUES ('{name}', '{Ukd.GetRoute(name)}', '{track}', '{date}');"); //Запись в БД информации о сканировании РПО.
+                    }
                 }
 
-                UpdateStatistic();
             }
 
             if (routeRadioBtn.Checked)
-            {
-                if (CurrentRun.TracksInRun.Count <= 0)
+            {              
+                if (CurrentRun.TracksInRun?.Count <= 0)
                 {
                     label7.Text = "Пусто";
                     return;
                 }
-                foreach (var track in CurrentRun.TracksInRun.Except(Ukd.GetAllTracksInRuns))
+
+
+                CurrentRun.TracksInRun = CurrentRun.TracksInRun.Except(Ukd.GetAllTracksInRuns).ToList();
+                foreach (var track in CurrentRun.TracksInRun)
                 {
-                    IsPayneedResult isInBase = ContainsInDataBase(track);
+                    IsPayneedResult isInBase = ContainsInDataBase(track);                   
                     DB.AddParcelToRunDB(CurrentRun, track, isInBase);
                 }
                 Ukd.MergeRuns(CurrentRun);
+                CurrentRun.TracksInRun.Clear();
             }
-
+            UpdateStatistic();
         }
 
-        private void routeDataGrid_RowsAdded(object sender, DataGridViewRowsAddedEventArgs e)
-        {
-            var track = trackDataGrid.Rows[e.RowIndex].Cells[0].Value.ToString();
-            var _rpo = AllMailList.Find((item) => item.TrackID == track)?.IsPayNeed ?? IsPayneedResult.NotFound;
-            switch (_rpo)
-            {
-                case IsPayneedResult.Need:
-                    trackDataGrid.Rows[e.RowIndex].Cells[0].Style.BackColor = Color.Yellow;
-                    break;
-
-                case IsPayneedResult.NotNeed:
-                    break;
-
-                default:
-                    trackDataGrid.Rows[e.RowIndex].Cells[0].Style.BackColor = Color.OrangeRed;
-                    break;
-            }
-            countInRunLabel.Text = trackDataGrid.Rows.Count.ToString();
-        }
+        #region Выбор: Полка или Рейс
 
         private void rackRadioBtn_CheckedChanged(object sender, EventArgs e)
         {
             routeGroupBox.Text = "Rack";
             TrackDataGridClear();
+            if (CourierNameCombobox.SelectedIndex != -1)
+                FillRunForCurrentCourier();
         }
 
         private void routeRadioBtn_CheckedChanged(object sender, EventArgs e)
@@ -961,22 +951,39 @@ namespace CourierServiceAssistant
             if (CourierNameCombobox.SelectedIndex != -1)
                 FillRunForCurrentCourier();
         }
-        private void importComboBox_SelectedIndexChanged(object sender, EventArgs e)//Предварительное создание пустой полки для выбранного курьера, если полка для него отсутствует.
+
+        #endregion
+
+        /// <summary>
+        /// Предварительное создание пустой полки для выбранного курьера, если полка для него отсутствует.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void importComboBox_SelectedIndexChanged(object sender, EventArgs e)
         {
             if (Ukd.GetRackByCourier(CourierNameCombobox.Text) is null)
                 Ukd.AddRack(CourierNameCombobox.Text, Ukd.GetRoute(CourierNameCombobox.Text), new List<string>(), dayDatePicker.Value);
         }
+
+
+        #region Кнопка удаления     
+        /// <summary>
+        /// Удаление всех Трэк-номеров из таблиц RUNS и RACKS выбранного курьера за выбранную дату.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void deleteRunButton_Click(object sender, EventArgs e)
         {
             if (routeRadioBtn.Checked)
             {
                 Manager.ExecuteNonQuery($"DELETE FROM Runs WHERE Courier=('{CourierNameCombobox.Text}') AND Date=('{dayDatePicker.Value.ToShortDateString()}')");
-                Manager.ExecuteNonQuery($"DELETE FROM Racks WHERE Courier=('{CourierNameCombobox.Text}') AND Date=('{dayDatePicker.Value.ToShortDateString()}')");
-                CourierNameCombobox.SelectedIndex = -1;
+                Manager.ExecuteNonQuery($"DELETE FROM Rack WHERE courier_id=('{CourierNameCombobox.Text}') AND date=('{dayDatePicker.Value.ToShortDateString()}')");
             }
-
+            UpdateStatistic();
         }
+        #endregion
 
+        #region вкладка Work      
         private void button5_Click_1(object sender, EventArgs e)
         {
             SevenDays();
@@ -1017,25 +1024,58 @@ namespace CourierServiceAssistant
 
         #endregion
 
+        #endregion
+
+        #region События списка трэк-номеров
+        private void routeDataGrid_RowsAdded(object sender, DataGridViewRowsAddedEventArgs e)
+        {
+            var track = trackDataGrid.Rows[e.RowIndex].Cells[0].Value.ToString();
+            var _rpo = AllMailList.Find((item) => item.TrackID == track)?.IsPayNeed ?? IsPayneedResult.NotFound;
+            switch (_rpo)
+            {
+                case IsPayneedResult.Need:
+                    trackDataGrid.Rows[e.RowIndex].Cells[0].Style.BackColor = Color.Yellow;
+                    break;
+
+                case IsPayneedResult.NotNeed:
+                    break;
+
+                default:
+                    trackDataGrid.Rows[e.RowIndex].Cells[0].Style.BackColor = Color.OrangeRed;
+                    break;
+            }
+            countInRunLabel.Text = trackDataGrid.Rows.Count.ToString();
+        }
         private void routeDataGrid_CellMouseDoubleClick(object sender, DataGridViewCellMouseEventArgs e)
         {
-            //if (dayDatePicker.Value.Date != DateTime.Now.Date)
-            //{
-            //    MessageBox.Show("Нельзя удалить");
-            //    return;
-            //}
             var datagrid = (DataGridView)sender;
-            CurrentRun.TracksInRun.Remove(datagrid.CurrentCell.Value.ToString());
-            DB.RemoveParcelFromRun(CourierNameCombobox.Text, dayDatePicker.Text, datagrid.CurrentCell.Value.ToString());
-            datagrid.Rows.Remove(datagrid.CurrentRow);
-            Ukd.Runs = DB.GetRunsByDate(dayDatePicker.Value); //Выгрузка Рейсов
+            var track = datagrid.CurrentCell.Value.ToString();
+
+            if (routeRadioBtn.Checked)
+            {
+                CurrentRun.TracksInRun.Remove(track);
+                DB.RemoveParcelFromRun(CourierNameCombobox.Text, dayDatePicker.Text, track);
+                datagrid.Rows.Remove(datagrid.CurrentRow);
+                Ukd.DeleteTrack(CurrentRun, track);
+            }
+
+            if (rackRadioBtn.Checked)
+            {
+                CurrentRackList.Remove(track);
+                DB.RemoveParcelFromRack(CourierNameCombobox.Text, dayDatePicker.Text, track);
+                datagrid.Rows.Remove(datagrid.CurrentRow);
+                Ukd.GetRackByCourier(CourierNameCombobox.Text)?.TrackList.Remove(track);
+            }
             UpdateStatistic();
         }
-
         private void routeDataGrid_RowsRemoved(object sender, DataGridViewRowsRemovedEventArgs e)
         {
             countInRunLabel.Text = trackDataGrid.Rows.Count.ToString();
         }
+        #endregion
+
+        #region Обновить список курьеров
+
 
         private void обновитьСписокToolStripMenuItem_Click(object sender, EventArgs e)
         {
@@ -1047,16 +1087,17 @@ namespace CourierServiceAssistant
             CourierNameCombobox.Items.Clear();
             CourierNameCombobox.Items.AddRange(DB.GetCourierListFromDataBase().ToArray());
         }
+        #endregion
 
         private void CourierNameCombobox_TextChanged(object sender, EventArgs e)
         {
             if (CourierNameCombobox.Text.Length <= 0)
             {
-                acceptButton.Enabled = false;
+                InsertButton.Enabled = false;
             }
             else
             {
-                acceptButton.Enabled = true;
+                InsertButton.Enabled = true;
             }
         }
 
@@ -1065,6 +1106,7 @@ namespace CourierServiceAssistant
             DoReport();
         }
 
+        #region Resize
         private void Form1_ResizeBegin(object sender, EventArgs e)
         {
             SuspendLayout();
@@ -1074,5 +1116,26 @@ namespace CourierServiceAssistant
         {
             ResumeLayout();
         }
+        #endregion
+
+        private void approveTextBox_KeyDown(object sender, KeyEventArgs e)
+        {
+            string track = approveTextBox.Text;
+            if (e.KeyCode == Keys.Enter)
+            {
+                if (IsValid(track))
+                {
+                    DB.AddToApproveTable(track);
+
+                    approveTextBox.Clear();
+
+                    e.Handled = true;
+                    e.SuppressKeyPress = true;
+                }
+            }
+        }
+
+
+
     }
 }

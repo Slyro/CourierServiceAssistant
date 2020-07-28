@@ -170,7 +170,22 @@ namespace CourierServiceAssistant
         public void MergeRuns(Run mergingRun)
         {
             var tmp = Runs.Find(x => x.Route == mergingRun.Route || x.Courier == mergingRun.Courier);
-            tmp.TracksInRun.AddRange(mergingRun.TracksInRun);
+            if (tmp != null)
+            {
+                tmp.TracksInRun.AddRange(mergingRun.TracksInRun);
+            }
+            else
+            {
+                Runs.Add(mergingRun);
+            }
+
+        }
+
+
+        public void DeleteTrack(Run mergingRun, string track)
+        {
+            var tmp = Runs.Find(x => x.Route == mergingRun.Route || x.Courier == mergingRun.Courier);
+            tmp.TracksInRun.Remove(track);
         }
     }
 }

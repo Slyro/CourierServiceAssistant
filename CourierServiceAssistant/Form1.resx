@@ -117,11 +117,45 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <assembly alias="System.Drawing" name="System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
+  <data name="routeRadioBtn.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+    <value>
+        iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8
+        YQUAAAAJcEhZcwAAAOwAAADsAXkocb0AAAAZdEVYdFNvZnR3YXJlAHd3dy5pbmtzY2FwZS5vcmeb7jwa
+        AAAC8ElEQVRYR72XSciNURjHPxshmYdYmC0oZSZZKBYWKCSFDGXaIEPsZEeZUmQMRVKGkinD0sLGRpSF
+        YWVYUBas+f3e+57be893vnvfy/3uv371vud7z33Oec7/POd8HV1oChxIMA3aokPwAo4UuJq3tUUOQIqZ
+        mA7vYS50u8IAQiauw3PYBTeh21UcgPSEbzAVvsNYUPOh6JEUu2ElDICkdsCfBLbHf9sIp2E/qEVQ9EmK
+        E3APfsI5GAo1CrMsK799BvpjQf4eFP9WyIAZNAMO5hNMhqpCp95wF37DHegFKm6fBfrCPo0GYAYOVx4z
+        TYB18BGG2KDs4Iw02n3oBw/gGjiDVLvf26+MB7aCnhkJ+mgenISzkMlUOlJnZwADPczf67Xbr4wHzoOB
+        9c8yeAUDQU/0h6pM9W34BbeguASp9mY0Dr6CmQhBndSKymN7ZCa2VB4zHYe9lcf26CJsBgPvAXeEO6Qt
+        Gg/6wCV4AgvBJVgOXWo4rAZHmXJ3WS6AwTeA0lPDoJMJgzxyH4MlV9OZspS7y+K6jwEPs6BTcKbyWKud
+        8AXs1MeGXHGBaebdKvgS3oEzXw8fYDDUyOBvYDTozs/QF1S9AKrRuwXLM8CZG3wS1Mi0O/NRYIm8AZZN
+        z/7/9YBut5K65qa908yVa17cox4cj8DRun9Ta1sWJ6Dbk4ZTul3D+cFBG5DBL8O/VL2m5VbT7UvBPWra
+        nXkrg+sBSWofHIWZsAQ0oGlvpTSkJ2jsDw+0LOAxH3JZJrtjAPEtO9wpsiXwtBsBbsU50OoliLelqrZp
+        wh+gCTXjRLBOX4FWDcJA8RKES00mXb8NNsEMcDDuXa9O1vJix2YIxjNQvASSeUCFQmQVDLJgzAb3cdyx
+        LN6YVDXd9eQV/C14cAwCbzBPwVqu4h8p8+6lVV3KaSgHYeDtYDVcDEFlAsbvDmAVvM7xRtxQ/vejJzSm
+        F1BreWp9y6AHDBoGsBZKy6MzXEhS61sGPdADDLwmfy6oo+MvZcgJvLWVjDcAAAAASUVORK5CYII=
+</value>
+  </data>
   <metadata name="contextMenuStrip1.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
     <value>17, 17</value>
   </metadata>
   <metadata name="routeColumn.UserAddedColumn" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
     <value>True</value>
+  </metadata>
+  <data name="rackRadioBtn.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+    <value>
+        iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8
+        YQUAAAAJcEhZcwAAAN0AAADdAXBTogcAAAAZdEVYdFNvZnR3YXJlAHd3dy5pbmtzY2FwZS5vcmeb7jwa
+        AAAA50lEQVRYR+2XvQ3CMBBGPQIbkC4dTRZggJQMwTLZgYo5KBggEjUSYgJooTi+D13A7k7KGQvJkZ4U
+        J9a7JxT+goh8wDEAnuRkSGYmixBG3XQFF2fopHtMZiaLb8Aivu4Bneo2BZz03BM6zQE5MQUsAV8yT+g0
+        BxR/BmpADViBxhk6zQE5MQUcwcEZOs0BxZ+BO7g5Q+f/BNTPgRpQA3qwdoZOc0BOTAF7sHOGTnNA8R+l
+        OTEFFP9j8tu3IY6WN8AD8MIZbOKNc6BLnVxwBme173u6oQP8yuSCPME2lsyBLnVOfs7qRCS8AIL8TUC4
+        Nq0sAAAAAElFTkSuQmCC
+</value>
+  </data>
+  <metadata name="tabPage4.GenerateMember" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
+    <value>False</value>
   </metadata>
   <metadata name="routeColumn.UserAddedColumn" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
     <value>True</value>

@@ -17,6 +17,8 @@ namespace CourierServiceAssistant
 
         static public List<string> GoneByReport;
         static public List<string> CurrentList;
+        static public List<string> Approved;
+
         private readonly List<Rack> Racks;
         private readonly List<Run> Runs;
         public string Route { get; set; }
@@ -61,12 +63,13 @@ namespace CourierServiceAssistant
         public List<string> WithoutDelivery         => MustBeOnRack.Except(AllTrackInRuns.Distinct()).ToList();
         public List<string> AllTracksOnRacks { get; set; }
         #endregion
+
         #region Runs
         public double AvarageAllRun                 => AllTrackInRuns.Count / Runs.Count;
         public List<string> UniqueTracksRun         => AllTrackInRuns.Distinct().ToList();
         public List<string> DeliveredTracksRun      => UniqueTracksRun.Where(track => GoneByReport.Contains(track) || !CurrentList.Contains(track)).ToList();
-        public List<string> DifferenceTracksRun     => UniqueTracksRun.Except(DeliveredTracksRun).ToList();  
-        public List<string> NotDeliveredTracksRun   => UniqueTracksRun.Where((track) => !GoneByReport.Contains(track) && !CurrentList.Contains(track)).ToList();
+        public List<string> DifferenceTracksRun     => UniqueTracksRun.Except(DeliveredTracksRun).Except(Approved).ToList();  
+        public List<string> NotDeliveredTracksRun   => UniqueTracksRun.Where((track) => !GoneByReport.Contains(track) && !CurrentList.Contains(track)).Except(Approved).ToList();
         private List<string> LastThreeDaysTrackList
         {
             get

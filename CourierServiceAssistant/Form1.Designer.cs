@@ -29,11 +29,12 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
+            System.Windows.Forms.TabPage tabPage4;
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Form1));
             this.button1 = new System.Windows.Forms.Button();
             this.debugTextBox = new System.Windows.Forms.TextBox();
             this.button2 = new System.Windows.Forms.Button();
             this.tabControl1 = new System.Windows.Forms.TabControl();
-            this.tabPage4 = new System.Windows.Forms.TabPage();
             this.reportLabel = new System.Windows.Forms.Label();
             this.totalMailLabel = new System.Windows.Forms.Label();
             this.dayTwoAddDayButton = new System.Windows.Forms.Button();
@@ -47,9 +48,9 @@
             this.totalFlowPanel = new System.Windows.Forms.FlowLayoutPanel();
             this.dayTwoFlowPanel = new System.Windows.Forms.FlowLayoutPanel();
             this.dayOneFlowPanel = new System.Windows.Forms.FlowLayoutPanel();
-            this.button5 = new System.Windows.Forms.Button();
+            this.workTESTButton = new System.Windows.Forms.Button();
             this.tabPage5 = new System.Windows.Forms.TabPage();
-            this.button4 = new System.Windows.Forms.Button();
+            this.createReportButton = new System.Windows.Forms.Button();
             this.dataGridView1 = new System.Windows.Forms.DataGridView();
             this.flowLayoutPanel1 = new System.Windows.Forms.FlowLayoutPanel();
             this.reportLabelBase = new System.Windows.Forms.Label();
@@ -57,7 +58,7 @@
             this.tabPage3 = new System.Windows.Forms.TabPage();
             this.routeRadioBtn = new System.Windows.Forms.RadioButton();
             this.routeGroupBox = new System.Windows.Forms.GroupBox();
-            this.acceptButton = new System.Windows.Forms.Button();
+            this.InsertButton = new System.Windows.Forms.Button();
             this.deleteRunButton = new System.Windows.Forms.Button();
             this.label7 = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
@@ -95,8 +96,11 @@
             this.button3 = new System.Windows.Forms.Button();
             this.label6 = new System.Windows.Forms.Label();
             this.historyLabel = new System.Windows.Forms.Label();
+            this.approveTextBox = new System.Windows.Forms.TextBox();
+            this.approveGroupBox = new System.Windows.Forms.GroupBox();
+            tabPage4 = new System.Windows.Forms.TabPage();
             this.tabControl1.SuspendLayout();
-            this.tabPage4.SuspendLayout();
+            tabPage4.SuspendLayout();
             this.tabPage5.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
             this.tabPage3.SuspendLayout();
@@ -108,6 +112,7 @@
             this.routeSettingsGroupBox.SuspendLayout();
             this.courierSettingsGroupBox.SuspendLayout();
             this.tabPage1.SuspendLayout();
+            this.approveGroupBox.SuspendLayout();
             this.SuspendLayout();
             // 
             // button1
@@ -143,11 +148,11 @@
             // 
             // tabControl1
             // 
-            this.tabControl1.Controls.Add(this.tabPage4);
             this.tabControl1.Controls.Add(this.tabPage5);
             this.tabControl1.Controls.Add(this.tabPage3);
             this.tabControl1.Controls.Add(this.tabPage2);
             this.tabControl1.Controls.Add(this.tabPage1);
+            this.tabControl1.Controls.Add(tabPage4);
             this.tabControl1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tabControl1.Font = new System.Drawing.Font("Century Gothic", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.tabControl1.HotTrack = true;
@@ -156,33 +161,33 @@
             this.tabControl1.Margin = new System.Windows.Forms.Padding(0);
             this.tabControl1.Name = "tabControl1";
             this.tabControl1.SelectedIndex = 0;
-            this.tabControl1.Size = new System.Drawing.Size(1547, 795);
+            this.tabControl1.Size = new System.Drawing.Size(1494, 637);
             this.tabControl1.TabIndex = 6;
             // 
             // tabPage4
             // 
-            this.tabPage4.Controls.Add(this.reportLabel);
-            this.tabPage4.Controls.Add(this.totalMailLabel);
-            this.tabPage4.Controls.Add(this.dayTwoAddDayButton);
-            this.tabPage4.Controls.Add(this.dayOneAddDayButton);
-            this.tabPage4.Controls.Add(this.addDayButton);
-            this.tabPage4.Controls.Add(this.dayTwoSubDayButton);
-            this.tabPage4.Controls.Add(this.dayOneSubDateButton);
-            this.tabPage4.Controls.Add(this.subDayButton);
-            this.tabPage4.Controls.Add(this.dayTwoDatePicker);
-            this.tabPage4.Controls.Add(this.dayOneDatePicker);
-            this.tabPage4.Controls.Add(this.totalFlowPanel);
-            this.tabPage4.Controls.Add(this.dayTwoFlowPanel);
-            this.tabPage4.Controls.Add(this.dayOneFlowPanel);
-            this.tabPage4.Controls.Add(this.button5);
-            this.tabPage4.Font = new System.Drawing.Font("Century Gothic", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.tabPage4.Location = new System.Drawing.Point(4, 29);
-            this.tabPage4.Margin = new System.Windows.Forms.Padding(4);
-            this.tabPage4.Name = "tabPage4";
-            this.tabPage4.Size = new System.Drawing.Size(1283, 762);
-            this.tabPage4.TabIndex = 3;
-            this.tabPage4.Text = "Work";
-            this.tabPage4.UseVisualStyleBackColor = true;
+            tabPage4.Controls.Add(this.reportLabel);
+            tabPage4.Controls.Add(this.totalMailLabel);
+            tabPage4.Controls.Add(this.dayTwoAddDayButton);
+            tabPage4.Controls.Add(this.dayOneAddDayButton);
+            tabPage4.Controls.Add(this.addDayButton);
+            tabPage4.Controls.Add(this.dayTwoSubDayButton);
+            tabPage4.Controls.Add(this.dayOneSubDateButton);
+            tabPage4.Controls.Add(this.subDayButton);
+            tabPage4.Controls.Add(this.dayTwoDatePicker);
+            tabPage4.Controls.Add(this.dayOneDatePicker);
+            tabPage4.Controls.Add(this.totalFlowPanel);
+            tabPage4.Controls.Add(this.dayTwoFlowPanel);
+            tabPage4.Controls.Add(this.dayOneFlowPanel);
+            tabPage4.Controls.Add(this.workTESTButton);
+            tabPage4.Font = new System.Drawing.Font("Century Gothic", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            tabPage4.Location = new System.Drawing.Point(4, 29);
+            tabPage4.Margin = new System.Windows.Forms.Padding(4);
+            tabPage4.Name = "tabPage4";
+            tabPage4.Size = new System.Drawing.Size(1539, 762);
+            tabPage4.TabIndex = 3;
+            tabPage4.Text = "Work";
+            tabPage4.UseVisualStyleBackColor = true;
             // 
             // reportLabel
             // 
@@ -309,42 +314,42 @@
             this.dayOneFlowPanel.Size = new System.Drawing.Size(200, 344);
             this.dayOneFlowPanel.TabIndex = 1;
             // 
-            // button5
+            // workTESTButton
             // 
-            this.button5.Location = new System.Drawing.Point(8, 106);
-            this.button5.Name = "button5";
-            this.button5.Size = new System.Drawing.Size(90, 49);
-            this.button5.TabIndex = 0;
-            this.button5.Text = "button5";
-            this.button5.UseVisualStyleBackColor = true;
-            this.button5.Click += new System.EventHandler(this.button5_Click_1);
+            this.workTESTButton.Location = new System.Drawing.Point(8, 106);
+            this.workTESTButton.Name = "workTESTButton";
+            this.workTESTButton.Size = new System.Drawing.Size(90, 49);
+            this.workTESTButton.TabIndex = 0;
+            this.workTESTButton.Text = "button5";
+            this.workTESTButton.UseVisualStyleBackColor = true;
+            this.workTESTButton.Click += new System.EventHandler(this.button5_Click_1);
             // 
             // tabPage5
             // 
-            this.tabPage5.Controls.Add(this.button4);
+            this.tabPage5.Controls.Add(this.createReportButton);
             this.tabPage5.Controls.Add(this.dataGridView1);
             this.tabPage5.Controls.Add(this.flowLayoutPanel1);
             this.tabPage5.Controls.Add(this.reportLabelBase);
             this.tabPage5.Controls.Add(this.reportLabelGone);
             this.tabPage5.Location = new System.Drawing.Point(4, 29);
             this.tabPage5.Name = "tabPage5";
-            this.tabPage5.Size = new System.Drawing.Size(1539, 762);
+            this.tabPage5.Size = new System.Drawing.Size(1486, 604);
             this.tabPage5.TabIndex = 4;
             this.tabPage5.Text = "Report";
             this.tabPage5.UseVisualStyleBackColor = true;
             // 
-            // button4
+            // createReportButton
             // 
-            this.button4.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.button4.Font = new System.Drawing.Font("Century Gothic", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.button4.Location = new System.Drawing.Point(1308, 3);
-            this.button4.Margin = new System.Windows.Forms.Padding(0);
-            this.button4.Name = "button4";
-            this.button4.Size = new System.Drawing.Size(219, 30);
-            this.button4.TabIndex = 4;
-            this.button4.Text = "Create Report";
-            this.button4.UseVisualStyleBackColor = true;
-            this.button4.Click += new System.EventHandler(this.button4_Click);
+            this.createReportButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.createReportButton.Font = new System.Drawing.Font("Century Gothic", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.createReportButton.Location = new System.Drawing.Point(1255, 3);
+            this.createReportButton.Margin = new System.Windows.Forms.Padding(0);
+            this.createReportButton.Name = "createReportButton";
+            this.createReportButton.Size = new System.Drawing.Size(219, 30);
+            this.createReportButton.TabIndex = 4;
+            this.createReportButton.Text = "Create Report";
+            this.createReportButton.UseVisualStyleBackColor = true;
+            this.createReportButton.Click += new System.EventHandler(this.button4_Click);
             // 
             // dataGridView1
             // 
@@ -352,11 +357,11 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.dataGridView1.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.AllCells;
             this.dataGridView1.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dataGridView1.Location = new System.Drawing.Point(1308, 36);
+            this.dataGridView1.Location = new System.Drawing.Point(1255, 36);
             this.dataGridView1.Name = "dataGridView1";
             this.dataGridView1.RowHeadersWidth = 35;
             this.dataGridView1.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
-            this.dataGridView1.Size = new System.Drawing.Size(219, 714);
+            this.dataGridView1.Size = new System.Drawing.Size(219, 556);
             this.dataGridView1.TabIndex = 3;
             // 
             // flowLayoutPanel1
@@ -369,7 +374,7 @@
             this.flowLayoutPanel1.Font = new System.Drawing.Font("Century Gothic", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.flowLayoutPanel1.Location = new System.Drawing.Point(8, 33);
             this.flowLayoutPanel1.Name = "flowLayoutPanel1";
-            this.flowLayoutPanel1.Size = new System.Drawing.Size(1294, 717);
+            this.flowLayoutPanel1.Size = new System.Drawing.Size(1241, 559);
             this.flowLayoutPanel1.TabIndex = 2;
             // 
             // reportLabelBase
@@ -392,6 +397,7 @@
             // 
             // tabPage3
             // 
+            this.tabPage3.Controls.Add(this.approveGroupBox);
             this.tabPage3.Controls.Add(this.routeRadioBtn);
             this.tabPage3.Controls.Add(this.routeGroupBox);
             this.tabPage3.Controls.Add(this.rackRadioBtn);
@@ -400,27 +406,26 @@
             this.tabPage3.Location = new System.Drawing.Point(4, 29);
             this.tabPage3.Margin = new System.Windows.Forms.Padding(4);
             this.tabPage3.Name = "tabPage3";
-            this.tabPage3.Size = new System.Drawing.Size(1283, 762);
+            this.tabPage3.Size = new System.Drawing.Size(1486, 604);
             this.tabPage3.TabIndex = 2;
             this.tabPage3.Text = "Warehouse";
             this.tabPage3.UseVisualStyleBackColor = true;
             // 
             // routeRadioBtn
             // 
-            this.routeRadioBtn.AutoSize = true;
             this.routeRadioBtn.Checked = true;
-            this.routeRadioBtn.Location = new System.Drawing.Point(92, 4);
+            this.routeRadioBtn.Image = ((System.Drawing.Image)(resources.GetObject("routeRadioBtn.Image")));
+            this.routeRadioBtn.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.routeRadioBtn.Location = new System.Drawing.Point(70, 3);
             this.routeRadioBtn.Name = "routeRadioBtn";
-            this.routeRadioBtn.Size = new System.Drawing.Size(65, 24);
+            this.routeRadioBtn.Size = new System.Drawing.Size(55, 45);
             this.routeRadioBtn.TabIndex = 14;
-            this.routeRadioBtn.TabStop = true;
-            this.routeRadioBtn.Text = "Рейс";
             this.routeRadioBtn.UseVisualStyleBackColor = true;
             this.routeRadioBtn.CheckedChanged += new System.EventHandler(this.routeRadioBtn_CheckedChanged);
             // 
             // routeGroupBox
             // 
-            this.routeGroupBox.Controls.Add(this.acceptButton);
+            this.routeGroupBox.Controls.Add(this.InsertButton);
             this.routeGroupBox.Controls.Add(this.deleteRunButton);
             this.routeGroupBox.Controls.Add(this.label7);
             this.routeGroupBox.Controls.Add(this.label1);
@@ -430,33 +435,34 @@
             this.routeGroupBox.Controls.Add(this.dayDatePicker);
             this.routeGroupBox.Controls.Add(this.trackDataGrid);
             this.routeGroupBox.Controls.Add(this.countInRunLabel);
-            this.routeGroupBox.Location = new System.Drawing.Point(9, 35);
+            this.routeGroupBox.Location = new System.Drawing.Point(9, 44);
             this.routeGroupBox.Name = "routeGroupBox";
-            this.routeGroupBox.Size = new System.Drawing.Size(598, 500);
+            this.routeGroupBox.Size = new System.Drawing.Size(598, 514);
             this.routeGroupBox.TabIndex = 19;
             this.routeGroupBox.TabStop = false;
             this.routeGroupBox.Text = "Route";
             // 
-            // acceptButton
+            // InsertButton
             // 
-            this.acceptButton.Enabled = false;
-            this.acceptButton.Font = new System.Drawing.Font("Century Gothic", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.acceptButton.Location = new System.Drawing.Point(13, 163);
-            this.acceptButton.Name = "acceptButton";
-            this.acceptButton.Size = new System.Drawing.Size(108, 32);
-            this.acceptButton.TabIndex = 13;
-            this.acceptButton.Text = "Insert";
-            this.acceptButton.UseVisualStyleBackColor = true;
-            this.acceptButton.Click += new System.EventHandler(this.button6_Click);
+            this.InsertButton.Enabled = false;
+            this.InsertButton.Font = new System.Drawing.Font("Century Gothic", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.InsertButton.Location = new System.Drawing.Point(13, 163);
+            this.InsertButton.Name = "InsertButton";
+            this.InsertButton.Size = new System.Drawing.Size(108, 32);
+            this.InsertButton.TabIndex = 13;
+            this.InsertButton.Text = "Insert";
+            this.InsertButton.UseVisualStyleBackColor = true;
+            this.InsertButton.Click += new System.EventHandler(this.InsertButton_Click);
             // 
             // deleteRunButton
             // 
+            this.deleteRunButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.deleteRunButton.Font = new System.Drawing.Font("Century Gothic", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.deleteRunButton.Location = new System.Drawing.Point(6, 460);
+            this.deleteRunButton.Location = new System.Drawing.Point(6, 474);
             this.deleteRunButton.Name = "deleteRunButton";
             this.deleteRunButton.Size = new System.Drawing.Size(186, 32);
             this.deleteRunButton.TabIndex = 13;
-            this.deleteRunButton.Text = "Remove from DB";
+            this.deleteRunButton.Text = "Remove All";
             this.deleteRunButton.UseVisualStyleBackColor = true;
             this.deleteRunButton.Click += new System.EventHandler(this.deleteRunButton_Click);
             // 
@@ -538,6 +544,8 @@
             // trackDataGrid
             // 
             this.trackDataGrid.AllowUserToAddRows = false;
+            this.trackDataGrid.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left)));
             this.trackDataGrid.BackgroundColor = System.Drawing.Color.White;
             this.trackDataGrid.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.trackDataGrid.CellBorderStyle = System.Windows.Forms.DataGridViewCellBorderStyle.None;
@@ -553,7 +561,7 @@
             this.trackDataGrid.RowHeadersWidth = 12;
             this.trackDataGrid.RowTemplate.Height = 35;
             this.trackDataGrid.ShowEditingIcon = false;
-            this.trackDataGrid.Size = new System.Drawing.Size(263, 465);
+            this.trackDataGrid.Size = new System.Drawing.Size(263, 479);
             this.trackDataGrid.TabIndex = 11;
             this.trackDataGrid.CellMouseDoubleClick += new System.Windows.Forms.DataGridViewCellMouseEventHandler(this.routeDataGrid_CellMouseDoubleClick);
             this.trackDataGrid.RowsAdded += new System.Windows.Forms.DataGridViewRowsAddedEventHandler(this.routeDataGrid_RowsAdded);
@@ -578,12 +586,13 @@
             // 
             // rackRadioBtn
             // 
-            this.rackRadioBtn.AutoSize = true;
-            this.rackRadioBtn.Location = new System.Drawing.Point(9, 4);
+            this.rackRadioBtn.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
+            this.rackRadioBtn.Image = ((System.Drawing.Image)(resources.GetObject("rackRadioBtn.Image")));
+            this.rackRadioBtn.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.rackRadioBtn.Location = new System.Drawing.Point(9, 3);
             this.rackRadioBtn.Name = "rackRadioBtn";
-            this.rackRadioBtn.Size = new System.Drawing.Size(73, 24);
+            this.rackRadioBtn.Size = new System.Drawing.Size(55, 45);
             this.rackRadioBtn.TabIndex = 14;
-            this.rackRadioBtn.Text = "Полка";
             this.rackRadioBtn.UseVisualStyleBackColor = true;
             this.rackRadioBtn.CheckedChanged += new System.EventHandler(this.rackRadioBtn_CheckedChanged);
             // 
@@ -596,11 +605,11 @@
             this.groupBox4.Controls.Add(this.label12);
             this.groupBox4.Controls.Add(this.label3);
             this.groupBox4.Font = new System.Drawing.Font("Century Gothic", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.groupBox4.Location = new System.Drawing.Point(633, 35);
+            this.groupBox4.Location = new System.Drawing.Point(620, 44);
             this.groupBox4.Margin = new System.Windows.Forms.Padding(4);
             this.groupBox4.Name = "groupBox4";
             this.groupBox4.Padding = new System.Windows.Forms.Padding(4);
-            this.groupBox4.Size = new System.Drawing.Size(641, 500);
+            this.groupBox4.Size = new System.Drawing.Size(615, 514);
             this.groupBox4.TabIndex = 18;
             this.groupBox4.TabStop = false;
             this.groupBox4.Text = "Статистика";
@@ -612,7 +621,7 @@
             this.statisticPanel2.Location = new System.Drawing.Point(307, 47);
             this.statisticPanel2.Margin = new System.Windows.Forms.Padding(4);
             this.statisticPanel2.Name = "statisticPanel2";
-            this.statisticPanel2.Size = new System.Drawing.Size(322, 398);
+            this.statisticPanel2.Size = new System.Drawing.Size(291, 398);
             this.statisticPanel2.TabIndex = 24;
             // 
             // statisticPanel1
@@ -673,7 +682,7 @@
             this.tabPage2.Margin = new System.Windows.Forms.Padding(4);
             this.tabPage2.Name = "tabPage2";
             this.tabPage2.Padding = new System.Windows.Forms.Padding(4);
-            this.tabPage2.Size = new System.Drawing.Size(1283, 762);
+            this.tabPage2.Size = new System.Drawing.Size(1539, 762);
             this.tabPage2.TabIndex = 1;
             this.tabPage2.Text = "Settings";
             this.tabPage2.UseVisualStyleBackColor = true;
@@ -814,7 +823,7 @@
             this.tabPage1.Location = new System.Drawing.Point(4, 29);
             this.tabPage1.Margin = new System.Windows.Forms.Padding(0);
             this.tabPage1.Name = "tabPage1";
-            this.tabPage1.Size = new System.Drawing.Size(1283, 762);
+            this.tabPage1.Size = new System.Drawing.Size(1539, 762);
             this.tabPage1.TabIndex = 0;
             this.tabPage1.Text = "Import";
             this.tabPage1.UseVisualStyleBackColor = true;
@@ -863,11 +872,29 @@
             this.historyLabel.TabIndex = 6;
             this.historyLabel.Text = "label2";
             // 
+            // approveTextBox
+            // 
+            this.approveTextBox.Location = new System.Drawing.Point(13, 47);
+            this.approveTextBox.Name = "approveTextBox";
+            this.approveTextBox.Size = new System.Drawing.Size(202, 26);
+            this.approveTextBox.TabIndex = 20;
+            this.approveTextBox.KeyDown += new System.Windows.Forms.KeyEventHandler(this.approveTextBox_KeyDown);
+            // 
+            // approveGroupBox
+            // 
+            this.approveGroupBox.Controls.Add(this.approveTextBox);
+            this.approveGroupBox.Location = new System.Drawing.Point(1248, 44);
+            this.approveGroupBox.Name = "approveGroupBox";
+            this.approveGroupBox.Size = new System.Drawing.Size(231, 110);
+            this.approveGroupBox.TabIndex = 21;
+            this.approveGroupBox.TabStop = false;
+            this.approveGroupBox.Text = "Approve Delivery";
+            // 
             // Form1
             // 
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
             this.BackColor = System.Drawing.Color.White;
-            this.ClientSize = new System.Drawing.Size(1547, 795);
+            this.ClientSize = new System.Drawing.Size(1494, 637);
             this.Controls.Add(this.tabControl1);
             this.Font = new System.Drawing.Font("Century Gothic", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.Margin = new System.Windows.Forms.Padding(4);
@@ -877,13 +904,12 @@
             this.ResizeBegin += new System.EventHandler(this.Form1_ResizeBegin);
             this.ResizeEnd += new System.EventHandler(this.Form1_ResizeEnd);
             this.tabControl1.ResumeLayout(false);
-            this.tabPage4.ResumeLayout(false);
-            this.tabPage4.PerformLayout();
+            tabPage4.ResumeLayout(false);
+            tabPage4.PerformLayout();
             this.tabPage5.ResumeLayout(false);
             this.tabPage5.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).EndInit();
             this.tabPage3.ResumeLayout(false);
-            this.tabPage3.PerformLayout();
             this.routeGroupBox.ResumeLayout(false);
             this.routeGroupBox.PerformLayout();
             this.contextMenuStrip1.ResumeLayout(false);
@@ -897,6 +923,8 @@
             this.courierSettingsGroupBox.PerformLayout();
             this.tabPage1.ResumeLayout(false);
             this.tabPage1.PerformLayout();
+            this.approveGroupBox.ResumeLayout(false);
+            this.approveGroupBox.PerformLayout();
             this.ResumeLayout(false);
 
         }
@@ -927,7 +955,6 @@
         private System.Windows.Forms.GroupBox groupBox4;
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.FlowLayoutPanel statisticPanel1;
-        private System.Windows.Forms.TabPage tabPage4;
         private System.Windows.Forms.ComboBox CourierNameCombobox;
         private System.Windows.Forms.Label label5;
         private System.Windows.Forms.Label label6;
@@ -937,10 +964,9 @@
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Label label7;
         private System.Windows.Forms.FlowLayoutPanel dayOneFlowPanel;
-        private System.Windows.Forms.Button button5;
+        private System.Windows.Forms.Button workTESTButton;
         private System.Windows.Forms.Label countInRunLabel;
         private System.Windows.Forms.RadioButton routeRadioBtn;
-        private System.Windows.Forms.RadioButton rackRadioBtn;
         private System.Windows.Forms.GroupBox routeGroupBox;
         private System.Windows.Forms.FlowLayoutPanel statisticPanel2;
         private System.Windows.Forms.Label label11;
@@ -963,12 +989,15 @@
         private System.Windows.Forms.Label reportLabelGone;
         private System.Windows.Forms.FlowLayoutPanel flowLayoutPanel1;
         private System.Windows.Forms.DataGridView dataGridView1;
-        private System.Windows.Forms.Button acceptButton;
+        private System.Windows.Forms.Button InsertButton;
         private System.Windows.Forms.Button deleteRunButton;
         private System.Windows.Forms.ContextMenuStrip contextMenuStrip1;
         private System.Windows.Forms.ToolStripMenuItem обновитьСписокToolStripMenuItem;
         private System.Windows.Forms.DataGridViewTextBoxColumn routeColumn;
-        private System.Windows.Forms.Button button4;
+        private System.Windows.Forms.Button createReportButton;
+        private System.Windows.Forms.GroupBox approveGroupBox;
+        private System.Windows.Forms.TextBox approveTextBox;
+        private System.Windows.Forms.RadioButton rackRadioBtn;
     }
 }
 

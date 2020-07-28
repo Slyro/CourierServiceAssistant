@@ -184,6 +184,10 @@ namespace CourierServiceAssistant
         {
             Manager.ExecuteNonQuery($"DELETE FROM Runs WHERE Courier = '{coureir}' AND Track = '{track}' AND Date = '{date}'");
         }
+        public void RemoveParcelFromRack(string coureir, string date, string track)
+        {
+            Manager.ExecuteNonQuery($"DELETE FROM Rack WHERE courier_id = '{coureir}' AND track = '{track}' AND date = '{date}'");
+        }
 
 
         public void AddParcelToRackDB(Rack rack, string[] tracks)
@@ -220,6 +224,28 @@ namespace CourierServiceAssistant
             {
                 Manager.ExecuteNonQuery($"INSERT INTO [Runs] (Track, Courier, isNew, Date) VALUES ('{tracks[i]}', '{run.Courier}', {isNew}, '{run.Date.ToShortDateString()}');");
             }
+        }
+
+        public void AddToApproveTable(string track)
+        {
+            Manager.ExecuteNonQuery($"INSERT INTO [Approve] (track) VALUES ('{track}');");
+        }
+        public List<string> SelectAllFromApproveTable()
+        {
+            List<string> list = new List<string>();
+
+            using (var reader = Manager.ExecuteReader($"SELECT DISTINCT track FROM Approve "))
+            {
+                if (reader.HasRows)
+                {
+                    while (reader.Read())
+                    {
+                        list.Add(reader.GetString(0));
+                    }
+                }
+            }
+
+            return list;
         }
 
     }
