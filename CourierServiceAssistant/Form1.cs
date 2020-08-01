@@ -1,4 +1,5 @@
-﻿using ExcelDataReader;
+﻿using CourierServiceAssistant.sklad;
+using ExcelDataReader;
 using System;
 using System.Collections.Generic;
 using System.Data.SQLite;
@@ -9,7 +10,7 @@ using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-using CourierServiceAssistant.sklad;
+using System.Diagnostics;
 
 namespace CourierServiceAssistant
 {
@@ -136,14 +137,20 @@ namespace CourierServiceAssistant
         private void DoReport()
         {
             // 0, 2, 3, 5, 6, 7
+            Stopwatch stopwatch = new Stopwatch();
 
             if (titlebox != null)
             {
                 titlebox.Dispose();
             }
 
+            stopwatch.Start();
+
             var _list = DB.GetGoneParcelFromDataBase().Select(x => x.TrackID).ToList();
             flowLayoutPanel1.Controls.Clear();
+
+            flowLayoutPanel1.Visible = false;
+            flowLayoutPanel1.SuspendLayout();
 
             reportLabelBase.Text = "Storage: " + AllMailList.Count;
             reportLabelGone.Text = "Delivered: " + _list.Count;
@@ -159,6 +166,12 @@ namespace CourierServiceAssistant
                 reports.Add(new Report(DB.GetRacksPerDayByRoute(route), DB.GetRunsPerDayByRoute(route)));
             }
             reports.RemoveAll((x) => string.IsNullOrEmpty(x.Route));
+
+            stopwatch.Stop();
+
+            MessageBox.Show("Формирование отчетов: " + stopwatch.Elapsed.ToString());
+
+            stopwatch.Reset();
 
             string[] titles = new string[]
             {
@@ -240,7 +253,7 @@ namespace CourierServiceAssistant
                 Color.FloralWhite,
                 Color.Snow
             };
-
+            stopwatch.Start();
             for (int row = 0; row < reports.Count; row++)
             {
                 Report report = reports[row];
@@ -273,9 +286,13 @@ namespace CourierServiceAssistant
                     titlebox.Controls.Add(labels[column], column, row + 1);
                 }
 
-            }
-            flowLayoutPanel1.Visible = false;
-            flowLayoutPanel1.SuspendLayout();
+            }            
+            stopwatch.Stop();
+
+            #if DEBUG
+            MessageBox.Show("Построение таблицы" + stopwatch.Elapsed.ToString());
+            #endif
+
             flowLayoutPanel1.Controls.Add(titlebox);
             flowLayoutPanel1.ResumeLayout();
             flowLayoutPanel1.Visible = true;
