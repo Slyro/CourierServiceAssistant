@@ -1,20 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace CourierServiceAssistant
 {
     class Report
     {
-        /// <summary>
-        /// Репорт по курьерам.
-        /// 
-        /// 
-        /// </summary>
-
-
         static public List<string> GoneByReport;
         static public List<string> CurrentList;
         static public List<string> Approved;
@@ -27,23 +17,12 @@ namespace CourierServiceAssistant
         public string Route { get; set; }
 
         #region Racks
-
         public double AvarageAllRack { get; private set; }
         public double AvarageUniqueRack { get; private set; }
         public List<string> MustBeOnRack { get; private set; }
         public List<string> UniqueTracksRack { get; private set; }
         public List<string> DeliveredTracksRack { get; private set; }
         public List<string> WithoutDelivery { get; private set; }
-
-        //public double AvarageAllRack                => AllTracksOnRacks.Count / Racks.Count;
-        //public double AvarageAllRack { get; private set; }
-        //public double AvarageUniqueRack { get; private set; }
-        //public List<string> MustBeOnRack            => UniqueTracksRack.Except(GoneByReport).ToList();
-        //public List<string> UniqueTracksRack        => AllTracksOnRacks.Distinct().ToList();
-        //public List<string> DeliveredTracksRack     => UniqueTracksRack.Except(MustBeOnRack).ToList();
-        //public List<string> WithoutDelivery         => MustBeOnRack.Except(AllTrackInRuns.Distinct()).ToList();
-
-
         #endregion
 
         #region Runs
@@ -61,6 +40,7 @@ namespace CourierServiceAssistant
             {
                 AllTracksOnRacks.AddRange(racks[i].TrackList);
             }
+
         }
         private void FillTracks(List<Run> runs)
         {
@@ -77,29 +57,44 @@ namespace CourierServiceAssistant
                 Route = racks[0].Route;
                 Racks = racks;
                 FillTracks(Racks);
-                UniqueTracksRack = AllTracksOnRacks.Distinct().ToList();
-                AvarageAllRack = AllTracksOnRacks.Count / Racks.Count;
-                AvarageUniqueRack = UniqueTracksRack.Count / Racks.Count;
-                MustBeOnRack = UniqueTracksRack.Except(GoneByReport).ToList();
-                DeliveredTracksRack = UniqueTracksRack.Except(MustBeOnRack).ToList();
                 
             }
             if (runs.Count > 0)
             {
                 Runs = runs;
-                FillTracks(Runs);
-                AvarageAllRun = AllTrackInRuns.Count / Runs.Count;
-                UniqueTracksRun = AllTrackInRuns.Distinct().ToList();
-                DeliveredTracksRun = UniqueTracksRun.Where(track => GoneByReport.Contains(track) || !CurrentList.Contains(track)).ToList();
-                DifferenceTracksRun = UniqueTracksRun.Except(DeliveredTracksRun).Except(Approved).ToList();
-                NotDeliveredTracksRun = UniqueTracksRun.Where((track) => !GoneByReport.Contains(track) && !CurrentList.Contains(track)).Except(Approved).ToList();
-                WithoutDelivery = MustBeOnRack.Except(AllTrackInRuns.Distinct()).ToList();
+                FillTracks(Runs);               
             }
-
         }
 
+        public void Calc()
+        {
+            CalcRack();
+            CalcRuns();
+        }
 
+        private void CalcRack()
+        {
+            UniqueTracksRack = AllTracksOnRacks.Distinct().ToList();
+            AvarageAllRack = AllTracksOnRacks.Count / Racks.Count;
+            AvarageUniqueRack = UniqueTracksRack.Count / Racks.Count;
+            MustBeOnRack = UniqueTracksRack.Except(GoneByReport).ToList();
+            DeliveredTracksRack = UniqueTracksRack.Except(MustBeOnRack).ToList();
+            Racks.Clear();
+        }
 
+        private void CalcRuns()
+        {
+            AvarageAllRun = AllTrackInRuns.Count / Runs.Count;
+            UniqueTracksRun = AllTrackInRuns.Distinct().ToList();
 
+            //АД
+            DeliveredTracksRun = UniqueTracksRun.AsParallel().Where(track => GoneByReport.Contains(track) || !CurrentList.Contains(track)).ToList();
+            NotDeliveredTracksRun = UniqueTracksRun.AsParallel().Where((track) => !GoneByReport.Contains(track) && !CurrentList.Contains(track)).AsQueryable().Except(Approved).ToList();
+            //
+
+            DifferenceTracksRun = UniqueTracksRun.Except(DeliveredTracksRun).Except(Approved).ToList();
+            WithoutDelivery = MustBeOnRack.Except(AllTrackInRuns.Distinct()).ToList();
+            Runs.Clear();
+        }
     }
 }

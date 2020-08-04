@@ -137,14 +137,18 @@ namespace CourierServiceAssistant
         private void DoReport()
         {
             // 0, 2, 3, 5, 6, 7
+#if DEBUG
             Stopwatch stopwatch = new Stopwatch();
+#endif
 
             if (titlebox != null)
             {
                 titlebox.Dispose();
             }
 
+#if DEBUG
             stopwatch.Start();
+#endif
 
             var _list = DB.GetGoneParcelFromDataBase().Select(x => x.TrackID).ToList();
             flowLayoutPanel1.Controls.Clear();
@@ -167,12 +171,17 @@ namespace CourierServiceAssistant
             }
             reports.RemoveAll((x) => string.IsNullOrEmpty(x.Route));
 
+            Task[] tasks = new Task[reports.Count];
+            for (int i = 0; i < reports.Count; i++)
+            {
+                tasks[i] = Task.Run(reports[i].Calc);
+            }
+
+#if DEBUG
             stopwatch.Stop();
-
             MessageBox.Show("Формирование отчетов: " + stopwatch.Elapsed.ToString());
-
             stopwatch.Reset();
-
+#endif
             string[] titles = new string[]
             {
                 "Route",            //0
@@ -235,25 +244,10 @@ namespace CourierServiceAssistant
 
             var clickFont = new Font("Century Gothic", 12, FontStyle.Underline);
 
-            Color[] colors = new Color[]
-            {
-                Color.Bisque,
-                Color.MistyRose,
-                Color.DarkKhaki,
-                Color.Aquamarine,
-                Color.CadetBlue,
-                Color.Firebrick,
-                Color.Chocolate,
-                Color.Coral,
-                Color.DarkGoldenrod,
-                Color.DarkSalmon,
-                Color.LightCoral,
-                Color.DarkSlateBlue,
-                Color.Gainsboro,
-                Color.FloralWhite,
-                Color.Snow
-            };
+            Task.WaitAll(tasks);
+#if DEBUG
             stopwatch.Start();
+#endif
             for (int row = 0; row < reports.Count; row++)
             {
                 Report report = reports[row];
@@ -286,12 +280,12 @@ namespace CourierServiceAssistant
                     titlebox.Controls.Add(labels[column], column, row + 1);
                 }
 
-            }            
+            }
+#if DEBUG
             stopwatch.Stop();
-
-            #if DEBUG
-            MessageBox.Show("Построение таблицы" + stopwatch.Elapsed.ToString());
-            #endif
+            MessageBox.Show("Построение таблицы: " + stopwatch.Elapsed.ToString());
+            stopwatch = null;
+#endif
 
             flowLayoutPanel1.Controls.Add(titlebox);
             flowLayoutPanel1.ResumeLayout();
